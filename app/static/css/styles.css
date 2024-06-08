@@ -1,0 +1,9 @@
+div .col-2{
+	background-color: #47413C;
+}
+div .col-10{
+	background-color: #12110F;
+}
+html, body, div {
+	height: 100%;
+}

@@ -1,8 +1,40 @@
+@font-face {
+    font-family: Europa-Grotesk-SH;
+    src: url(../fonts/EuropaGroteskSH-MedIta.otf);
+}
+
+@font-face {
+    font-family: Inter-ExtraBold;
+    src: url(../fonts/Inter-ExtraBold.otf);
+}
+
+@font-face {
+    font-family: FOT-Seurat-Pro-B;
+    src: url(../fonts/FOT-Seurat-Pro-B.otf);
+}
+
+@font-face {
+    font-family: Pressura-Mono-Regular;
+    src: url(../fonts/GT-Pressura-Mono-Regular.otf);
+}
+
+.Titre {
+    font-family: Inter-ExtraBold;
+    color: #F3EEEA;
+    display: flex;
+    align-items : left;
+}
+
+.nav-link {
+    font-family: Pressura-Mono-Regular;
+    color: #F3EEEA !important;
+}
+
 div .col-2{
-	background-color: #47413C;
+	background-color: #B0A695;
 }
 div .col-10{
-	background-color: #12110F;
+	background-color: #EBE3D5;
 }
 
 div.container-fluid, .col-2, .col-8, .row {
@@ -13,11 +45,11 @@ h1 {
     text-align: center;
 }
 
-.hr-menu {
+/* .hr-menu {
     border: 2px solid;
     border-radius: 5px;
     opacity: 1;
-}
+} */
 
 html, body {
     height: 100%;

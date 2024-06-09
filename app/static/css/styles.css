@@ -4,6 +4,21 @@ div .col-2{
 div .col-10{
 	background-color: #12110F;
 }
-html, body, div {
-	height: 100%;
+
+div.container-fluid, .col-2, .col-8, .row {
+    height: 100%;
+}
+
+h1 {
+    text-align: center;
+}
+
+.hr-menu {
+    border: 2px solid;
+    border-radius: 5px;
+    opacity: 1;
+}
+
+html, body {
+    height: 100%;
 }

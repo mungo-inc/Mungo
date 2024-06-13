@@ -103,7 +103,6 @@ sql_statements = [
     """
 ]
 
-# Execute each SQL statement separately
 for statement in sql_statements:
     cur.execute(statement)
 cur.execute(statement)

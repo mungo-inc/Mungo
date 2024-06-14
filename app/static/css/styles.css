@@ -3,6 +3,8 @@ div .col-2{
 }
 div .col-10{
 	background-color: #12110F;
+	background-color: #ffffff;
+    padding-top: 1%;
 }
 
 div.container-fluid, .col-2, .col-8, .row {
@@ -21,4 +23,27 @@ h1 {
 
 html, body {
     height: 100%;
+}
+
+#form-button-container {
+    position: relative;  
+    left: 37%
+}
+
+.form-check {
+    padding: 1%;
+    padding-right: 5%;
+}
+
+.hr-form {
+    width: 80%; 
+}
+
+.section-form {
+    padding: 4%;
+}
+
+#customRange1 {
+    appearance: none;
+    width: 80%;
 }

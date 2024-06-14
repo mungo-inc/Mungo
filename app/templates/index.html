@@ -1,7 +1,77 @@
 {% extends "layout.html" %}
 {% block content %}
   <div class="col-10">
-
-    <button type="button" class="btn btn-outline-success btn-recettes">Success</button>
+    <form id="form-accueil" method="get" action="/search">
+        <div class="col-sm-8 offset-sm-2">
+            <div class="section-form">
+                <h3>Épiceries</h3>
+                <hr class="hr-form">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">Épicerie 1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                    <label class="form-check-label" for="inlineCheckbox2">Épicerie 2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                    <label class="form-check-label" for="inlineCheckbox3">Épicerie 3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
+                    <label class="form-check-label" for="inlineCheckbox4">Épicerie 4</label>
+                </div>
+            </div>
+            <div class="section-form">
+                <h3>Allergies</h3>
+                <hr class="hr-form">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5">
+                    <label class="form-check-label" for="inlineCheckbox5">Épicerie 1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6">
+                    <label class="form-check-label" for="inlineCheckbox6">Épicerie 2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="option7">
+                    <label class="form-check-label" for="inlineCheckbox7">Épicerie 3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox8" value="option8">
+                    <label class="form-check-label" for="inlineCheckbox8">Épicerie 4</label>
+                </div>
+            </div>
+            <div class="section-form">
+                <h3>Diètes</h3>
+                <hr class="hr-form">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox9" value="option9">
+                    <label class="form-check-label" for="inlineCheckbox9">Épicerie 1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox10" value="option10">
+                    <label class="form-check-label" for="inlineCheckbox10">Épicerie 2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox11" value="option11">
+                    <label class="form-check-label" for="inlineCheckbox11">Épicerie 3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox12" value="option12">
+                    <label class="form-check-label" for="inlineCheckbox12">Épicerie 4</label>
+                </div>
+            </div>
+            <div class="section-form">
+                <h3>Budget</h3>
+                <hr class="hr-form">
+                <input type="range" class="form-range" id="customRange1" min="0" max="1000" value="500">
+            </div>
+        </div>
+        <div id="form-button-container">
+            <button id="button-recherche" type="button" class="btn btn-outline-success" form="form-accueil">Débuter la recherche</button>
+        </div>
+    </form>
   </div>
 {% endblock content%}

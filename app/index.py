@@ -9,3 +9,8 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 @app.route('/')
 def accueil():
     return render_template('index.html')
+
+
+@app.route('/recettes')
+def recettes():
+    return render_template('recettes.html')

@@ -2,7 +2,8 @@ CREATE TABLE Aliment (
     Id_aliment INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL,
     Prix REAL NOT NULL,
-    Type TEXT NOT NULL
+    Type TEXT NOT NULL,
+    Epicerie TEXT NOT NULL
 );
 
 CREATE TABLE Recette (

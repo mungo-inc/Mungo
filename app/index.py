@@ -14,3 +14,16 @@ def accueil():
 @app.route('/recettes')
 def recettes():
     return render_template('recettes.html')
+
+
+@app.route('/search', methods=['GET'])
+def search():
+    resultats = []
+    # requete POST au lieu de GET?
+    # aller chercher les valeurs cochées et le budget
+    # avec ces valeurs, effectuer une query sql afin d'obtenir des resultats
+    epiceries = request.args.getlist('epicerie')
+    allergies = request.args.getlist('allergie')
+    dietes = request.args.getlist('diete')
+    budget = request.args['budget']
+    return render_template('resultats.html', resultats=resultats)

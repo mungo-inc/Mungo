@@ -31,12 +31,18 @@ def search():
     print(dietes)
     diete = int(dietes[0])
     resultats = db.avoir_recettes(diete)
+    print(resultats)
     return render_template('resultats.html', resultats=resultats)
+
+def construire_recette(donnees):
+    recettes = {}
+    recettes["nom"] = donnees[0]
+
+    return recettes
 
 class Database:
     def __init__(self):
         self.connection = None
-        
 
     def get_connection(self):
         if self.connection is None:
@@ -46,12 +52,23 @@ class Database:
     def avoir_recettes(self, diete):
         curseur = self.get_connection().cursor()
         query = (f"""
-                    SELECT * 
-                    FROM Recette, Aliment_Recette, Recette_diete, Diete
-                    WHERE Aliment_Recette.Id_recette = recette_diete.id_recette
-                    AND recette_diete.id_diète = {diete}
+                    SELECT r.Nom
+                    FROM Recette r
+                    JOIN Recette_diete rd ON r.Id_Recette = rd.Id_recette
+                    JOIN Diete d ON rd.Id_diète = d.Id_diète
+                    WHERE rd.id_diète = {diete};
+                """)
+        query2 = (f"""
+                    SELECT r.Nom
+                    FROM Recette r
+                    JOIN Recette_diete rd ON r.Id_Recette = rd.Id_recette
+                    JOIN Diete d ON rd.Id_diète = d.Id_diète
+                    WHERE rd.id_diète = {diete};
                 """)
         curseur.execute(query)
         donnees = curseur.fetchall()
-        return donnees
+        curseur.execute(query2)
+        donnees += curseur.fetchall()
+        recettes_set = set(donnees)
+        return [construire_recette(donnee) for donnee in recettes_set]
 

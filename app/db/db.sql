@@ -2,7 +2,8 @@ CREATE TABLE Aliment (
     Id_aliment INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL,
     Prix REAL NOT NULL,
-    Type TEXT NOT NULL
+    Type TEXT NOT NULL,
+    Epicerie TEXT NOT NULL
 );
 
 CREATE TABLE Recette (
@@ -62,12 +63,12 @@ CREATE TABLE Client_Allergie (
     FOREIGN KEY (Id_Allergie) REFERENCES Allergie(Id_Allergie)
 );
 
-CREATE TABLE Diète (
+CREATE TABLE Diete (
     Id_diète INTEGER PRIMARY KEY,
     Type TEXT NOT NULL
 );
 
-CREATE TABLE Recette_diète (
+CREATE TABLE Recette_diete (
     Id_recette INTEGER,
     Id_diète INTEGER,
     PRIMARY KEY (Id_recette, Id_diète),
@@ -83,7 +84,7 @@ CREATE TABLE Recette_Allergie (
     FOREIGN KEY (Id_Allergie) REFERENCES Allergie(Id_Allergie)
 );
 
-CREATE TABLE Client_diète (
+CREATE TABLE Client_diete (
     Id_Client INTEGER,
     Id_Diète INTEGER,
     PRIMARY KEY (Id_Client, Id_Diète),

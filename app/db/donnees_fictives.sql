@@ -522,3 +522,15 @@ INSERT INTO recette_diete VALUES (30, 0);
 INSERT INTO recette_diete VALUES (31, 0);
 INSERT INTO recette_diete VALUES (32, 3);
 INSERT INTO recette_diete VALUES (32, 0);
+
+-- Ajout des Allergie
+
+INSERT INTO Client_Allergie VALUES (0,'Arachide');
+INSERT INTO Client_Allergie VALUES (1,'Lactose');
+INSERT INTO Client_Allergie VALUES (2,'Gluten');
+INSERT INTO Client_Allergie VALUES (3,'Poisson');
+INSERT INTO Client_Allergie VALUES (4,'Fruit de mer');
+INSERT INTO Client_Allergie VALUES (5,'Oeuf');
+INSERT INTO Client_Allergie VALUES (6,'Soja');
+INSERT INTO Client_Allergie VALUES (7,'Sesame');
+

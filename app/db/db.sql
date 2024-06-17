@@ -1,9 +1,7 @@
 CREATE TABLE Aliment (
     Id_aliment INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL,
-    Prix REAL NOT NULL,
-    Type TEXT NOT NULL,
-    Epicerie TEXT NOT NULL
+    Type TEXT NOT NULL
 );
 
 CREATE TABLE Recette (
@@ -90,4 +88,16 @@ CREATE TABLE Client_diete (
     PRIMARY KEY (Id_Client, Id_Diète),
     FOREIGN KEY (Id_Client) REFERENCES Client(Id_Client),
     FOREIGN KEY (Id_Diète) REFERENCES Diète(Id_diète)
+);
+
+CREATE TABLE Epicerie (
+    Id_Epicerie INTEGER PRIMARY KEY,
+    Nom TEXT NOT NULL 
+);
+
+CREATE TABLE Aliment_epicerie (
+    Id_Aliment INTEGER,
+    Id_Epicerie INTEGER,
+    Prix REAL NOT NULL,
+    PRIMARY KEY (Id_Aliment, Id_Epicerie)
 );

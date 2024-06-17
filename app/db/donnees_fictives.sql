@@ -744,3 +744,35 @@ INSERT INTO aliment_epicerie VALUES (128, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (129, 2, 0.00);
 INSERT INTO aliment_epicerie VALUES (130, 2, 0.00);
 
+-- Ajout aliments et allergies
+
+INSERT INTO Aliment_Allergie VALUES (1, 1);  
+INSERT INTO Aliment_Allergie VALUES (2, 1);  
+INSERT INTO Aliment_Allergie VALUES (8, 4);
+INSERT INTO Aliment_Allergie VALUES (12,2);
+INSERT INTO Aliment_Allergie VALUES (12,6);
+INSERT INTO Aliment_Allergie VALUES (10,2);
+INSERT INTO Aliment_Allergie VALUES (23,1);
+INSERT INTO Aliment_Allergie VALUES (24, 2);
+INSERT INTO Aliment_Allergie VALUES (26, 2);
+INSERT INTO Aliment_Allergie VALUES (27, 1);
+INSERT INTO Aliment_Allergie VALUES (28, 1);
+INSERT INTO Aliment_Allergie VALUES (50, 6);
+INSERT INTO Aliment_Allergie VALUES (52, 6); 
+INSERT INTO Aliment_Allergie VALUES (56, 3); 
+INSERT INTO Aliment_Allergie VALUES (58, 7);
+INSERT INTO Aliment_Allergie VALUES (62, 6);
+INSERT INTO Aliment_Allergie VALUES (65, 2);
+INSERT INTO Aliment_Allergie VALUES (72, 5);
+INSERT INTO Aliment_Allergie VALUES (86, 5);
+INSERT INTO Aliment_Allergie VALUES (89, 2);
+INSERT INTO Aliment_Allergie VALUES (91, 1);
+INSERT INTO Aliment_Allergie VALUES (96, 6);
+INSERT INTO Aliment_Allergie VALUES (99, 1);
+INSERT INTO Aliment_Allergie VALUES (105, 2);
+INSERT INTO Aliment_Allergie VALUES (106, 2);
+INSERT INTO Aliment_Allergie VALUES (107, 1);
+INSERT INTO Aliment_Allergie VALUES (124, 1);
+INSERT INTO Aliment_Allergie VALUES (125, 1);
+INSERT INTO Aliment_Allergie VALUES (127, 7);
+INSERT INTO Aliment_Allergie VALUES (130, 0); 

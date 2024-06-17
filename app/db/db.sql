@@ -101,3 +101,10 @@ CREATE TABLE Aliment_epicerie (
     Prix REAL NOT NULL,
     PRIMARY KEY (Id_Aliment, Id_Epicerie)
 );
+CREATE TABLE Aliment_Allergie (
+    aliment_id INTEGER,
+    allergie_id INTEGER,
+    PRIMARY KEY (aliment_id, allergie_id),
+    FOREIGN KEY (aliment_id) REFERENCES aliment(id),
+    FOREIGN KEY (allergie_id) REFERENCES Allergie(id)
+);

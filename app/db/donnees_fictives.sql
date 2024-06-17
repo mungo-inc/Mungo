@@ -523,9 +523,25 @@ INSERT INTO recette_diete VALUES (31, 0);
 INSERT INTO recette_diete VALUES (32, 3);
 INSERT INTO recette_diete VALUES (32, 0);
 
+
+-- Ajout des Allergies
+
+INSERT INTO Allergie VALUES (0,'Arachide');
+INSERT INTO Allergie VALUES (1,'Lactose');
+INSERT INTO Allergie VALUES (2,'Gluten');
+INSERT INTO Allergie VALUES (3,'Poisson');
+INSERT INTO Allergie VALUES (4,'Fruit de mer');
+INSERT INTO Allergie VALUES (5,'Oeuf');
+INSERT INTO Allergie VALUES (6,'Soja');
+INSERT INTO Allergie VALUES (7,'Sesame');
+
+-- Ajout epicerie
+
 INSERT INTO epicerie VALUES (0, 'Super D');
 INSERT INTO epicerie VALUES (1, 'IGB');
 INSERT INTO epicerie VALUES (2, 'Detro');
+
+-- Ajout des aliements avec les epiceries
 
 INSERT INTO aliment_epicerie VALUES (0, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (0, 1, 0.00);
@@ -727,3 +743,4 @@ INSERT INTO aliment_epicerie VALUES (128, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (128, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (129, 2, 0.00);
 INSERT INTO aliment_epicerie VALUES (130, 2, 0.00);
+

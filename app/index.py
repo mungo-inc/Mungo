@@ -53,10 +53,10 @@ class Database:
         curseur = self.get_connection().cursor()
         query = (
             f"""
-            SELECT r.Nom
-            FROM Recette r
-            JOIN Recette_diete rd ON r.Id_Recette = rd.Id_recette
-            JOIN Diete d ON rd.Id_diète = d.Id_diète
+            SELECT recette.Nom
+            FROM recette
+            JOIN recette_diete rd ON recette.id_Recette = rd.id_recette
+            JOIN diete d ON rd.id_diète = d.id_diète
             WHERE rd.id_diète = {diete};
             """
         )

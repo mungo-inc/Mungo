@@ -43,11 +43,14 @@ h3 {
 label {
     font-family: Pressura-Mono-Light !important;
     color: #383632 !important;
+    font-family: Pressura-Mono-Regular;
+    color: #F3EEEA !important;
 }
 
 div .col-2{
 	background-color: #B0A695;
 }
+
 div .col-10{
 	background-color: #EBE3D5;
     padding-top: 1%;
@@ -61,11 +64,11 @@ h1 {
     text-align: center;
 }
 
-.hr-menu {
+/* .hr-menu {
     border: 2px solid;
     border-radius: 5px;
     opacity: 1;
-}
+} */
 
 html, body {
     height: 100%;

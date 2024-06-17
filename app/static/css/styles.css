@@ -47,3 +47,7 @@ html, body {
     appearance: none;
     width: 80%;
 }
+
+.list-recettes {
+    display: inline-block;
+}

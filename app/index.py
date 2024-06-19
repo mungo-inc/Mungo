@@ -90,10 +90,13 @@ class Database:
             """
             SELECT DISTINCT aliment_recette.id_recette, 
                             aliment_recette.id_aliment, 
-                            aliment_epicerie.id_epicerie 
+                            aliment_epicerie.id_epicerie,
+                            recette.nom as r_nom,
+                            aliment.nom as a_nom
             FROM aliment_epicerie 
-            JOIN aliment_recette 
-            ON aliment_epicerie.id_aliment = aliment_recette.id_aliment
+            JOIN aliment_recette ON aliment_epicerie.id_aliment = aliment_recette.id_aliment
+            JOIN recette ON aliment_recette.id_recette = recette.id_recette
+            JOIN aliment ON aliment_recette.id_aliment = aliment.id_aliment
             ORDER BY aliment_recette.id_recette
             """
         )
@@ -103,15 +106,15 @@ class Database:
         recettes = {}
         recettes_epicerie = {}
     
-        for (recette_id, aliment_id, epicerie_id) in donnees:
-            aliment = Aliment(aliment_id, epicerie_id)
+        for (recette_id, aliment_id, epicerie_id, r_nom, a_nom) in donnees:
+            aliment = Aliment(aliment_id, a_nom, epicerie_id)
             if recette_id not in recettes:
-                recettes[recette_id] = Recette(recette_id)
+                recettes[recette_id] = Recette(recette_id, r_nom)
             recettes[recette_id].ajouter_aliment(aliment)
             
             if str(epicerie_id) in epiceries:
                 if recette_id not in recettes_epicerie:
-                    recettes_epicerie[recette_id] = Recette(recette_id)
+                    recettes_epicerie[recette_id] = Recette(recette_id, r_nom)
                 recettes_epicerie[recette_id].ajouter_aliment(aliment)
     
         print(recettes)
@@ -131,8 +134,9 @@ class Database:
 
 
 class Aliment():
-    def __init__(self, id, epicerie_id) -> None:
+    def __init__(self, id, nom, epicerie_id) -> None:
         self.id = id
+        self.nom = nom
         self.epicerie_id = epicerie_id
 
     
@@ -143,7 +147,7 @@ class Aliment():
 
 
     def __str__(self):
-        return f'(id: {self.id}, epicerie: {self.epicerie_id})'
+        return f'\n\t(id: {self.id}, nom: {self.nom}, epicerie: {self.epicerie_id})\n'
     
 
     def __repr__(self) -> str:
@@ -155,8 +159,9 @@ class Aliment():
 
 
 class Recette():
-    def __init__(self, id) -> None:
+    def __init__(self, id, nom) -> None:
         self.id = id
+        self.nom = nom
         self.aliments = set() 
 
 
@@ -167,7 +172,7 @@ class Recette():
 
 
     def __str__(self):
-        return f'id: {self.id}, aliments: {self.aliments}'
+        return f'id: {self.id}, nom: {self.nom}, aliments: {self.aliments}\n'
 
 
     def __repr__(self) -> str:
@@ -179,5 +184,4 @@ class Recette():
 
 
     def ont_memes_aliments(self, other):
-        func = lambda x: x.id
         return (self.aliments == other.aliments)

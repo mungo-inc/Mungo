@@ -177,7 +177,6 @@ INSERT INTO aliment_recette VALUES (4, 1);
 INSERT INTO aliment_recette VALUES (5, 1);
 INSERT INTO aliment_recette VALUES (6, 1);
 INSERT INTO aliment_recette VALUES (7, 1);
-
 INSERT INTO aliment_recette VALUES (3, 2);
 INSERT INTO aliment_recette VALUES (4, 2);
 INSERT INTO aliment_recette VALUES (21, 2);
@@ -538,7 +537,7 @@ INSERT INTO Allergie VALUES (7,'Sesame');
 -- Ajout epicerie
 
 INSERT INTO epicerie VALUES (0, 'Super D');
-INSERT INTO epicerie VALUES (1, 'IGB');
+INSERT INTO epicerie VALUES (1, 'IGD');
 INSERT INTO epicerie VALUES (2, 'Detro');
 
 -- Ajout des aliements avec les epiceries
@@ -588,11 +587,13 @@ INSERT INTO aliment_epicerie VALUES (23, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (23, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (23, 2, 0.00);
 INSERT INTO aliment_epicerie VALUES (24, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (25, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (25, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (26, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (27, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (27, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (28, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (29, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (29, 2, 0.00);
 INSERT INTO aliment_epicerie VALUES (30, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (31, 0, 0.00);

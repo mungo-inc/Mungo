@@ -14,6 +14,7 @@ build/
 *.egg-info/
 
 .DS_Store/
+.idea/
 
 app/db/epicerie.db
 

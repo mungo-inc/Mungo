@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="col-10">
-    {% if not resultats %}
-    <div class="text-container">
-        <h2>Votre recherche ne contient aucun résultat.</h2>
+    <div class="col-sm-8 offset-sm-2">
+        {% if not resultats %}
+        <div class="text-container">
+            <h2>Votre recherche ne contient aucun résultat.</h2>
+        </div>
+        {% else %}
+        {% for resultat in resultats %}
+        <div class="text-container list-recettes">
+            <p> {{ resultat.nom }} </p>
+        </div>
+        {% endfor %}
+        {% endif %}
     </div>
-    {% else %}
-    {% for resultat in resultats %}
-    <div class="text-container list-recettes">
-        <hr>
-        <p> {{ resultat.nom }} </p>
-        <br>
-    </div>
-    {% endfor %}
-    {% endif %}
 </div>
 {% endblock content %}

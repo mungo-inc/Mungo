@@ -1,25 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
-  <div class="col-10">
-      <div class="liste-recettes">
-          <h2>Pizza</h2>
+ <div class="col-10">
+        <div class="liste-recettes">
+                <h1>Recettes</h1>
+    {% if recettes %}
         <ul>
-            <li>Farine</li>
-            <li>Yeast</li>
-            <li>Pepperoni</li>
-            <li>Mais</li>
+        {% for recettes in recettes %}
+            <li> {{ recettes[1] }}</li>
+        {% endfor %}
         </ul>
-        <button type="button" class="btn btn-outline-success btn-recettes">Success</button>
-      </div>
-      <div class="liste-recettes">
-          <h2>Spag</h2>
-        <ul>
-            <li>Farine</li>
-            <li>Yeast</li>
-            <li>Pepperoni</li>
-            <li>Mais</li>
-        </ul>
-        <button type="button" class="btn btn-outline-success btn-recettes">Success</button>
-      </div>
-  </div>
-{% endblock content%}
+    {% endif %}
+        </div>
+ </div>
+{% endblock content %}
+

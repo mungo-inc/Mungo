@@ -14,8 +14,15 @@ def accueil():
 
 @app.route('/recettes')
 def recettes():
-    return render_template('recettes.html')
+    db = Database()
+    recettes = db.get_recettes()
+    return render_template('recettes.html', recettes=recettes)
 
+@app.route('/articles')
+def articles():
+    db = Database()
+    articles = db.get_articles()
+    return render_template('articles.html', articles=articles)
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -65,6 +72,18 @@ class Database:
         curseur.execute(query)
         donnees = curseur.fetchall()
         return donnees
+    def get_articles(self):
+        cursor = self.get_connection().cursor()
+        query = 'SELECT * FROM Aliment'
+        cursor.execute(query)
+        articles = cursor.fetchall()
+        return articles
+    def get_recettes(self):
+        cursor = self.get_connection().cursor()
+        query = 'SELECT * FROM Recette'
+        cursor.execute(query)
+        recettes = cursor.fetchall()
+        return recettes
 
 
     def avoir_recettes(self, dietes, epiceries):

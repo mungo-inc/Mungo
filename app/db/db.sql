@@ -1,110 +1,110 @@
 CREATE TABLE Aliment (
-    Id_aliment INTEGER PRIMARY KEY,
+    ID_aliment INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL,
     Type TEXT NOT NULL
 );
 
 CREATE TABLE Recette (
-    Id_Recette INTEGER PRIMARY KEY,
+    ID_recette INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL,
     Moyenne_note REAL
 );
 
 CREATE TABLE Aliment_Recette (
-    Id_aliment INTEGER,
-    Id_Recette INTEGER,
-    PRIMARY KEY (Id_aliment, Id_Recette),
-    FOREIGN KEY (Id_aliment) REFERENCES Aliment(Id_aliment),
-    FOREIGN KEY (Id_Recette) REFERENCES Recette(Id_Recette)
+    ID_aliment INTEGER,
+    ID_recette INTEGER,
+    PRIMARY KEY (ID_aliment, ID_recette),
+    FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),
+    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
 );
 
 CREATE TABLE Critique (
-    Id_Recette INTEGER,
-    Id_critique INTEGER PRIMARY KEY,
+    ID_recette INTEGER,
+    ID_critique INTEGER PRIMARY KEY,
     Note INTEGER NOT NULL,
     Commentaires TEXT,
-    FOREIGN KEY (Id_Recette) REFERENCES Recette(Id_Recette)
+    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
 );
 
 CREATE TABLE Client (
-    Id_Client INTEGER PRIMARY KEY,
+    ID_client INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL,
     Mot_de_passe TEXT NOT NULL
 );
 
 CREATE TABLE Panier (
-    Id_panier INTEGER PRIMARY KEY,
-    Id_Client INTEGER,
+    ID_panier INTEGER PRIMARY KEY,
+    ID_client INTEGER,
     Prix REAL NOT NULL,
-    FOREIGN KEY (Id_Client) REFERENCES Client(Id_Client)
+    FOREIGN KEY (ID_client) REFERENCES Client(ID_client)
 );
 
 CREATE TABLE Panier_Aliment (
-    Id_panier INTEGER,
-    Quantité_aliment INTEGER NOT NULL,
-    Id_aliment INTEGER,
-    PRIMARY KEY (Id_panier, Id_aliment),
-    FOREIGN KEY (Id_panier) REFERENCES Panier(Id_panier),
-    FOREIGN KEY (Id_aliment) REFERENCES Aliment(Id_aliment)
+    ID_panier INTEGER,
+    ID_aliment INTEGER,
+    Quantite_aliment INTEGER NOT NULL,
+    PRIMARY KEY (ID_panier, ID_aliment),
+    FOREIGN KEY (ID_panier) REFERENCES Panier(ID_panier),
+    FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment)
 );
 
 CREATE TABLE Allergie (
-    Id_Allergie INTEGER PRIMARY KEY,
+    ID_allergie INTEGER PRIMARY KEY,
     Type TEXT NOT NULL
 );
 
 CREATE TABLE Client_Allergie (
-    Id_Client INTEGER,
-    Id_Allergie INTEGER,
-    PRIMARY KEY (Id_Client, Id_Allergie),
-    FOREIGN KEY (Id_Client) REFERENCES Client(Id_Client),
-    FOREIGN KEY (Id_Allergie) REFERENCES Allergie(Id_Allergie)
+    ID_client INTEGER,
+    ID_allergie INTEGER,
+    PRIMARY KEY (ID_client, ID_allergie),
+    FOREIGN KEY (ID_client) REFERENCES Client(ID_client),
+    FOREIGN KEY (ID_allergie) REFERENCES Allergie(ID_allergie)
 );
 
 CREATE TABLE Diete (
-    Id_diète INTEGER PRIMARY KEY,
+    ID_diete INTEGER PRIMARY KEY,
     Type TEXT NOT NULL
 );
 
 CREATE TABLE Recette_diete (
-    Id_recette INTEGER,
-    Id_diète INTEGER,
-    PRIMARY KEY (Id_recette, Id_diète),
-    FOREIGN KEY (Id_recette) REFERENCES Recette(Id_Recette),
-    FOREIGN KEY (Id_diète) REFERENCES Diète(Id_diète)
+    ID_recette INTEGER,
+    ID_diete INTEGER,
+    PRIMARY KEY (ID_recette, ID_diete),
+    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette),
+    FOREIGN KEY (ID_diete) REFERENCES Diète(ID_diete)
 );
 
 CREATE TABLE Recette_Allergie (
-    Id_recette INTEGER,
-    Id_Allergie INTEGER,
-    PRIMARY KEY (Id_recette, Id_Allergie),
-    FOREIGN KEY (Id_recette) REFERENCES Recette(Id_Recette),
-    FOREIGN KEY (Id_Allergie) REFERENCES Allergie(Id_Allergie)
+    ID_recette INTEGER,
+    ID_allergie INTEGER,
+    PRIMARY KEY (ID_recette, ID_allergie),
+    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette),
+    FOREIGN KEY (ID_allergie) REFERENCES Allergie(ID_allergie)
 );
 
 CREATE TABLE Client_diete (
-    Id_Client INTEGER,
-    Id_Diète INTEGER,
-    PRIMARY KEY (Id_Client, Id_Diète),
-    FOREIGN KEY (Id_Client) REFERENCES Client(Id_Client),
-    FOREIGN KEY (Id_Diète) REFERENCES Diète(Id_diète)
+    ID_client INTEGER,
+    ID_diete INTEGER,
+    PRIMARY KEY (ID_client, ID_Diète),
+    FOREIGN KEY (ID_client) REFERENCES Client(ID_client),
+    FOREIGN KEY (ID_diete) REFERENCES Diete(ID_diete)
 );
 
 CREATE TABLE Epicerie (
-    Id_Epicerie INTEGER PRIMARY KEY,
+    ID_epicerie INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL 
 );
 
 CREATE TABLE Aliment_epicerie (
-    Id_Aliment INTEGER,
-    Id_Epicerie INTEGER,
+    ID_aliment INTEGER,
+    ID_epicerie INTEGER,
     Prix REAL NOT NULL,
-    PRIMARY KEY (Id_Aliment, Id_Epicerie)
+    PRIMARY KEY (ID_aliment, ID_epicerie)
 );
 CREATE TABLE Aliment_Allergie (
-    aliment_id INTEGER,
-    allergie_id INTEGER,
-    PRIMARY KEY (aliment_id, allergie_id),
-    FOREIGN KEY (aliment_id) REFERENCES aliment(id),
-    FOREIGN KEY (allergie_id) REFERENCES Allergie(id)
+    ID_aliment INTEGER,
+    ID_allergie INTEGER,
+    PRIMARY KEY (ID_aliment, ID_allergie),
+    FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),
+    FOREIGN KEY (ID_allergie) REFERENCES Allergie(ID_allergie)
 );

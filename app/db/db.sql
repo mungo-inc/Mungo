@@ -101,6 +101,7 @@ CREATE TABLE Aliment_epicerie (
     Prix REAL NOT NULL,
     PRIMARY KEY (ID_aliment, ID_epicerie)
 );
+
 CREATE TABLE Aliment_Allergie (
     ID_aliment INTEGER,
     ID_allergie INTEGER,

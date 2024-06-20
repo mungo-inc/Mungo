@@ -36,7 +36,7 @@ def search():
     allergies = request.args.getlist('allergie')
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
-    resultats = db.avoir_recettes(dietes, epiceries)
+    resultats = db.avoir_recettes(allergies, dietes, epiceries)
     return render_template('resultats.html', resultats=resultats)
 
 
@@ -55,6 +55,28 @@ class Database:
         if self.connection is None:
             self.connection = sqlite3.connect('app/db/epicerie.db')
         return self.connection
+
+    def filtrer_par_allergie(self, allergie):
+        curseur = self.get_connection().cursor()
+        query = (
+                f"""
+                SELECT DISTINCT recette.nom
+                FROM recette
+                JOIN aliment_recette ar ON recette.id_recette = ar.id_recette
+                JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
+                JOIN allergie ON allergie.id_allergie = aa.id_allergie
+                WHERE recette.id_recette NOT IN (
+                    SELECT ar.id_recette
+                    FROM aliment_recette ar
+                    JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
+                    JOIN allergie a ON a.id_allergie = aa.id_allergie
+                    WHERE a.type IN ('Poisson')
+                    );
+                """
+                )
+        curseur.execute(query)
+        donnees = curseur.fetchall()
+        return donnees
 
 
     def filtrer_par_diete(self, diete):
@@ -85,7 +107,7 @@ class Database:
         return recettes
 
 
-    def avoir_recettes(self, dietes, epiceries):
+    def avoir_recettes(self, allergies, dietes, epiceries):
         donnees = []
         donnees_diete = []
         donnees_epicerie = []
@@ -260,4 +282,6 @@ class Recette():
     def ont_memes_aliments(self, other):
         return (self.aliments == other.aliments)
 
-
+class Allergie():
+    def __init__(self, id, nom) -> None:
+        pass

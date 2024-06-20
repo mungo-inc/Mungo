@@ -85,7 +85,7 @@ CREATE TABLE Recette_Allergie (
 CREATE TABLE Client_diete (
     ID_client INTEGER,
     ID_diete INTEGER,
-    PRIMARY KEY (ID_client, ID_Diète),
+    PRIMARY KEY (ID_client, ID_Diete),
     FOREIGN KEY (ID_client) REFERENCES Client(ID_client),
     FOREIGN KEY (ID_diete) REFERENCES Diete(ID_diete)
 );
@@ -101,6 +101,7 @@ CREATE TABLE Aliment_epicerie (
     Prix REAL NOT NULL,
     PRIMARY KEY (ID_aliment, ID_epicerie)
 );
+
 CREATE TABLE Aliment_Allergie (
     ID_aliment INTEGER,
     ID_allergie INTEGER,

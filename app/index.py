@@ -29,7 +29,7 @@ def search():
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
     # diete = int(dietes[0])
-    resultats = db.avoir_recettes(dietes, epiceries)
+    resultats = db.avoir_recettes(allergies, dietes, epiceries)
     # print(resultats)
     return render_template('resultats.html', resultats=resultats)
 
@@ -50,6 +50,28 @@ class Database:
             self.connection = sqlite3.connect('app/db/epicerie.db')
         return self.connection
 
+    def filtrer_par_allergie(self, allergie):
+        curseur = self.get_connection().cursor()
+        query = (
+                f"""
+                SELECT DISTINCT recette.nom
+                FROM recette
+                JOIN aliment_recette ar ON recette.id_recette = ar.id_recette
+                JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
+                JOIN allergie ON allergie.id_allergie = aa.id_allergie
+                WHERE recette.id_recette NOT IN (
+                    SELECT ar.id_recette
+                    FROM aliment_recette ar
+                    JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
+                    JOIN allergie a ON a.id_allergie = aa.id_allergie
+                    WHERE a.type IN ('Poisson')
+                    );
+                """
+                )
+        curseur.execute(query)
+        donnees = curseur.fetchall()
+        return donnees
+
 
     def filtrer_par_diete(self, diete):
         curseur = self.get_connection().cursor()
@@ -67,15 +89,21 @@ class Database:
         return donnees
 
 
-    def avoir_recettes(self, dietes, epiceries):
-        donnees = []
+    def avoir_recettes(self, allergies, dietes, epiceries):
+        donnees_dietes = []
+        donnees_allergies = []
         # if dietes == []:
-        #     dietes = [0, 1, 2, 3, 4, 5, 6]
+        #     dietes = [0, 1, 2, 3, 4, 5, 6] 
+        for allergie in allergies:
+            donnees_allergies += self.filtrer_par_allergie(allergie)
         for diete in dietes:
-            donnees += self.filtrer_par_diete(diete)
+            donnees_dietes += self.filtrer_par_diete(diete)
+
         self.filtrer_par_epicerie(epiceries)
-        #print(donnees)
-        recettes_set = set(donnees)
+        print(donnees_allergies)
+        recettes_allergie_set = set(donnees_allergies)
+        recettes_dietes_set = set(donnees_dietes)
+        recettes_set = list(recettes_allergie_set.intersection(recettes_dietes_set))
         recettes = [construire_recette(donnee) for donnee in recettes_set]
         recettes.sort(key=lambda r : r['nom'])
         return recettes
@@ -185,3 +213,7 @@ class Recette():
 
     def ont_memes_aliments(self, other):
         return (self.aliments == other.aliments)
+
+class Allergie():
+    def __init__(self, id, nom) -> None:
+        pass

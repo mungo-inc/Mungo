@@ -15,13 +15,13 @@ def accueil():
 
 @app.route('/recettes')
 def recettes():
-    db = Database()
+    db = Database('app/db/epicerie.db')
     recettes = db.get_recettes()
     return render_template('recettes.html', recettes=recettes)
 
 @app.route('/articles')
 def articles():
-    db = Database()
+    db = Database('app/db/epicerie.db')
     articles = db.get_articles()
     return render_template('articles.html', articles=articles)
 
@@ -94,12 +94,14 @@ class Database:
         curseur.execute(query)
         donnees = curseur.fetchall()
         return donnees
+    
     def get_articles(self):
         cursor = self.get_connection().cursor()
         query = 'SELECT * FROM Aliment'
         cursor.execute(query)
         articles = cursor.fetchall()
         return articles
+
     def get_recettes(self):
         cursor = self.get_connection().cursor()
         query = 'SELECT * FROM Recette'

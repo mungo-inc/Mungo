@@ -119,6 +119,31 @@ h3 {
     color: #383632 !important;
 }
 
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+img {
+    width: 200px;
+    height: 125px;
+    overflow: hidden;
+    border-radius: 8px;
+    object-fit: cover;
+
+}
+
+.text-container p {
+    width: 200px;
+    word-wrap: break-word;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 1.5em;
+}
+
 label {
     font-family: Pressura-Mono-Light !important;
     color: #383632 !important;

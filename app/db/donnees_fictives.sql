@@ -30,7 +30,7 @@ INSERT INTO recette VALUES (28, 'Nouilles asatiques au porc', 0);
 INSERT INTO recette VALUES (29, 'Pâté mexicain', 0);
 INSERT INTO recette VALUES (30, 'Tacos au poulet', 0);
 INSERT INTO recette VALUES (31, 'Keftas de boeufs sur pain naan', 0);
-INSERT INTO recette VALUES (32, "Ragoût d'aubergine à la viande", 0);
+INSERT INTO recette VALUES (32, 'Ragoût d''aubergine à la viande', 0);
 
 --Ajout des ingrédients dans la BD
 

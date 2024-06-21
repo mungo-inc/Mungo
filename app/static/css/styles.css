@@ -26,11 +26,13 @@
 html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 .container-fluid {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .row {
@@ -47,6 +49,10 @@ html, body {
 .Titre h1 {
     font-size: 4vw;  
     text-align: center; /* Center align the title */
+}
+
+h2 {
+    font-family: Pressura-Mono-Light;
 }
 
 @media (min-width: 1200px) {

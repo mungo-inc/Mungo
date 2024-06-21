@@ -180,7 +180,15 @@ INSERT INTO aliment VALUES (142, 'Bouillon de poulet', 'Type');
 INSERT INTO aliment VALUES (143, 'Vin blanc', 'Type');
 INSERT INTO aliment VALUES (144, 'Ciboulette', 'Type');
 INSERT INTO aliment VALUES (145, 'Estragon', 'Type');
-
+INSERT INTO aliment VALUES (146, 'Beurre d''arachide', 'Type');
+INSERT INTO aliment VALUES (147, 'Huile de piment', 'Type');
+INSERT INTO aliment VALUES (148, 'Bok choy', 'Type');
+INSERT INTO aliment VALUES (149, 'Relish', 'Type');
+INSERT INTO aliment VALUES (150, 'Sauce aux piments', 'Type');
+INSERT INTO aliment VALUES (151, 'fromage tex-mex râpé', 'Type');
+INSERT INTO aliment VALUES (152, 'Coquille tacos', 'Type');
+INSERT INTO aliment VALUES (153, 'Salsa', 'Type');
+INSERT INTO aliment VALUES (154, 'Poivron vert', 'Type');
 
 --Ajout des recettes avec les aliments
 
@@ -393,6 +401,10 @@ INSERT INTO aliment_recette VALUES (49, 28);
 INSERT INTO aliment_recette VALUES (67, 28);
 INSERT INTO aliment_recette VALUES (32, 28);
 INSERT INTO aliment_recette VALUES (58, 28);
+INSERT INTO aliment_recette VALUES (146, 28);
+INSERT INTO aliment_recette VALUES (147, 28);
+INSERT INTO aliment_recette VALUES (148, 28);
+INSERT INTO aliment_recette VALUES (142, 28);
 INSERT INTO aliment_recette VALUES (3, 29);
 INSERT INTO aliment_recette VALUES (4, 29);
 INSERT INTO aliment_recette VALUES (9, 29);
@@ -403,12 +415,20 @@ INSERT INTO aliment_recette VALUES (38, 29);
 INSERT INTO aliment_recette VALUES (18, 29);
 INSERT INTO aliment_recette VALUES (19, 29);
 INSERT INTO aliment_recette VALUES (53, 29);
+INSERT INTO aliment_recette VALUES (135, 29);
+INSERT INTO aliment_recette VALUES (149, 29);
+INSERT INTO aliment_recette VALUES (150, 29);
+INSERT INTO aliment_recette VALUES (151, 29);
 INSERT INTO aliment_recette VALUES (93, 30);
 INSERT INTO aliment_recette VALUES (30, 30);
 INSERT INTO aliment_recette VALUES (67, 30);
 INSERT INTO aliment_recette VALUES (32, 30);
 INSERT INTO aliment_recette VALUES (41, 30);
 INSERT INTO aliment_recette VALUES (124, 30);
+INSERT INTO aliment_recette VALUES (135, 30);
+INSERT INTO aliment_recette VALUES (152, 30);
+INSERT INTO aliment_recette VALUES (134, 30);
+INSERT INTO aliment_recette VALUES (153, 30);
 INSERT INTO aliment_recette VALUES (3, 31);
 INSERT INTO aliment_recette VALUES (67, 31);
 INSERT INTO aliment_recette VALUES (74, 31);
@@ -431,6 +451,8 @@ INSERT INTO aliment_recette VALUES (18, 32);
 INSERT INTO aliment_recette VALUES (19, 32);
 INSERT INTO aliment_recette VALUES (14, 32);
 INSERT INTO aliment_recette VALUES (68, 32);
+INSERT INTO aliment_recette VALUES (132, 32);
+INSERT INTO aliment_recette VALUES (154, 32);
 
 -- Ajout des diètes
 
@@ -808,4 +830,9 @@ INSERT INTO Aliment_Allergie VALUES (125, 1);
 INSERT INTO Aliment_Allergie VALUES (127, 7);
 INSERT INTO Aliment_Allergie VALUES (130, 0);
 INSERT INTO Aliment_Allergie VALUES (133, 2);
+INSERT INTO Aliment_Allergie VALUES (146, 0);  
+INSERT INTO Aliment_Allergie VALUES (151, 1);  
+INSERT INTO Aliment_Allergie VALUES (133, 2); 
+INSERT INTO Aliment_Allergie VALUES (152, 2);  
+INSERT INTO Aliment_Allergie VALUES (138, 7); 
 

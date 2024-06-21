@@ -44,15 +44,34 @@ html, body {
     flex-direction: column;
 }
 
+.Titre h1 {
+    font-size: 4vw;  
+    text-align: center; /* Center align the title */
+}
+
+@media (min-width: 1200px) {
+  .Titre h1 {
+    font-size: 63px; /* Set a fixed font size for larger screens */
+  }
+}
+
+/* petit ecran */
+@media screen and (max-width: 768px) {
+    .Titre h1 {
+        font-size: 6vw;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .Titre h1 {
+        font-size: 8vw;    }
+}
+
 .Titre {
     font-family: Inter-Bold;
     color: #FFFFFF;
     display: flex;
     align-items : left;
-}
-
-.Titre h1 {
-    font-size: 64px;
 }
 
 nav ul {
@@ -63,11 +82,11 @@ nav ul {
 }
 
 nav ul li {
-    margin-right: 20px; /* Adjust as needed */
+    margin-right: 20px;
 }
 
 nav ul li:last-child {
-    margin-right: 0; /* No margin on the last item */
+    margin-right: 0; 
 }
 
 .nav-link {
@@ -78,6 +97,10 @@ nav ul li:last-child {
     padding-left: 0 !important;
     margin: 0 !important;
     box-sizing: border-box; 
+}
+
+a.nav-link {
+    font-size: 22px; !important
 }
 
 .nav-flex-column, nav-item {

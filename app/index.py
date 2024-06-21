@@ -19,7 +19,7 @@ def recettes():
 
 @app.route('/search', methods=['GET'])
 def search():
-    db = Database()
+    db = Database('app/db/epicerie.db')
     db.get_connection()
     # requete POST au lieu de GET?
     # aller chercher les valeurs cochées et le budget
@@ -42,12 +42,13 @@ def construire_recette(donnees):
 
 
 class Database:
-    def __init__(self):
+    def __init__(self, path):
         self.connection = None
+        self.path = path
 
     def get_connection(self):
         if self.connection is None:
-            self.connection = sqlite3.connect('app/db/epicerie.db')
+            self.connection = sqlite3.connect(self.path)
         return self.connection
 
 

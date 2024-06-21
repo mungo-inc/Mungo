@@ -12,6 +12,17 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 def accueil():
     return render_template('index.html')
 
+@app.route('/panier')
+def panier():
+    return render_template('panier.html')
+
+@app.route('/profil')
+def profil():
+    return render_template('profil.html')
+
+@app.route('/compagnie')
+def compagnie():
+    return render_template('compagnie.html')
 
 @app.route('/recettes')
 def recettes():

@@ -46,7 +46,7 @@ html, body {
     flex-direction: column;
 }
 
-.Titre h1 {
+.Titre a h1 {
     font-size: 4vw;  
     text-align: center; /* Center align the title */
 }
@@ -73,7 +73,7 @@ h2 {
         font-size: 8vw;    }
 }
 
-.Titre {
+.Titre a h1 {
     font-family: Inter-Bold;
     color: #FFFFFF;
     display: flex;

@@ -58,27 +58,7 @@ class Database:
 
     def filtrer_par_allergie(self, allergie):
         curseur = self.get_connection().cursor()
-        query = (
-                f"""
-                SELECT DISTINCT recette.nom
-                FROM recette
-                JOIN aliment_recette ar ON recette.id_recette = ar.id_recette
-                JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
-                JOIN allergie ON allergie.id_allergie = aa.id_allergie
-                WHERE recette.id_recette NOT IN (
-                    SELECT ar.id_recette
-                    FROM aliment_recette ar
-                    JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
-                    JOIN allergie a ON a.id_allergie = aa.id_allergie
-                    WHERE a.type IN ('Poisson')
-                    );
-                """
-                )
-        curseur.execute(query)
-        donnees = curseur.fetchall()
-        return donnees
-
-
+        query = 
     def filtrer_par_diete(self, diete):
         curseur = self.get_connection().cursor()
         query = (

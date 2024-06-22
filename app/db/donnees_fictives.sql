@@ -308,7 +308,6 @@ INSERT INTO aliment_recette VALUES (42, 9);
 INSERT INTO aliment_recette VALUES (19, 9);
 INSERT INTO aliment_recette VALUES (77, 9);
 INSERT INTO aliment_recette VALUES (132, 9);
-INSERT INTO aliment_recette VALUES (132, 9);
 INSERT INTO aliment_recette VALUES (46, 9);
 INSERT INTO aliment_recette VALUES (66, 9);
 
@@ -537,7 +536,6 @@ INSERT INTO aliment_recette VALUES (125, 29);
 INSERT INTO aliment_recette VALUES (22, 29);
 INSERT INTO aliment_recette VALUES (90, 29);
 INSERT INTO aliment_recette VALUES (87, 29);
-INSERT INTO aliment_recette VALUES (1, 29);
 
 -- https://www.ricardocuisine.com/recettes/214-tacos-au-poulet
 INSERT INTO aliment_recette VALUES (93, 30);
@@ -573,7 +571,6 @@ INSERT INTO aliment_recette VALUES (133, 31);
 INSERT INTO aliment_recette VALUES (36, 31);
 INSERT INTO aliment_recette VALUES (125, 31);
 INSERT INTO aliment_recette VALUES (6, 31);
-INSERT INTO aliment_recette VALUES (133, 31);
 
 -- https://www.ricardocuisine.com/recettes/7863-ragout-d-aubergine-a-la-viande
 INSERT INTO aliment_recette VALUES (3, 32);

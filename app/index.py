@@ -107,7 +107,26 @@ class Database:
         query = 'SELECT * FROM Recette'
         cursor.execute(query)
         recettes = cursor.fetchall()
+        print(recettes)
+        resultat = self.get_aliments_par_recettes(cursor, recettes)
+        print(resultat)
         return recettes
+
+
+    def get_aliments_par_recettes(self, cursor, recettes):
+        resultat = []
+        query = """
+                SELECT aliment.nom 
+                FROM aliment 
+                JOIN aliment_recette ON aliment.id_aliment = aliment_recette.id_aliment 
+                WHERE aliment_recette.id_recette = ?
+                """
+        for elem in recettes:
+            id_recette = elem[0]
+            cursor.execute(query, (id_recette,))
+            aliments = cursor.fetchall()
+            resultat.append(elem + (aliments, ))
+        return resultat 
 
 
     def avoir_recettes(self, allergies, dietes, epiceries):

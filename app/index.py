@@ -89,22 +89,6 @@ class Database:
         curseur.execute(query)
         donnees = curseur.fetchall()
         return donnees
-
-
-    def filtrer_par_diete(self, diete):
-        curseur = self.get_connection().cursor()
-        query = (
-            f"""
-            SELECT recette.Nom
-            FROM recette
-            JOIN recette_diete rd ON recette.id_Recette = rd.id_recette
-            JOIN diete d ON rd.id_diète = d.id_diète
-            WHERE rd.id_diète = {diete};
-            """
-        )
-        curseur.execute(query)
-        donnees = curseur.fetchall()
-        return donnees
     
     def get_articles(self):
         cursor = self.get_connection().cursor()
@@ -120,18 +104,17 @@ class Database:
         recettes = cursor.fetchall()
         return recettes
 
-
     def avoir_recettes(self, allergies, dietes, epiceries):
         donnees = []
         donnees_diete = []
         donnees_epicerie = []
        
-        donnees_diete = set(self.filtrer_par_diete1(dietes))
+        donnees_diete = set(self.filtrer_par_diete(dietes))
         donnees_epicerie = set(self.filtrer_par_epicerie(epiceries))
         donnees = donnees_epicerie & donnees_diete
         return sorted(donnees)
 
-    def filtrer_par_diete1(self, dietes):
+    def filtrer_par_diete(self, dietes):
         curseur = self.get_connection().cursor()
         query = (
             """

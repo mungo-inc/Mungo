@@ -13,10 +13,11 @@ if (defilement != null && defilement_out != null) {
  */
 buttons.forEach(function(button) {
     button.addEventListener("click", function() {
-        console.log("Salut")
         let ul = document.getElementById('liste-epicerie');
         let li = document.createElement('li');
-        let recette = this.getAttribute('data');
+        let recette = this.getAttribute('nom-recette');
+        let aliments = this.getAttribute('aliments');
+        // creer une option dans le menu deroulable
         li.innerText = recette;
         ul.append(li)
     });

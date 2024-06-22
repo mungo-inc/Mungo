@@ -5,9 +5,9 @@
                 <h1>Recettes</h1>
     {% if recettes %}
         <ul>
-        {% for recettes in recettes %}
-            <li> {{ recettes[1] }}</li>
-            <button type="button" class="btn-recettes btn btn-outline-success" data="{{ recettes[1] }}">Ajouter</button>
+        {% for recette in recettes %}
+            <li> {{ recette[1] }}</li>
+            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette[1] }}" aliments="{{ recette[3] }}">Ajouter</button>
         {% endfor %}
         </ul>
     {% endif %}

@@ -107,10 +107,8 @@ class Database:
         query = 'SELECT * FROM Recette'
         cursor.execute(query)
         recettes = cursor.fetchall()
-        print(recettes)
         resultat = self.get_aliments_par_recettes(cursor, recettes)
-        print(resultat)
-        return recettes
+        return resultat 
 
 
     def get_aliments_par_recettes(self, cursor, recettes):

@@ -46,7 +46,7 @@ html, body {
     flex-direction: column;
 }
 
-.Titre h1 {
+.Titre a h1 {
     font-size: 4vw;  
     text-align: center; /* Center align the title */
 }
@@ -73,7 +73,7 @@ h2 {
         font-size: 8vw;    }
 }
 
-.Titre {
+.Titre a h1 {
     font-family: Inter-Bold;
     color: #FFFFFF;
     display: flex;
@@ -117,6 +117,31 @@ a.nav-link {
 h3 {
     font-family: Pressura-Mono-Regular !important;
     color: #383632 !important;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+img {
+    width: 200px;
+    height: 125px;
+    overflow: hidden;
+    border-radius: 8px;
+    object-fit: cover;
+
+}
+
+.text-container p {
+    width: 200px;
+    word-wrap: break-word;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 1.5em;
 }
 
 label {

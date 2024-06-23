@@ -12,6 +12,17 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 def accueil():
     return render_template('index.html')
 
+@app.route('/panier')
+def panier():
+    return render_template('panier.html')
+
+@app.route('/profil')
+def profil():
+    return render_template('profil.html')
+
+@app.route('/compagnie')
+def compagnie():
+    return render_template('compagnie.html')
 
 @app.route('/recettes')
 def recettes():
@@ -49,15 +60,18 @@ def construire_recette(donnees):
 
 class Database:
     def __init__(self, path):
+        #Constructeur pour la classe Database.
         self.connection = None
         self.path = path
 
     def get_connection(self):
+        #Cette fonction permet de se connecter à la base de données.
         if self.connection is None:
             self.connection = sqlite3.connect(self.path)
         return self.connection
 
     def filtrer_par_allergie(self, allergie):
+        #Cette fonction permet de filtrer la recherche avec les allergies sélectionnées. Les allergies sélectionnées ne seront pas contenues dans le résultat. La fonction retourne une liste d’objets Recette.
         curseur = self.get_connection().cursor()
         query = (
                 f"""
@@ -78,24 +92,9 @@ class Database:
         curseur.execute(query)
         donnees = curseur.fetchall()
         return donnees
-
-
-    def filtrer_par_diete(self, diete):
-        curseur = self.get_connection().cursor()
-        query = (
-            f"""
-            SELECT recette.Nom
-            FROM recette
-            JOIN recette_diete rd ON recette.id_Recette = rd.id_recette
-            JOIN diete d ON rd.id_diète = d.id_diète
-            WHERE rd.id_diète = {diete};
-            """
-        )
-        curseur.execute(query)
-        donnees = curseur.fetchall()
-        return donnees
     
     def get_articles(self):
+        #Cette fonction permet de prendre tous les aliments dans la base de données.
         cursor = self.get_connection().cursor()
         query = 'SELECT * FROM Aliment'
         cursor.execute(query)
@@ -103,6 +102,7 @@ class Database:
         return articles
 
     def get_recettes(self):
+        #Cette fonction permet de prendre toutes les recettes dans la base de données.
         cursor = self.get_connection().cursor()
         query = 'SELECT * FROM Recette'
         cursor.execute(query)
@@ -130,18 +130,19 @@ class Database:
             resultat.append(recette)
         return resultat 
 
-
     def avoir_recettes(self, allergies, dietes, epiceries):
+        #Cette fonction permet de faire la recherche selon toutes les options sélectionnées de l’utilisateur.
         donnees = []
         donnees_diete = []
         donnees_epicerie = []
        
-        donnees_diete = set(self.filtrer_par_diete1(dietes))
+        donnees_diete = set(self.filtrer_par_diete(dietes))
         donnees_epicerie = set(self.filtrer_par_epicerie(epiceries))
         donnees = donnees_epicerie & donnees_diete
         return sorted(donnees)
 
-    def filtrer_par_diete1(self, dietes):
+    def filtrer_par_diete(self, dietes):
+        #Cette fonction permet de filtrer la recherche avec les diètes sélectionnées. La fonction retourne une liste d’objets Recette.
         curseur = self.get_connection().cursor()
         query = (
             """
@@ -181,9 +182,7 @@ class Database:
         return resultat
 
     def filtrer_par_epicerie(self, epiceries):
-        # On veut trouver les recettes dont tous les aliments sont disponibles
-        # dans au moins une (on parle d'un OU) des épiceries se trouvant 
-        # dans la liste `epiceries`
+        #Cette fonction permet de filtrer la recherche avec les épiceries sélectionnées. La fonction retourne une liste d’objets Recette.
         curseur = self.get_connection().cursor()
         query = ( 
             """
@@ -228,50 +227,60 @@ class Database:
 
 class Aliment():
     def __init__(self, id, nom, epicerie_id) -> None:
+        #Constructeur de l’objet Aliment.
         self.id = id
         self.nom = nom
         self.epicerie_id = epicerie_id
 
     
     def __eq__(self, other):
+        #Redéfinition de l’opérateur “==” qui vérifie les IDs des aliments comme comparaison.
         if isinstance(other, Aliment):
             return self.id == other.id
         return False
 
 
     def __str__(self):
+        #Cette fonction permet d’afficher un objet Aliment en string.
         return f'\n\t(id: {self.id}, nom: {self.nom}, epicerie: {self.epicerie_id})\n'
     
 
     def __repr__(self) -> str:
+        #retourne des aliments selon le string definie pour un tableau.
         return str(self)
 
 
     def __hash__(self):
+        #Cette fonction permet d’utiliser l’ID de l’objet Aliment pour la fonction de hachage.
         return hash(self.id)
 
 class Diete():
-
     def __init__(self, id, nom) -> None:
+        #Constructeur de l’objet Diete.
         self.id = id
         self.nom = nom
 
     def __eq__(self, other):
+        #Redéfinition de l’opérateur “==” qui vérifie les IDs des diètes comme comparaison.
         if isinstance(other, Diete):
             return self.id == other.id
         return False
 
     def __str__(self):
+        #Cette fonction permet d’afficher un objet diète en string.
         return f'id: {self.id}, nom: {self.nom}'
 
     def __repr__(self) -> str:
+        #retourne des aliments selon le string definie pour un tableau.
         return str(self)
 
     def __hash__(self):
+        #Cette fonction permet d’utiliser l’ID de l’objet Diete pour la fonction de hachage.
         return hash(self.id)
 
 class Recette():
     def __init__(self, id, nom) -> None:
+        #Constructeur de l’objet Recette.
         self.id = id
         self.nom = nom
         self.aliments = set()
@@ -279,31 +288,39 @@ class Recette():
 
 
     def __eq__(self, other):
+        #Redéfinition de l’opérateur “==” qui vérifie les IDs des recettes comme comparaison.
         if isinstance(other, Recette):
             return self.id == other.id
         return False
 
 
     def __str__(self):
+        #Cette fonction permet d’afficher un objet Recette en string.
         return f'id: {self.id}, nom: {self.nom}, aliments: {self.aliments}, diete: {self.dietes}\n'
 
 
     def __repr__(self) -> str:
-        return str(self) 
+        #retourne des aliments selon le string definie pour un tableau
+        return str(self)
 
     def __hash__(self):
+        #Cette fonction permet d’utiliser l’ID de l’objet Recette pour la fonction de hachage.-
         return hash(self.id)
 
     def __lt__(self, other):
+        #Redéfinition de l’opérateur “<” qui vérifie les noms des recettes comme comparaison.
         return self.nom < other.nom
 
     def ajouter_aliment(self, aliment: Aliment):
+        #Cette fonction permet d’ajouter un aliment dans l’objet Recette.
         self.aliments.add(aliment)
 
     def ajouter_diete(self, diete: Diete):
+        #Cette fonction permet d’ajouter une diète dans l’objet Recette.
         self.dietes.add(diete)
 
     def ont_memes_aliments(self, other):
+        #Cette fonction vérifie si deux recettes ont le même aliment.
         return (self.aliments == other.aliments)
 
 class Allergie():

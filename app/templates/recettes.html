@@ -2,18 +2,18 @@
 {% block content %}
  <div class="col-10">
         <div class="liste-recettes">
-                <h1>Recettes</h1>
-    {% if recettes %}
-        <ul>
-        {% for recette in recettes %}
-            <li> {{ recette.nom }}</li>
-            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette = "{{ recette.id }}">Ajouter</button>
-            {% for aliment in recette.aliments %}
-            <p class="r{{ recette.id }}"hidden> {{ aliment }}</p>
-            {% endfor %}
-        {% endfor %}
-        </ul>
-    {% endif %}
+            <h1>Recettes</h1>
+            {% if recettes %}
+                    {% for recette in recettes %}
+                        <div class="text-container list-recettes">
+                            <img src="{{ url_for('static', filename='img/' ~ recette[0]|string ~ '.jpg') }}" alt="Image Recette">
+                            <p>{{ recette.nom }}</p>
+                            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette = "{{ recette.id }}">Ajouter</button>
+                            {% for aliment in recette.aliments %}
+                            <p class="r{{ recette.id }}"hidden> {{ aliment }}</p>
+                        </div>
+                    {% endfor %}
+            {% endif %}
         </div>
  </div>
 {% endblock content %}

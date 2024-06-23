@@ -9,6 +9,7 @@
         {% else %}
         {% for resultat in resultats %}
         <div class="text-container list-recettes">
+        <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">
             <p> {{ resultat.nom }} </p>
         </div>
         {% endfor %}

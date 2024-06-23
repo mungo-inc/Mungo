@@ -17,23 +17,23 @@
       <div class="row">
         <div class="col-2">
             <div class="Titre">
-                <h1>Mungo</h1>
+            <a class="nav-link" href="{{ url_for('accueil')}}"><h1>Mungo</h1></a>
             </div>
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Panier</a>
+              <a class="nav-link active" aria-current="page" href="{{ url_for('panier')}}">Panier</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="recettes">Recettes</a>
+              <a class="nav-link" href="{{ url_for('recettes')}}">Recettes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="articles">Aliments</a>
+              <a class="nav-link" href="{{ url_for('articles')}}">Aliments</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Profil</a>
+              <a class="nav-link" href="{{ url_for('profil')}}">Profil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">À propos</a>
+              <a class="nav-link" href="{{ url_for('compagnie')}}">À propos</a>
             </li>
           </ul>
           <span>

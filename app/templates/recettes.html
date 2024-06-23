@@ -7,7 +7,10 @@
                     {% for recette in recettes %}
                         <div class="text-container list-recettes">
                             <img src="{{ url_for('static', filename='img/' ~ recette[0]|string ~ '.jpg') }}" alt="Image Recette">
-                            <p>{{ recette[1] }}</p>
+                            <p>{{ recette.nom }}</p>
+                            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette = "{{ recette.id }}">Ajouter</button>
+                            {% for aliment in recette.aliments %}
+                            <p class="r{{ recette.id }}"hidden> {{ aliment }}</p>
                         </div>
                     {% endfor %}
             {% endif %}

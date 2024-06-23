@@ -237,5 +237,24 @@ input[type=range]::-webkit-slider-thumb {
     border: 2px solid #E68A0E; /* Optional: to add a border */
 }
 
+
+input[type=range]::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px; /* Customize the thumb size if necessary */
+    height: 20px;
+    background:  #E68A0E; /* Change the color here */
+    cursor: pointer;
+    border-radius: 50%; /* Optional: to make the thumb round */
+    border: 2px solid #E68A0E; /* Optional: to add a border */
+}
+
 input[type="range" i] {
     color:  #383632 !important;
+}
+
+#basket {
+    color: #E68A0E;
+    width: 1.8em; /* Customize the thumb size if necessary */
+    height: 1.8em;
+}

@@ -107,7 +107,28 @@ class Database:
         query = 'SELECT * FROM Recette'
         cursor.execute(query)
         recettes = cursor.fetchall()
-        return recettes
+        resultat = self.get_aliments_par_recettes(cursor, recettes)
+        return resultat 
+
+
+    def get_aliments_par_recettes(self, cursor, recettes):
+        resultat = []
+        query = """
+                SELECT aliment.nom 
+                FROM aliment 
+                JOIN aliment_recette ON aliment.id_aliment = aliment_recette.id_aliment 
+                WHERE aliment_recette.id_recette = ?
+                """
+        for elem in recettes:
+            id_recette = elem[0]
+            nom = elem[1]
+            recette = Recette(id_recette, nom)
+            cursor.execute(query, (id_recette, ))
+            aliments = cursor.fetchall()
+            for aliment in aliments:
+                recette.ajouter_aliment(aliment[0])
+            resultat.append(recette)
+        return resultat 
 
     def avoir_recettes(self, allergies, dietes, epiceries):
         #Cette fonction permet de faire la recherche selon toutes les options sélectionnées de l’utilisateur.

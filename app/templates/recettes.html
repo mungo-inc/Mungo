@@ -6,8 +6,11 @@
     {% if recettes %}
         <ul>
         {% for recette in recettes %}
-            <li> {{ recette[1] }}</li>
-            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette[1] }}" aliments="{{ recette[3] }}">Ajouter</button>
+            <li> {{ recette.nom }}</li>
+            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette = "{{ recette.id }}">Ajouter</button>
+            {% for aliment in recette.aliments %}
+            <p class="r{{ recette.id }}"hidden> {{ aliment }}</p>
+            {% endfor %}
         {% endfor %}
         </ul>
     {% endif %}

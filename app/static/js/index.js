@@ -13,12 +13,38 @@ if (defilement != null && defilement_out != null) {
  */
 buttons.forEach(function(button) {
     button.addEventListener("click", function() {
-        let ul = document.getElementById('liste-epicerie');
-        let li = document.createElement('li');
-        let recette = this.getAttribute('nom-recette');
-        let aliments = this.getAttribute('aliments');
-        // creer une option dans le menu deroulable
-        li.innerText = recette;
-        ul.append(li)
+        let strongs = document.querySelectorAll('.accordion-body strong');
+        if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
+            index = 0
+            ajouterElementPanier.call(this, strongs, index);
+        } else {
+            let div = document.getElementById('collapseOne');
+            div.innerHTML += `
+                <div class="accordion-body">
+                    <strong></strong>
+                        <ul>
+                        </ul>
+                </div>`
+            let strongs = document.querySelectorAll('.accordion-body strong');
+            index = strongs.length - 1;
+            ajouterElementPanier.call(this, strongs, index);
+        }
     });
 });
+
+function ajouterElementPanier(strongs, index) {
+    strongs[index].textContent = this.getAttribute('nom-recette');
+    recette_id = this.getAttribute('id-recette');
+    let aliments = document.querySelectorAll('.r' + recette_id);
+    let ul = document.querySelectorAll('.accordion-body ul');
+    listerAliment(ul, aliments, index);
+}
+
+function listerAliment(ul, aliments, index) {
+    for (let i = 0; i < aliments.length; i++) {
+        let li = document.createElement('li');
+        li.innerText = aliments[i].textContent;
+        ul[index].append(li);
+    }
+
+}

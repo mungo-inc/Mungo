@@ -121,9 +121,13 @@ class Database:
                 """
         for elem in recettes:
             id_recette = elem[0]
-            cursor.execute(query, (id_recette,))
+            nom = elem[1]
+            recette = Recette(id_recette, nom)
+            cursor.execute(query, (id_recette, ))
             aliments = cursor.fetchall()
-            resultat.append(elem + (aliments, ))
+            for aliment in aliments:
+                recette.ajouter_aliment(aliment[0])
+            resultat.append(recette)
         return resultat 
 
 

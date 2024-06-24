@@ -77,30 +77,30 @@ class Database:
             self.connection = sqlite3.connect(self.path)
         return self.connection
 
-    def filtrer_par_allergie(self, allergie):
-        """
-        Cette fonction permet de filtrer la recherche avec les allergies sélectionnées. Les allergies sélectionnées ne seront pas contenues dans le résultat. La fonction retourne une liste d’objets Recette.
-        """
+    def filtrer_par_allergie(self, allergies):
+        #Cette fonction permet de filtrer la recherche avec les allergies sélectionnées. Les allergies sélectionnées ne seront pas contenues dans le résultat. La fonction retourne une liste d’objets Recette.
+        allergies = ', '.join(f"'{allergie}'" for allergie in allergies)
         curseur = self.get_connection().cursor()
         query = (
                 f"""
-                SELECT DISTINCT recette.nom
-                FROM recette
-                JOIN aliment_recette ar ON recette.id_recette = ar.id_recette
-                JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
-                JOIN allergie ON allergie.id_allergie = aa.id_allergie
-                WHERE recette.id_recette NOT IN (
-                    SELECT ar.id_recette
+                SELECT DISTINCT r.id_recette, r.nom 
+                FROM recette r
+                WHERE NOT EXISTS (
+                    SELECT 1
                     FROM aliment_recette ar
-                    JOIN aliment_allergie aa ON aa.id_aliment = ar.id_aliment
-                    JOIN allergie a ON a.id_allergie = aa.id_allergie
-                    WHERE a.type IN ('Poisson')
+                    JOIN aliment_allergie aa ON ar.id_aliment = aa.id_aliment
+                    JOIN allergie a ON aa.id_allergie = a.id_allergie
+                    WHERE ar.id_recette = r.id_recette
+                    AND a.id_allergie IN ({allergies})
                     );
-                """
+	            """
                 )
         curseur.execute(query)
         donnees = curseur.fetchall()
-        return donnees
+        recettes_allergies = []
+        for (nom, id_recette) in donnees:
+            recettes_allergies.append(Recette(nom, id_recette)) 
+        return recettes_allergies
     
     def get_articles(self):
         """
@@ -150,12 +150,14 @@ class Database:
         Cette fonction permet de faire la recherche selon toutes les options sélectionnées de l’utilisateur.
         """
         donnees = []
+        donnees_allergie = []
         donnees_diete = []
         donnees_epicerie = []
-       
+        donnees_allergie = set(self.filtrer_par_allergie(allergies))
+        print(donnees_allergie)
         donnees_diete = set(self.filtrer_par_diete(dietes))
         donnees_epicerie = set(self.filtrer_par_epicerie(epiceries))
-        donnees = donnees_epicerie & donnees_diete
+        donnees = donnees_epicerie & donnees_allergie & donnees_diete
         return sorted(donnees)
 
     def filtrer_par_diete(self, dietes):

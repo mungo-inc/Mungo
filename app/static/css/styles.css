@@ -106,7 +106,7 @@ nav ul li:last-child {
 }
 
 a.nav-link {
-    font-size: 22px; !important
+    font-size: 22px !important;
 }
 
 .nav-flex-column, nav-item {
@@ -203,6 +203,11 @@ html, body {
 
 .list-recettes {
     display: inline-block;
+    padding: 2%;
+}
+
+.conteneur-recettes {
+    text-align: center;
 }
 
 .btn {

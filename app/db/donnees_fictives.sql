@@ -1025,6 +1025,7 @@ INSERT INTO Aliment_Allergie VALUES (100, 3);
 INSERT INTO Aliment_Allergie VALUES (105, 2);
 INSERT INTO Aliment_Allergie VALUES (106, 2);
 INSERT INTO Aliment_Allergie VALUES (107, 1);
+INSERT INTO Aliment_Allergie VALUES (118, 3);
 INSERT INTO Aliment_Allergie VALUES (124, 1);
 INSERT INTO Aliment_Allergie VALUES (125, 1);
 INSERT INTO Aliment_Allergie VALUES (127, 7);

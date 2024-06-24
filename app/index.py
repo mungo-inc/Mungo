@@ -50,6 +50,7 @@ def search():
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
     resultats = db.avoir_recettes(allergies, dietes, epiceries)
+    print("Donnee")
     print(resultats)
     return render_template('resultats.html', resultats=resultats)
 
@@ -119,13 +120,19 @@ class Database:
         cursor = self.get_connection().cursor()
         query = 'SELECT * FROM Recette'
         cursor.execute(query)
-        recettes = cursor.fetchall()
-        resultat = self.get_aliments_par_recettes(cursor, recettes)
+        resultat = cursor.fetchall()
+        recettes = []
+        for elem in resultat:
+            id_recette = elem[0]
+            nom = elem[1]
+            recettes.append(Recette(id_recette, nom))
+        resultat = self.get_aliments_par_recettes(recettes)
         return resultat 
 
 
-    def get_aliments_par_recettes(self, cursor, recettes):
+    def get_aliments_par_recettes(self, recettes):
         resultat = []
+        cursor = self.get_connection().cursor()
         query = """
                 SELECT aliment.id_aliment, aliment.nom, aliment_epicerie.id_epicerie
                 FROM aliment 
@@ -133,11 +140,8 @@ class Database:
                 JOIN aliment_epicerie ON aliment.id_aliment = aliment_epicerie.id_aliment 
                 WHERE aliment_recette.id_recette = ?
                 """
-        for elem in recettes:
-            id_recette = elem[0]
-            nom = elem[1]
-            recette = Recette(id_recette, nom)
-            cursor.execute(query, (id_recette, ))
+        for recette in recettes:
+            cursor.execute(query, (recette.id, ))
             aliments = cursor.fetchall()
             for id, nom, epicerie in aliments:
                 aliment = Aliment(id, nom, epicerie)
@@ -158,7 +162,7 @@ class Database:
         donnees_diete = set(self.filtrer_par_diete(dietes))
         donnees_epicerie = set(self.filtrer_par_epicerie(epiceries))
         donnees = donnees_epicerie & donnees_allergie & donnees_diete
-        return sorted(donnees)
+        return self.get_aliments_par_recettes(sorted(donnees))
 
     def filtrer_par_diete(self, dietes):
         """

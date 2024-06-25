@@ -2,7 +2,7 @@
 
 INSERT INTO recette VALUES (0, 'Pâté chinois', 0);
 INSERT INTO recette VALUES (1, 'Pâté chinois végétarien', 0);
-INSERT INTO recette VALUES (2, 'Spaghetti sauce a la viande', 0);
+INSERT INTO recette VALUES (2, 'Sauce spaghetti à la viande', 0);
 INSERT INTO recette VALUES (3, 'Pizza trois fromages', 0);
 INSERT INTO recette VALUES (4, 'Pizza pepperoni fromage', 0);
 INSERT INTO recette VALUES (5, 'Tacos crevettes', 0);
@@ -22,10 +22,10 @@ INSERT INTO recette VALUES (18, 'Pâtes à la sauce tomate', 0);
 INSERT INTO recette VALUES (19, 'Gravlax de saumon', 0);
 INSERT INTO recette VALUES (20, 'Crêpes multigrains aux bleuets', 0);
 INSERT INTO recette VALUES (21, 'Boeuf braisé', 0);
-INSERT INTO recette VALUES (23, 'Ratatouille grilée en salade', 0);
+INSERT INTO recette VALUES (23, 'Ratatouille grillée en salade', 0);
 INSERT INTO recette VALUES (24, 'Tartare de thon', 0);
 INSERT INTO recette VALUES (26, 'Chaudrée de pommes de terre sans produits laitiers', 0);
-INSERT INTO recette VALUES (28, 'Nouilles asatiques au porc', 0);
+INSERT INTO recette VALUES (28, 'Nouilles asiatiques au porc', 0);
 INSERT INTO recette VALUES (29, 'Pâté mexicain', 0);
 INSERT INTO recette VALUES (30, 'Tacos au poulet', 0);
 INSERT INTO recette VALUES (31, 'Keftas de boeufs sur pain naan', 0);

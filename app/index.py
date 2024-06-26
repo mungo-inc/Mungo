@@ -64,8 +64,7 @@ def construire_recette(donnees):
     recettes["nom"] = donnees[0]
 
     return recettes
-
-
+  
 class Allergie():
     def __init__(self, id, nom) -> None:
         pass

@@ -1,0 +1,17 @@
+// imprime tous les ingredients d'une recette
+SELECT a.nom AS Ingredient
+FROM Aliment a
+JOIN Aliment_recette ar ON a.id_aliment = ar.id_aliment
+JOIN Recette r ON ar.id_recette = r.id_recette
+WHERE r.nom = "Keftas de boeufs sur pain naan";
+
+// identifie l'allergie liee a un Aliment_recette
+SELECT Allergie.Type
+FROM Allergie
+WHERE ID_allergie IN (
+    SELECT aa.ID_allergie
+    FROM Aliment a
+    JOIN Aliment_Allergie aa ON a.ID_aliment = aa.ID_aliment
+    JOIN Allergie al ON aa.ID_allergie = al.ID_allergie
+    WHERE a.Nom = 'Aiglefin'
+);

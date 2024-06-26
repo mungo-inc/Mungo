@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="col-10">
+    <div class="col-sm-8 offset-sm-2">
+        <div class="liste-recettes conteneur-recettes">
+            {% if not resultats %}
+            <div class="text-container">
+                <h2>Votre recherche ne contient aucun résultat.</h2>
+            </div>
+            {% else %}
+            {% for resultat in resultats %}
+            <div class="text-container list-recettes">
+                <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">
+                <p> {{ resultat.nom }} </p>
+                <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ resultat.nom }}" id-recette = "{{ resultat.id }}">Ajouter</button>
+                {% for aliment in resultat.aliments %}
+                    <p class="r{{ resultat.id }}" hidden> {{ aliment.nom }}</p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

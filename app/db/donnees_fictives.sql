@@ -2,7 +2,7 @@
 
 INSERT INTO recette VALUES (0, 'Pâté chinois', 0);
 INSERT INTO recette VALUES (1, 'Pâté chinois végétarien', 0);
-INSERT INTO recette VALUES (2, 'Spaghetti', 0);
+INSERT INTO recette VALUES (2, 'Sauce spaghetti à la viande', 0);
 INSERT INTO recette VALUES (3, 'Pizza trois fromages', 0);
 INSERT INTO recette VALUES (4, 'Pizza pepperoni fromage', 0);
 INSERT INTO recette VALUES (5, 'Tacos crevettes', 0);
@@ -22,16 +22,14 @@ INSERT INTO recette VALUES (18, 'Pâtes à la sauce tomate', 0);
 INSERT INTO recette VALUES (19, 'Gravlax de saumon', 0);
 INSERT INTO recette VALUES (20, 'Crêpes multigrains aux bleuets', 0);
 INSERT INTO recette VALUES (21, 'Boeuf braisé', 0);
-INSERT INTO recette VALUES (22, 'Tajine de poulet au citron confit', 0);
-INSERT INTO recette VALUES (23, 'Ratatouille grilée en salade', 0);
+INSERT INTO recette VALUES (23, 'Ratatouille grillée en salade', 0);
 INSERT INTO recette VALUES (24, 'Tartare de thon', 0);
 INSERT INTO recette VALUES (26, 'Chaudrée de pommes de terre sans produits laitiers', 0);
-INSERT INTO recette VALUES (27, 'Palak paneer', 0);
-INSERT INTO recette VALUES (28, 'Nouilles asatiques au porc', 0);
+INSERT INTO recette VALUES (28, 'Nouilles asiatiques au porc', 0);
 INSERT INTO recette VALUES (29, 'Pâté mexicain', 0);
 INSERT INTO recette VALUES (30, 'Tacos au poulet', 0);
 INSERT INTO recette VALUES (31, 'Keftas de boeufs sur pain naan', 0);
-INSERT INTO recette VALUES (32, "Ragoût d'aubergine à la viande", 0);
+INSERT INTO recette VALUES (32, 'Ragoût d''aubergine à la viande', 0);
 
 --Ajout des ingrédients dans la BD
 
@@ -65,7 +63,7 @@ INSERT INTO aliment VALUES (26, 'Pâte à pizza', 'Type');
 INSERT INTO aliment VALUES (27, 'Ricotta', 'Type');
 INSERT INTO aliment VALUES (28, 'Féta', 'Type');
 INSERT INTO aliment VALUES (29, 'Pepperoni', 'Type');
-INSERT INTO aliment VALUES (30, 'Tortilla', 'Type');
+INSERT INTO aliment VALUES (30, 'Tortilla de mais', 'Type');
 INSERT INTO aliment VALUES (31, 'Mangue', 'Type');
 INSERT INTO aliment VALUES (32, 'Coriandre', 'Type');
 INSERT INTO aliment VALUES (33, 'Champignon', 'Type');
@@ -147,16 +145,16 @@ INSERT INTO aliment VALUES (108, 'Clou de girofle', 'Type');
 INSERT INTO aliment VALUES (109, 'Menthe', 'Type');
 INSERT INTO aliment VALUES (110, 'Graine de coriandre', 'Type');
 INSERT INTO aliment VALUES (111, 'Orange', 'Type');
-INSERT INTO aliment VALUES (112, 'Rôti de palette de boeuf', 'Type');
+INSERT INTO aliment VALUES (112, 'Boeuf', 'Type');
 INSERT INTO aliment VALUES (113, 'Bacon', 'Type');
 INSERT INTO aliment VALUES (114, 'Vinaigne balsamique', 'Type');
 INSERT INTO aliment VALUES (115, 'Romarin', 'Type');
 INSERT INTO aliment VALUES (116, 'Flocon de piment fort', 'Type');
-INSERT INTO aliment VALUES (117, 'Tomate cerise', 'Type');
+INSERT INTO aliment VALUES (117, 'Tomates cerises', 'Type');
 INSERT INTO aliment VALUES (118, 'Thon', 'Type');
 INSERT INTO aliment VALUES (119, 'Limes', 'Type');
 INSERT INTO aliment VALUES (120, 'Câpre', 'Type');
-INSERT INTO aliment VALUES (121, 'Poireau', 'Type');
+INSERT INTO aliment VALUES (121, 'Poireaux', 'Type');
 INSERT INTO aliment VALUES (122, 'Maïs', 'Type');
 INSERT INTO aliment VALUES (123, 'Sauce tabasco', 'Type');
 INSERT INTO aliment VALUES (124, 'Crème sure', 'Type');
@@ -166,8 +164,48 @@ INSERT INTO aliment VALUES (127, 'Pâte de sésame', 'Type');
 INSERT INTO aliment VALUES (128, 'Sauce hoisin', 'Type');
 INSERT INTO aliment VALUES (129, 'Nouille ramen', 'Type');
 INSERT INTO aliment VALUES (130, 'Arachide', 'Type');
+INSERT INTO aliment VALUES (131, 'Tomates cerises', 'Type');
+INSERT INTO aliment VALUES (132, 'Huile d''olive', 'Type');
+INSERT INTO aliment VALUES (133, 'Pain naan', 'Type');
+INSERT INTO aliment VALUES (134, 'Avocats', 'Type');
+INSERT INTO aliment VALUES (135, 'Assaisonnement au chili', 'Type');
+INSERT INTO aliment VALUES (136, 'Curcuma', 'Type');
+INSERT INTO aliment VALUES (137, 'Bouillon de légume', 'Type');
+INSERT INTO aliment VALUES (138, 'Huile de sésame', 'Type');
+INSERT INTO aliment VALUES (139, 'Thym', 'Type');
+INSERT INTO aliment VALUES (140, 'Pâtes orzo', 'Type');
+INSERT INTO aliment VALUES (141, 'Poudre à pâte', 'Type');
+INSERT INTO aliment VALUES (142, 'Bouillon de poulet', 'Type');
+INSERT INTO aliment VALUES (143, 'Vin blanc', 'Type');
+INSERT INTO aliment VALUES (144, 'Ciboulette', 'Type');
+INSERT INTO aliment VALUES (145, 'Estragon', 'Type');
+INSERT INTO aliment VALUES (146, 'Beurre d''arachide', 'Type');
+INSERT INTO aliment VALUES (147, 'Huile de piment', 'Type');
+INSERT INTO aliment VALUES (148, 'Bok choy', 'Type');
+INSERT INTO aliment VALUES (149, 'Relish', 'Type');
+INSERT INTO aliment VALUES (150, 'Sauce aux piments', 'Type');
+INSERT INTO aliment VALUES (151, 'fromage tex-mex râpé', 'Type');
+INSERT INTO aliment VALUES (152, 'Coquille tacos', 'Type');
+INSERT INTO aliment VALUES (153, 'Salsa', 'Type');
+INSERT INTO aliment VALUES (154, 'Poivron vert', 'Type');
+INSERT INTO aliment VALUES (155, 'Saucisses italiennes', 'Type');
+INSERT INTO aliment VALUES (156, 'Oignons verts', 'Type');
+INSERT INTO aliment VALUES (157, 'Jelapeños', 'Type');
+INSERT INTO aliment VALUES (158, 'Vinaigre Blanc', 'Type');
+INSERT INTO aliment VALUES (159, 'Crème 35 %', 'Type');
+INSERT INTO aliment VALUES (160, 'Vin Rouge', 'Type');
+INSERT INTO aliment VALUES (161, 'Miel', 'Type');
+INSERT INTO aliment VALUES (162, 'Poivre Sichuan', 'Type');
 
 --Ajout des recettes avec les aliments
+INSERT INTO aliment_recette VALUES (0, 0);
+INSERT INTO aliment_recette VALUES (1, 0);
+INSERT INTO aliment_recette VALUES (2, 0);
+INSERT INTO aliment_recette VALUES (3, 0);
+INSERT INTO aliment_recette VALUES (4, 0);
+INSERT INTO aliment_recette VALUES (5, 0);
+INSERT INTO aliment_recette VALUES (6, 0);
+INSERT INTO aliment_recette VALUES (7, 0);
 
 INSERT INTO aliment_recette VALUES (0, 1);
 INSERT INTO aliment_recette VALUES (1, 1);
@@ -177,6 +215,8 @@ INSERT INTO aliment_recette VALUES (4, 1);
 INSERT INTO aliment_recette VALUES (5, 1);
 INSERT INTO aliment_recette VALUES (6, 1);
 INSERT INTO aliment_recette VALUES (7, 1);
+
+-- https://www.ricardocuisine.com/recettes/5335-sauce-a-spaghetti-la-meilleure
 INSERT INTO aliment_recette VALUES (3, 2);
 INSERT INTO aliment_recette VALUES (4, 2);
 INSERT INTO aliment_recette VALUES (21, 2);
@@ -184,20 +224,38 @@ INSERT INTO aliment_recette VALUES (22, 2);
 INSERT INTO aliment_recette VALUES (14, 2);
 INSERT INTO aliment_recette VALUES (18, 2);
 INSERT INTO aliment_recette VALUES (19, 2);
+INSERT INTO aliment_recette VALUES (155, 2);
+INSERT INTO aliment_recette VALUES (132, 2);
+INSERT INTO aliment_recette VALUES (37, 2);
+INSERT INTO aliment_recette VALUES (90, 2);
+INSERT INTO aliment_recette VALUES (42, 2);
+INSERT INTO aliment_recette VALUES (82, 2);
+
+-- https://www.ricardocuisine.com/recettes/2051-pizza-aux-trois-fromages
 INSERT INTO aliment_recette VALUES (25, 3);
 INSERT INTO aliment_recette VALUES (26, 3);
 INSERT INTO aliment_recette VALUES (23, 3);
 INSERT INTO aliment_recette VALUES (27, 3);
 INSERT INTO aliment_recette VALUES (28, 3);
+
+-- https://fantinomondello.ca/fr/recettes/pizza-pepperoni-fromage/113
 INSERT INTO aliment_recette VALUES (25, 4);
 INSERT INTO aliment_recette VALUES (26, 4);
 INSERT INTO aliment_recette VALUES (23, 4);
 INSERT INTO aliment_recette VALUES (29, 4);
+
+-- https://www.ricardocuisine.com/recettes/8384-tacos-aux-crevettes-et-salsa-a-la-mangue
 INSERT INTO aliment_recette VALUES (30, 5);
+INSERT INTO aliment_recette VALUES (17, 5);
+INSERT INTO aliment_recette VALUES (134, 5);
 INSERT INTO aliment_recette VALUES (8, 5);
 INSERT INTO aliment_recette VALUES (31, 5);
 INSERT INTO aliment_recette VALUES (32, 5);
 INSERT INTO aliment_recette VALUES (41, 5);
+INSERT INTO aliment_recette VALUES (10, 5);
+INSERT INTO aliment_recette VALUES (156, 5);
+
+-- https://www.ricardocuisine.com/recettes/5762-chili-classique-au-boeuf
 INSERT INTO aliment_recette VALUES (3, 6);
 INSERT INTO aliment_recette VALUES (4, 6);
 INSERT INTO aliment_recette VALUES (21, 6);
@@ -210,6 +268,9 @@ INSERT INTO aliment_recette VALUES (37, 6);
 INSERT INTO aliment_recette VALUES (38, 6);
 INSERT INTO aliment_recette VALUES (40, 6);
 INSERT INTO aliment_recette VALUES (42, 6);
+INSERT INTO aliment_recette VALUES (135, 6);
+
+-- https://www.ricardocuisine.com/recettes/5684-dahl
 INSERT INTO aliment_recette VALUES (43, 7);
 INSERT INTO aliment_recette VALUES (21, 7);
 INSERT INTO aliment_recette VALUES (15, 7);
@@ -220,14 +281,24 @@ INSERT INTO aliment_recette VALUES (46, 7);
 INSERT INTO aliment_recette VALUES (47, 7);
 INSERT INTO aliment_recette VALUES (48, 7);
 INSERT INTO aliment_recette VALUES (18, 7);
+INSERT INTO aliment_recette VALUES (136, 7);
+INSERT INTO aliment_recette VALUES (137, 7);
+
+-- https://www.google.com/search?q=Tofu+gochujang&rlz=1C5CHFA_enCA1092CA1092&oq=Tofu+gochujang&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDIHCAEQABiABDIMCAIQABgUGIcCGIAEMggIAxAAGBYYHjIICAQQABgWGB4yCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMggICRAAGBYYHtIBBzY1N2owajeoAgiwAgE&sourceid=chrome&ie=UTF-8
 INSERT INTO aliment_recette VALUES (52, 8);
 INSERT INTO aliment_recette VALUES (49, 8);
 INSERT INTO aliment_recette VALUES (50, 8);
 INSERT INTO aliment_recette VALUES (51, 8);
 INSERT INTO aliment_recette VALUES (17, 8);
-INSERT INTO aliment_recette VALUES (54, 8);
+INSERT INTO aliment_recette VALUES (54, 8); 
 INSERT INTO aliment_recette VALUES (53, 8);
 INSERT INTO aliment_recette VALUES (18, 8);
+INSERT INTO aliment_recette VALUES (138, 8);
+INSERT INTO aliment_recette VALUES (85, 8);
+INSERT INTO aliment_recette VALUES (37, 8);
+INSERT INTO aliment_recette VALUES (19, 8);
+
+-- https://lacuisinedejeanphilippe.com/recipe/mijote-de-pois-chiches-epice/
 INSERT INTO aliment_recette VALUES (13, 9);
 INSERT INTO aliment_recette VALUES (21, 9);
 INSERT INTO aliment_recette VALUES (4, 9);
@@ -235,11 +306,27 @@ INSERT INTO aliment_recette VALUES (37, 9);
 INSERT INTO aliment_recette VALUES (40, 9);
 INSERT INTO aliment_recette VALUES (42, 9);
 INSERT INTO aliment_recette VALUES (19, 9);
+INSERT INTO aliment_recette VALUES (77, 9);
+INSERT INTO aliment_recette VALUES (132, 9);
+INSERT INTO aliment_recette VALUES (46, 9);
+INSERT INTO aliment_recette VALUES (66, 9);
+
+-- https://stephaniecote.ca/orzo-aux-tomates-grillees-et-feta/
 INSERT INTO aliment_recette VALUES (65, 10);
 INSERT INTO aliment_recette VALUES (67, 10);
 INSERT INTO aliment_recette VALUES (68, 10);
 INSERT INTO aliment_recette VALUES (28, 10);
-INSERT INTO aliment_recette VALUES (17, 10);
+INSERT INTO aliment_recette VALUES (139, 10);
+INSERT INTO aliment_recette VALUES (140, 10);
+INSERT INTO aliment_recette VALUES (117, 10);
+INSERT INTO aliment_recette VALUES (132, 10);
+INSERT INTO aliment_recette VALUES (66, 10);
+INSERT INTO aliment_recette VALUES (37, 10);
+INSERT INTO aliment_recette VALUES (34, 10);
+INSERT INTO aliment_recette VALUES (19, 10);
+INSERT INTO aliment_recette VALUES (69, 10);
+
+-- https://www.ricardocuisine.com/recettes/6085-pain-aux-bananes-ultra-moelleux
 INSERT INTO aliment_recette VALUES (1, 11);
 INSERT INTO aliment_recette VALUES (70, 11);
 INSERT INTO aliment_recette VALUES (60, 11);
@@ -247,6 +334,11 @@ INSERT INTO aliment_recette VALUES (61, 11);
 INSERT INTO aliment_recette VALUES (24, 11);
 INSERT INTO aliment_recette VALUES (71, 11);
 INSERT INTO aliment_recette VALUES (72, 11);
+INSERT INTO aliment_recette VALUES (141, 11);
+INSERT INTO aliment_recette VALUES (41, 11);
+INSERT INTO aliment_recette VALUES (48, 11);
+
+-- https://www.ricardocuisine.com/recettes/8021-tajine-de-legumes
 INSERT INTO aliment_recette VALUES (21, 12);
 INSERT INTO aliment_recette VALUES (74, 12);
 INSERT INTO aliment_recette VALUES (75, 12);
@@ -255,11 +347,29 @@ INSERT INTO aliment_recette VALUES (77, 12);
 INSERT INTO aliment_recette VALUES (78, 12);
 INSERT INTO aliment_recette VALUES (76, 12);
 INSERT INTO aliment_recette VALUES (14, 12);
+INSERT INTO aliment_recette VALUES (73, 12);
+INSERT INTO aliment_recette VALUES (132, 12);
+INSERT INTO aliment_recette VALUES (10, 12);
+INSERT INTO aliment_recette VALUES (136, 12);
+INSERT INTO aliment_recette VALUES (36, 12);
+INSERT INTO aliment_recette VALUES (110, 12);
+INSERT INTO aliment_recette VALUES (55, 12);
+INSERT INTO aliment_recette VALUES (137, 12);
+
+-- https://www.boblechef.com/recettes/tofu-piri-piri
 INSERT INTO aliment_recette VALUES (52, 13);
-INSERT INTO aliment_recette VALUES (64, 13);
 INSERT INTO aliment_recette VALUES (51, 13);
 INSERT INTO aliment_recette VALUES (53, 13);
 INSERT INTO aliment_recette VALUES (18, 13);
+INSERT INTO aliment_recette VALUES (132, 13);
+INSERT INTO aliment_recette VALUES (10, 13);
+INSERT INTO aliment_recette VALUES (81, 13);
+INSERT INTO aliment_recette VALUES (6, 13);
+INSERT INTO aliment_recette VALUES (82, 13);
+INSERT INTO aliment_recette VALUES (83, 13);
+INSERT INTO aliment_recette VALUES (19, 13);
+
+-- https://www.ricardocuisine.com/recettes/3607-hamburgers-doubles-a-l-americaine
 INSERT INTO aliment_recette VALUES (3, 14);
 INSERT INTO aliment_recette VALUES (84, 14);
 INSERT INTO aliment_recette VALUES (85, 14);
@@ -269,120 +379,184 @@ INSERT INTO aliment_recette VALUES (88, 14);
 INSERT INTO aliment_recette VALUES (89, 14);
 INSERT INTO aliment_recette VALUES (90, 14);
 INSERT INTO aliment_recette VALUES (91, 14);
+INSERT INTO aliment_recette VALUES (4, 14);
+INSERT INTO aliment_recette VALUES (149, 14);
+INSERT INTO aliment_recette VALUES (60, 14);
+INSERT INTO aliment_recette VALUES (158, 14);
+INSERT INTO aliment_recette VALUES (19, 14);
+
+-- https://ici.radio-canada.ca/mordu/recettes/7899/poitrines-poulet-sauce-creme-champignons
 INSERT INTO aliment_recette VALUES (93, 15);
 INSERT INTO aliment_recette VALUES (33, 15);
-INSERT INTO aliment_recette VALUES (24, 15);
-INSERT INTO aliment_recette VALUES (2, 15);
-INSERT INTO aliment_recette VALUES (96, 15);
-INSERT INTO aliment_recette VALUES (97, 15);
-INSERT INTO aliment_recette VALUES (98, 15);
-INSERT INTO aliment_recette VALUES (99, 15);
 INSERT INTO aliment_recette VALUES (18, 15);
+INSERT INTO aliment_recette VALUES (142, 15);
+INSERT INTO aliment_recette VALUES (139, 15);
+INSERT INTO aliment_recette VALUES (17, 15);
+INSERT INTO aliment_recette VALUES (143, 15);
+INSERT INTO aliment_recette VALUES (4, 15);
+INSERT INTO aliment_recette VALUES (159, 15);
+INSERT INTO aliment_recette VALUES (37, 15);
+INSERT INTO aliment_recette VALUES (87, 15);
+INSERT INTO aliment_recette VALUES (103, 15);
+INSERT INTO aliment_recette VALUES (145, 15);
+
+-- https://www.5ingredients15minutes.com/fr/recettes/plats-principaux/poulet/cuisses-de-poulet-roties-au-four/
 INSERT INTO aliment_recette VALUES (93, 16);
 INSERT INTO aliment_recette VALUES (18, 16);
-INSERT INTO aliment_recette VALUES (19, 16);
-INSERT INTO aliment_recette VALUES (100, 16);
-INSERT INTO aliment_recette VALUES (103, 16);
+INSERT INTO aliment_recette VALUES (6, 16);
+INSERT INTO aliment_recette VALUES (139, 16);
+INSERT INTO aliment_recette VALUES (132, 16);
+
+-- https://www.joseedistasio.ca/recettes/batonnets-de-poisson-croustillants-sans-friture/
 INSERT INTO aliment_recette VALUES (100, 17);
-INSERT INTO aliment_recette VALUES (2, 17);
+INSERT INTO aliment_recette VALUES (31, 17);
 INSERT INTO aliment_recette VALUES (101, 17);
 INSERT INTO aliment_recette VALUES (24, 17);
 INSERT INTO aliment_recette VALUES (18, 17);
 INSERT INTO aliment_recette VALUES (19, 17);
+INSERT INTO aliment_recette VALUES (132, 17);
+INSERT INTO aliment_recette VALUES (87, 17);
+
+-- https://madame.lefigaro.fr/recettes/pates-tomate-060201-200395
 INSERT INTO aliment_recette VALUES (105, 18);
-INSERT INTO aliment_recette VALUES (14, 18);
-INSERT INTO aliment_recette VALUES (104, 18);
-INSERT INTO aliment_recette VALUES (17, 18);
+INSERT INTO aliment_recette VALUES (90, 18);
+INSERT INTO aliment_recette VALUES (132, 18);
 INSERT INTO aliment_recette VALUES (18, 18);
 INSERT INTO aliment_recette VALUES (19, 18);
+INSERT INTO aliment_recette VALUES (68, 18);
+INSERT INTO aliment_recette VALUES (37, 18);
+
+-- https://www.joseedistasio.ca/recettes/entrees-accompagnements/gravlax-de-saumon/
 INSERT INTO aliment_recette VALUES (56, 19);
 INSERT INTO aliment_recette VALUES (18, 19);
 INSERT INTO aliment_recette VALUES (83, 19);
-INSERT INTO aliment_recette VALUES (58, 19);
-INSERT INTO aliment_recette VALUES (119, 19);
+INSERT INTO aliment_recette VALUES (60, 19);
+
+-- https://ricardocuisine.com/recettes/234-crepes-americaines-aux-bleuets-pancakes-aux-bleuets
 INSERT INTO aliment_recette VALUES (24, 20);
 INSERT INTO aliment_recette VALUES (59, 20);
-INSERT INTO aliment_recette VALUES (63, 20);
-INSERT INTO aliment_recette VALUES (62, 20);
 INSERT INTO aliment_recette VALUES (72, 20);
 INSERT INTO aliment_recette VALUES (57, 20);
 INSERT INTO aliment_recette VALUES (66, 20);
 INSERT INTO aliment_recette VALUES (61, 20);
-INSERT INTO aliment_recette VALUES (3, 21);
+INSERT INTO aliment_recette VALUES (2, 20);
+
+-- https://www.ricardocuisine.com/recettes/6082-boeuf-braise-au-vin-rouge
 INSERT INTO aliment_recette VALUES (112, 21);
 INSERT INTO aliment_recette VALUES (4, 21);
-INSERT INTO aliment_recette VALUES (113, 21);
-INSERT INTO aliment_recette VALUES (115, 21);
-INSERT INTO aliment_recette VALUES (39, 21);
-INSERT INTO aliment_recette VALUES (114, 21);
-INSERT INTO aliment_recette VALUES (93, 22);
-INSERT INTO aliment_recette VALUES (73, 22);
-INSERT INTO aliment_recette VALUES (77, 22);
-INSERT INTO aliment_recette VALUES (78, 22);
-INSERT INTO aliment_recette VALUES (79, 22);
-INSERT INTO aliment_recette VALUES (76, 22);
-INSERT INTO aliment_recette VALUES (18, 22);
-INSERT INTO aliment_recette VALUES (19, 22);
+INSERT INTO aliment_recette VALUES (132, 21);
+INSERT INTO aliment_recette VALUES (19, 21);
+INSERT INTO aliment_recette VALUES (98, 21);
+INSERT INTO aliment_recette VALUES (24, 21);
+INSERT INTO aliment_recette VALUES (160, 21);
+INSERT INTO aliment_recette VALUES (42, 21);
+INSERT INTO aliment_recette VALUES (85, 21);
+INSERT INTO aliment_recette VALUES (21, 21);
+INSERT INTO aliment_recette VALUES (95, 21);
+INSERT INTO aliment_recette VALUES (161, 21);
+
+-- https://www.metro.ca/recettes-et-occasions/recettes/ratatouille-grillee-en-salade
+INSERT INTO aliment_recette VALUES (131, 23);
 INSERT INTO aliment_recette VALUES (74, 23);
 INSERT INTO aliment_recette VALUES (75, 23);
 INSERT INTO aliment_recette VALUES (10, 23);
 INSERT INTO aliment_recette VALUES (4, 23);
 INSERT INTO aliment_recette VALUES (90, 23);
 INSERT INTO aliment_recette VALUES (37, 23);
-INSERT INTO aliment_recette VALUES (17, 23);
 INSERT INTO aliment_recette VALUES (18, 23);
 INSERT INTO aliment_recette VALUES (19, 23);
 INSERT INTO aliment_recette VALUES (67, 23);
 INSERT INTO aliment_recette VALUES (68, 23);
 INSERT INTO aliment_recette VALUES (69, 23);
+INSERT INTO aliment_recette VALUES (77, 23);
+INSERT INTO aliment_recette VALUES (132, 23);
+INSERT INTO aliment_recette VALUES (114, 23);
+
+-- https://www.boblechef.com/recettes/tartare-de-thon-classique
 INSERT INTO aliment_recette VALUES (118, 24);
 INSERT INTO aliment_recette VALUES (67, 24);
-INSERT INTO aliment_recette VALUES (119, 24);
-INSERT INTO aliment_recette VALUES (32, 24);
+INSERT INTO aliment_recette VALUES (77, 24);
 INSERT INTO aliment_recette VALUES (120, 24);
+INSERT INTO aliment_recette VALUES (132, 24);
+INSERT INTO aliment_recette VALUES (87, 24);
+INSERT INTO aliment_recette VALUES (144, 24);
+INSERT INTO aliment_recette VALUES (72, 24);
+
+-- https://www.ricardocuisine.com/recettes/9583-chaudree-de-pommes-de-terre-sans-produits-laitiers
 INSERT INTO aliment_recette VALUES (0, 26);
 INSERT INTO aliment_recette VALUES (4, 26);
-INSERT INTO aliment_recette VALUES (21, 26);
 INSERT INTO aliment_recette VALUES (122, 26);
-INSERT INTO aliment_recette VALUES (17, 26);
 INSERT INTO aliment_recette VALUES (18, 26);
 INSERT INTO aliment_recette VALUES (19, 26);
-INSERT INTO aliment_recette VALUES (125, 26);
-INSERT INTO aliment_recette VALUES (15, 27);
-INSERT INTO aliment_recette VALUES (43, 27);
-INSERT INTO aliment_recette VALUES (48, 27);
-INSERT INTO aliment_recette VALUES (45, 27);
-INSERT INTO aliment_recette VALUES (46, 27);
-INSERT INTO aliment_recette VALUES (17, 27);
-INSERT INTO aliment_recette VALUES (37, 27);
-INSERT INTO aliment_recette VALUES (18, 27);
-INSERT INTO aliment_recette VALUES (19, 27);
-INSERT INTO aliment_recette VALUES (127, 27);
+INSERT INTO aliment_recette VALUES (143, 26);
+INSERT INTO aliment_recette VALUES (137, 26);
+INSERT INTO aliment_recette VALUES (144, 26);
+INSERT INTO aliment_recette VALUES (145, 26);
+INSERT INTO aliment_recette VALUES (121, 26);
+INSERT INTO aliment_recette VALUES (22, 26);
+INSERT INTO aliment_recette VALUES (37, 26);
+INSERT INTO aliment_recette VALUES (24, 26);
+
+-- https://www.ricardocuisine.com/recettes/10009-nouilles-asiatiques-au-porc-de-style-dan-dan 
 INSERT INTO aliment_recette VALUES (11, 28);
-INSERT INTO aliment_recette VALUES (10, 28);
 INSERT INTO aliment_recette VALUES (129, 28);
 INSERT INTO aliment_recette VALUES (50, 28);
 INSERT INTO aliment_recette VALUES (51, 28);
 INSERT INTO aliment_recette VALUES (49, 28);
 INSERT INTO aliment_recette VALUES (67, 28);
-INSERT INTO aliment_recette VALUES (32, 28);
 INSERT INTO aliment_recette VALUES (58, 28);
+INSERT INTO aliment_recette VALUES (146, 28);
+INSERT INTO aliment_recette VALUES (147, 28);
+INSERT INTO aliment_recette VALUES (148, 28);
+INSERT INTO aliment_recette VALUES (142, 28);
+INSERT INTO aliment_recette VALUES (37, 28);
+INSERT INTO aliment_recette VALUES (83, 28);
+INSERT INTO aliment_recette VALUES (162, 28);
+INSERT INTO aliment_recette VALUES (17, 28);
+INSERT INTO aliment_recette VALUES (45, 28);
+INSERT INTO aliment_recette VALUES (128, 28);
+INSERT INTO aliment_recette VALUES (130, 28);
+
+-- https://www.ricardocuisine.com/recettes/9027-pate-mexicain
 INSERT INTO aliment_recette VALUES (3, 29);
 INSERT INTO aliment_recette VALUES (4, 29);
 INSERT INTO aliment_recette VALUES (9, 29);
 INSERT INTO aliment_recette VALUES (35, 29);
-INSERT INTO aliment_recette VALUES (14, 29);
 INSERT INTO aliment_recette VALUES (34, 29);
 INSERT INTO aliment_recette VALUES (38, 29);
 INSERT INTO aliment_recette VALUES (18, 29);
 INSERT INTO aliment_recette VALUES (19, 29);
-INSERT INTO aliment_recette VALUES (53, 29);
+INSERT INTO aliment_recette VALUES (135, 29);
+INSERT INTO aliment_recette VALUES (149, 29);
+INSERT INTO aliment_recette VALUES (150, 29);
+INSERT INTO aliment_recette VALUES (151, 29);
+INSERT INTO aliment_recette VALUES (24, 29);
+INSERT INTO aliment_recette VALUES (1, 29);
+INSERT INTO aliment_recette VALUES (125, 29);
+INSERT INTO aliment_recette VALUES (22, 29);
+INSERT INTO aliment_recette VALUES (90, 29);
+INSERT INTO aliment_recette VALUES (87, 29);
+
+-- https://www.ricardocuisine.com/recettes/214-tacos-au-poulet
 INSERT INTO aliment_recette VALUES (93, 30);
-INSERT INTO aliment_recette VALUES (30, 30);
-INSERT INTO aliment_recette VALUES (67, 30);
+INSERT INTO aliment_recette VALUES (156, 30);
 INSERT INTO aliment_recette VALUES (32, 30);
 INSERT INTO aliment_recette VALUES (41, 30);
 INSERT INTO aliment_recette VALUES (124, 30);
+INSERT INTO aliment_recette VALUES (135, 30);
+INSERT INTO aliment_recette VALUES (152, 30);
+INSERT INTO aliment_recette VALUES (134, 30);
+INSERT INTO aliment_recette VALUES (153, 30);
+INSERT INTO aliment_recette VALUES (4, 30);
+INSERT INTO aliment_recette VALUES (37, 30);
+INSERT INTO aliment_recette VALUES (132, 30);
+INSERT INTO aliment_recette VALUES (82, 30);
+INSERT INTO aliment_recette VALUES (103, 30);
+INSERT INTO aliment_recette VALUES (91, 30);
+INSERT INTO aliment_recette VALUES (84, 30);
+INSERT INTO aliment_recette VALUES (123, 30);
+
+-- https://ricardocuisine.com/recettes/6985-keftas-de-boeuf-sur-pain-naan
 INSERT INTO aliment_recette VALUES (3, 31);
 INSERT INTO aliment_recette VALUES (67, 31);
 INSERT INTO aliment_recette VALUES (74, 31);
@@ -391,17 +565,29 @@ INSERT INTO aliment_recette VALUES (76, 31);
 INSERT INTO aliment_recette VALUES (18, 31);
 INSERT INTO aliment_recette VALUES (19, 31);
 INSERT INTO aliment_recette VALUES (27, 31);
+INSERT INTO aliment_recette VALUES (131, 31);
+INSERT INTO aliment_recette VALUES (132, 31);
+INSERT INTO aliment_recette VALUES (133, 31);
+INSERT INTO aliment_recette VALUES (36, 31);
+INSERT INTO aliment_recette VALUES (125, 31);
+INSERT INTO aliment_recette VALUES (6, 31);
+
+-- https://www.ricardocuisine.com/recettes/7863-ragout-d-aubergine-a-la-viande
 INSERT INTO aliment_recette VALUES (3, 32);
 INSERT INTO aliment_recette VALUES (74, 32);
 INSERT INTO aliment_recette VALUES (75, 32);
 INSERT INTO aliment_recette VALUES (10, 32);
 INSERT INTO aliment_recette VALUES (4, 32);
 INSERT INTO aliment_recette VALUES (37, 32);
-INSERT INTO aliment_recette VALUES (17, 32);
+INSERT INTO aliment_recette VALUES (132, 32);
 INSERT INTO aliment_recette VALUES (18, 32);
 INSERT INTO aliment_recette VALUES (19, 32);
-INSERT INTO aliment_recette VALUES (14, 32);
-INSERT INTO aliment_recette VALUES (68, 32);
+INSERT INTO aliment_recette VALUES (40, 32);
+INSERT INTO aliment_recette VALUES (154, 32);
+INSERT INTO aliment_recette VALUES (46, 32);
+INSERT INTO aliment_recette VALUES (116, 32);
+INSERT INTO aliment_recette VALUES (82, 32);
+INSERT INTO aliment_recette VALUES (125, 32);
 
 -- Ajout des diètes
 
@@ -744,6 +930,71 @@ INSERT INTO aliment_epicerie VALUES (128, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (128, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (129, 2, 0.00);
 INSERT INTO aliment_epicerie VALUES (130, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (131, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (131, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (131, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (132, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (132, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (132, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (133, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (133, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (133, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (134, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (134, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (134, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (135, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (135, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (136, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (136, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (137, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (138, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (138, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (138, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (139, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (139, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (139, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (140, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (140, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (140, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (141, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (141, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (142, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (142, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (142, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (143, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (143, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (143, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (144, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (144, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (144, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (145, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (145, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (145, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (146, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (146, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (146, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (147, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (147, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (147, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (148, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (148, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (149, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (149, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (150, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (150, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (150, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (151, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (151, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (151, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (152, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (152, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (152, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (153, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (153, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (153, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (154, 0, 0.00);
+INSERT INTO aliment_epicerie VALUES (154, 1, 0.00);
+INSERT INTO aliment_epicerie VALUES (154, 2, 0.00);
 
 -- Ajout aliments et allergies
 
@@ -770,10 +1021,19 @@ INSERT INTO Aliment_Allergie VALUES (89, 2);
 INSERT INTO Aliment_Allergie VALUES (91, 1);
 INSERT INTO Aliment_Allergie VALUES (96, 6);
 INSERT INTO Aliment_Allergie VALUES (99, 1);
+INSERT INTO Aliment_Allergie VALUES (100, 3);
 INSERT INTO Aliment_Allergie VALUES (105, 2);
 INSERT INTO Aliment_Allergie VALUES (106, 2);
 INSERT INTO Aliment_Allergie VALUES (107, 1);
+INSERT INTO Aliment_Allergie VALUES (118, 3);
 INSERT INTO Aliment_Allergie VALUES (124, 1);
 INSERT INTO Aliment_Allergie VALUES (125, 1);
 INSERT INTO Aliment_Allergie VALUES (127, 7);
-INSERT INTO Aliment_Allergie VALUES (130, 0); 
+INSERT INTO Aliment_Allergie VALUES (130, 0);
+INSERT INTO Aliment_Allergie VALUES (133, 2);
+INSERT INTO Aliment_Allergie VALUES (138, 7); 
+INSERT INTO Aliment_Allergie VALUES (146, 0);  
+INSERT INTO Aliment_Allergie VALUES (151, 1);  
+INSERT INTO Aliment_Allergie VALUES (152, 2);  
+INSERT INTO Aliment_Allergie VALUES (159, 1);  
+

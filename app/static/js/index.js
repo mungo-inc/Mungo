@@ -2,7 +2,7 @@
 const buttons = document.querySelectorAll(".btn-recettes");
 const defilement  = document.getElementById("customRange1");
 const defilement_out = document.getElementById("montant-budget");
-
+const nombre_recette_panier = document.getElementById("notification-cart");
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
 });
@@ -21,6 +21,7 @@ buttons.forEach(function(button) {
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
             index = 0
             ajouterElementPanier.call(this, strongs, index);
+            majNombreEpicerie();
         } else {
             let div = document.getElementById('collapseOne');
             div.innerHTML += `
@@ -44,6 +45,10 @@ function ajouterElementPanier(strongs, index) {
     listerAliment(ul, aliments, index);
     afficherSucces();
     sauvegarderListeEpicerie();
+    let recipeCount = localStorage.getItem('notification-cart') || 0;
+    recipeCount = parseInt(recipeCount) + 1;
+    localStorage.setItem('notification-cart', recipeCount);
+    majNombreEpicerie();
     setTimeout(function(){
         enleverSucces();
     }, 5000);
@@ -75,6 +80,16 @@ function sauvegarderListeEpicerie() {
     let accordions = document.querySelectorAll('.accordion-body');
     let listeEpicerie = extraireListeEpicerie(accordions);
     localStorage.setItem('listeEpicerie', JSON.stringify(listeEpicerie));
+}
+
+function majNombreEpicerie() {
+    const recipeCount = localStorage.getItem('notification-cart') || 0;
+    if (recipeCount === 0) {
+        document.getElementById('notification-cart').hidden = true;
+    } else {
+        document.getElementById('notification-cart').hidden = false;
+        document.getElementById('notification-cart').innerHTML = recipeCount;
+    }
 }
 
 function extraireListeEpicerie(accordions) {
@@ -146,3 +161,5 @@ function ajouterRecetteAuDiv(div, entree, index) {
         ul.append(li);
     }
 }
+
+majNombreEpicerie();

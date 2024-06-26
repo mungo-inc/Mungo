@@ -292,6 +292,17 @@ input[type="range" i] {
 
 }
 
+#notification-cart {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 50%;
+}
+
 .alert {
     border-left: 6px solid #4fbb40 !important;
     position: fixed !important;

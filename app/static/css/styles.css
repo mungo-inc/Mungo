@@ -290,6 +290,8 @@ input[type="range" i] {
 .accordion-body, strong {
     font-family: Pressura-Mono-Regular !important;
 
+}
+
 .alert {
     border-left: 6px solid #4fbb40 !important;
     position: fixed !important;

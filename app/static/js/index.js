@@ -42,8 +42,26 @@ function ajouterElementPanier(strongs, index) {
     let aliments = document.querySelectorAll('.r' + recette_id);
     let ul = document.querySelectorAll('.accordion-body ul');
     listerAliment(ul, aliments, index);
+    afficherSucces();
     sauvegarderListeEpicerie();
+    setTimeout(function(){
+        enleverSucces();
+    }, 5000);
 }
+
+function afficherSucces(){
+    alerte_id = document.getElementById('notif-succes');
+    alerte_id.hidden = false;
+    alerte_id.classList.add("alert-animation");
+    alerte_id.classList.remove("alert-animation-enlever");
+}
+
+function enleverSucces(){
+    alerte_id = document.getElementById('notif-succes');
+    alerte_id.classList.add("alert-animation-enlever");
+    alerte_id.classList.remove("alert-animation");
+}
+
 
 function listerAliment(ul, aliments, index) {
     for (let i = 0; i < aliments.length; i++) {

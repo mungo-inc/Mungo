@@ -290,4 +290,54 @@ input[type="range" i] {
 .accordion-body, strong {
     font-family: Pressura-Mono-Regular !important;
 
+.alert {
+    border-left: 6px solid #4fbb40 !important;
+    position: fixed !important;
+    right: 0px;
+    width: 20% !important;
+    border-radius: 10px !important;
+    top: 15px;
+
+}
+
+.alert.alert-animation{
+
+    animation: afficher_message 1.5s ease forwards;
+}
+
+@keyframes afficher_message {
+
+    0%{
+        transform: translateX(100%);
+    }
+    40%{
+        transform: translateX(-10%);
+    }
+    80%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-10px);
+    }
+}
+
+.alert.alert-animation-enlever{
+
+    animation: enlever_message 1.5s ease forwards;
+}
+
+@keyframes enlever_message {
+
+    0%{
+        transform: translateX(-10px);
+    }
+    40%{
+        transform: translateX(0%);
+    }
+    80%{
+        transform: translateX(-10%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
 }

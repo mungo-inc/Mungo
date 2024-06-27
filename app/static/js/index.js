@@ -3,7 +3,11 @@ const buttons = document.querySelectorAll(".btn-recettes");
 const defilement  = document.getElementById("customRange1");
 const defilement_out = document.getElementById("montant-budget");
 const nombre_recette_panier = document.getElementById("notification-cart");
+const afficher_ecran_connexion_btn = document.querySelector(".login-btn");
+const fermer_connexion_btn =  document.getElementById("fermer-connexion");
 let compteur = 0;
+
+
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
 });
@@ -12,6 +16,16 @@ if (defilement != null && defilement_out != null) {
     defilement_out.innerHTML = defilement.value;
     defilement.oninput = function(){defilement_out.innerHTML = this.value;}
 }
+
+afficher_ecran_connexion_btn.addEventListener("click", () => {
+    document.body.classList.toggle("afficher-popup");
+
+});
+
+fermer_connexion_btn.addEventListener("click", () => {
+    document.body.classList.toggle("afficher-popup");
+});
+
 
 /**
  *

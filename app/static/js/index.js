@@ -64,9 +64,12 @@ function retirerRecettes(target) {
     console.log(listeEpicerie);
     let recette = listeEpicerie.find(r => r.recette === nomRecette);
     index = listeEpicerie.indexOf(recette);
+    if (index > -1) {
+        listeEpicerie.splice(index, 1);
+    }
+    localStorage.setItem('listeEpicerie', JSON.stringify(listeEpicerie));
     parentElem.remove();
-
-    //localStorage.setItem('listeEpicerie', JSON.stringify(listeEpicerie));
+    majNombreEpicerie();
     //recalculerMontant()
 }
 

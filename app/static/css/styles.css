@@ -360,7 +360,22 @@ input[type="range" i] {
 }
 
 .alert.alert-animation-enlever {
-    animation: enlever
+    animation: enlever_message 1.5s ease forwards;
+}
+
+@keyframes enlever_message {
+    0% {
+        transform: translateX(-10px);
+    }
+    40% {
+        transform: translateX(0%);
+    }
+    80% {
+        transform: translateX(-10%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 

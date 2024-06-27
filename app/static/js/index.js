@@ -73,7 +73,6 @@ function creationMessageAlerte(){
     }
     message.style.top = topValue + "px";
     let div_alerte = document.getElementById('notif-succes').appendChild(message);
-    console.log(compteur);
     return div_alerte;
 }
 
@@ -93,11 +92,8 @@ function afficherSucces(){
 }
 
 function enleverSucces(child){
-    //alerte_id = document.getElementById('notif-succes');
     child.classList.add("alert-animation-enlever");
     child.classList.remove("alert-animation");
-    //alerte_id.classList.add("alert-animation-enlever");
-    //alerte_id.classList.remove("alert-animation");
 }
 
 

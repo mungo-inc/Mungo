@@ -1,5 +1,5 @@
-// document.getElementsByClassName("btn-recettes").addEventListener("click", ajouterRecetteAuMenu);
-const buttons = document.querySelectorAll(".btn-recettes");
+const ajouterButtons = document.querySelectorAll(".btn-recettes");
+const retirerPanierButtons = document.getElementById("collapseOne");
 const defilement  = document.getElementById("customRange1");
 const defilement_out = document.getElementById("montant-budget");
 const nombre_recette_panier = document.getElementById("notification-cart");
@@ -15,7 +15,7 @@ if (defilement != null && defilement_out != null) {
 /**
  *
  */
-buttons.forEach(function(button) {
+ajouterButtons.forEach(function(button) {
     button.addEventListener("click", function() {
         let strongs = document.querySelectorAll('.accordion-body strong');
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
@@ -27,8 +27,8 @@ buttons.forEach(function(button) {
             let div = document.getElementById('collapseOne');
             div.innerHTML += `
                 <div class="accordion-body">
+                    <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
                     <strong></strong>
-                    <button type="button" class="btn-close" aria-label="Close"></button>
                         <ul>
                         </ul>
                 </div>`
@@ -38,6 +38,41 @@ buttons.forEach(function(button) {
         }
     });
 });
+
+retirerPanierButtons.addEventListener("click", function(event) {
+    const target = event.target;
+    if (estCloseButtonRecette(target)) {
+        retirerRecettes(target);
+    } else if (estCloseButtonAliment(target)) {
+        retirerAliment(target);
+    }
+});
+
+function estCloseButtonRecette(target) {
+    return target.classList.contains('btn-close-recette');
+}
+
+function estCloseButtonAliment(target) {
+   return target.classList.contains('btn-close-aliment');
+}
+
+function retirerRecettes(target) {
+    //retirer la recettes et les aliments du stockage locale
+    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
+    let parentElem = target.closest('.accordion-body');
+    let nomRecette = parentElem.querySelector('strong').textContent;
+    console.log(listeEpicerie);
+    let recette = listeEpicerie.find(r => r.recette === nomRecette);
+    index = listeEpicerie.indexOf(recette);
+    parentElem.remove();
+
+    //localStorage.setItem('listeEpicerie', JSON.stringify(listeEpicerie));
+    //recalculerMontant()
+}
+
+function retirerAliment(target) {
+
+}
 
 function ajouterElementPanier(strongs, index) {
     strongs[index].textContent = this.getAttribute('nom-recette');

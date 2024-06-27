@@ -5,10 +5,11 @@ from flask import g
 from flask import redirect 
 from flask import request
 from .database import Database
+import hashlib
 #from diete import Diete
 #from aliment import Aliment
 #from recette import Recette
-#import sqlite3
+import sqlite3
 
 app = Flask(__name__, static_url_path="", static_folder="static")
 
@@ -36,6 +37,7 @@ def recettes():
     print(recettes)
     return render_template('resultats.html', resultats=recettes)
 
+
 @app.route('/articles')
 def articles():
     db = Database('app/db/epicerie.db')
@@ -57,6 +59,23 @@ def search():
     print("Donnee")
     print(resultats)
     return render_template('resultats.html', resultats=resultats)
+
+@app.route('/register', methods=['GET' , 'POST'])
+def register():
+    db  = Database('app/db/epicerie.db')
+    courriel = request.form['courriel']
+    mot_passe = request.form['password'] 
+    mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
+    curseur = db.get_connection().cursor()
+
+    try:
+        curseur.execute('INSERT INTO CLIENT VALUES (1, ?, ?)', (courriel, mot_passe_crypte))
+        db.get_connection().commit
+        print("Compte crée")
+    except sqlite3.IntegrityError:
+        print("Ce nom d'utilisateur est déjà pris")
+
+    return render_template("index.html")
 
 
 def construire_recette(donnees):

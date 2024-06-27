@@ -21,12 +21,14 @@ buttons.forEach(function(button) {
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
             index = 0
             ajouterElementPanier.call(this, strongs, index);
+            ajouterCloseButton();
             majNombreEpicerie();
         } else {
             let div = document.getElementById('collapseOne');
             div.innerHTML += `
                 <div class="accordion-body">
                     <strong></strong>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
                         <ul>
                         </ul>
                 </div>`
@@ -54,6 +56,11 @@ function ajouterElementPanier(strongs, index) {
     }, 5000);
 }
 
+function ajouterCloseButton() {
+    let buttons = document.getElementsByClassName('btn-close');
+    buttons[0].hidden = false;
+}
+
 function afficherSucces(){
     alerte_id = document.getElementById('notif-succes');
     alerte_id.hidden = false;
@@ -70,6 +77,8 @@ function enleverSucces(){
 
 function listerAliment(ul, aliments, index) {
     for (let i = 0; i < aliments.length; i++) {
+        let button = `<button type="button" class="btn-close btn-close-aliment"></button>`
+        ul[index].innerHTML += button
         let li = document.createElement('li');
         li.innerText = aliments[i].textContent;
         ul[index].append(li);
@@ -142,7 +151,7 @@ function afficherListeEpicerie(listeEpicerie) {
 function afficherAucunItem(div) {
     div.innerHTML = `
         <div class="accordion-body">
-            <strong>Aucun item</strong>
+            <strong>Aucun item</strong><button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
             <ul></ul>
         </div>`;
 }
@@ -150,13 +159,16 @@ function afficherAucunItem(div) {
 function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
         <div class="accordion-body">
+            <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
             <strong>${entree.recette}</strong>
             <ul></ul>
         </div>`;
     
     const ul = div.querySelectorAll('.accordion-body ul')[index];
     for (let j = 0; j < entree.items.length; j++) {
-        const li = document.createElement('li');
+        let button = `<button type="button" class="btn-close btn-close-aliment"></button>`
+        ul.innerHTML += button
+        let li = document.createElement('li');
         li.innerText = entree.items[j];
         ul.append(li);
     }

@@ -339,6 +339,11 @@ input[type="range" i] {
     animation: afficher_message 1.5s ease forwards;
 }
 
+.alert-success {
+    margin: 0;
+    margin-bottom: 0;
+}
+
 @keyframes afficher_message {
     0% {
         transform: translateX(100%);

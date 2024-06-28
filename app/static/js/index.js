@@ -40,10 +40,13 @@ ajouterButtons.forEach(function(button) {
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
     let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
+    let parentElem = target.closest('.accordion-body');
+    let nomRecette = parentElem.querySelector('strong').textContent;
     if (estCloseButtonRecette(target)) {
-        retirerRecettes(target, listeEpicerie);
+        retirerRecettes(parentElem, listeEpicerie, nomRecette);
     } else if (estCloseButtonAliment(target)) {
-        retirerAliment(target, listeEpicerie);
+        let li = target.closest('li');
+        retirerAliment(parentElem, listeEpicerie, nomRecette, li);
     }
 });
 
@@ -55,9 +58,7 @@ function estCloseButtonAliment(target) {
    return target.classList.contains('btn-close-aliment');
 }
 
-function retirerRecettes(target, listeEpicerie) {
-    let parentElem = target.closest('.accordion-body');
-    let nomRecette = parentElem.querySelector('strong').textContent;
+function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     let recette = listeEpicerie.find(r => r.recette === nomRecette);
     index = listeEpicerie.indexOf(recette);
     if (index > -1) {
@@ -71,12 +72,20 @@ function retirerRecettes(target, listeEpicerie) {
     }
 }
 
-function retirerAliment(target, listeEpicerie) {
-    let parentElem = target.closest('.accordion-body');
-    let nomRecette = parentElem.querySelector('strong').textContent;
-    let nomAliment = target.closest('li').textContent;
+function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
+    let nomAliment = li.textContent;
     let recette = listeEpicerie.find(r => r.recette === nomRecette);
     index = listeEpicerie.indexOf(recette);
+    let aliment= listeEpicerie[index].items.find(a => a === nomAliment);
+    let indexAliment = listeEpicerie[index].items.indexOf(aliment);
+    if (index > -1) {
+        listeEpicerie[index].items.splice(indexAliment, 1);
+    }
+    li.remove();
+    sauvegarderListeEpicerie();
+    if (listeEpicerie[index].items.length === 0) {
+        retirerRecettes(parentElem, listeEpicerie, nomRecette);
+    }
 }
 
 function ajouterElementPanier(strongs, index) {

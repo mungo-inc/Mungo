@@ -4,8 +4,19 @@ const defilement  = document.getElementById("customRange1");
 const defilement_out = document.getElementById("montant-budget");
 const nombre_recette_panier = document.getElementById("notification-cart");
 const afficher_ecran_connexion_btn = document.querySelector(".login-btn");
+const connecterEnregistrerLien = document.querySelectorAll(".form-box .lien-creation-compte a");
+const afficher_ecran_enregistrer = document.querySelector(".formulaire-popup");
+
 const fermer_connexion_btn =  document.getElementById("fermer-connexion");
 let compteur = 0;
+
+
+connecterEnregistrerLien.forEach(link => {
+    link.addEventListener("click", (e) => {
+    e.preventDefault();
+    afficher_ecran_enregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
+    });
+});
 
 
 document.addEventListener("DOMContentLoaded", function() {

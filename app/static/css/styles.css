@@ -464,6 +464,15 @@ form .input-field {
 
 }
 
+.formulaire-popup .sign-up,
+.formulaire-popup.afficher-enregistrer .login {
+    display: none;
+}
+
+.formulaire-popup.afficher-enregistrer .sign-up {
+    display : flex;
+}
+
 
 
 /* ***RECETTES*** */

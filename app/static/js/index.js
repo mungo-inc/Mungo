@@ -39,10 +39,11 @@ ajouterButtons.forEach(function(button) {
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
+    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
     if (estCloseButtonRecette(target)) {
-        retirerRecettes(target);
+        retirerRecettes(target, listeEpicerie);
     } else if (estCloseButtonAliment(target)) {
-        retirerAliment(target);
+        retirerAliment(target, listeEpicerie);
     }
 });
 
@@ -54,18 +55,14 @@ function estCloseButtonAliment(target) {
    return target.classList.contains('btn-close-aliment');
 }
 
-function retirerRecettes(target) {
-    //retirer la recettes et les aliments du stockage locale
-    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
+function retirerRecettes(target, listeEpicerie) {
     let parentElem = target.closest('.accordion-body');
     let nomRecette = parentElem.querySelector('strong').textContent;
-    console.log(listeEpicerie);
     let recette = listeEpicerie.find(r => r.recette === nomRecette);
     index = listeEpicerie.indexOf(recette);
     if (index > -1) {
         listeEpicerie.splice(index, 1);
     }
-
     parentElem.remove();
     sauvegarderListeEpicerie();
     majNombreEpicerie();
@@ -74,8 +71,12 @@ function retirerRecettes(target) {
     }
 }
 
-function retirerAliment(target) {
-
+function retirerAliment(target, listeEpicerie) {
+    let parentElem = target.closest('.accordion-body');
+    let nomRecette = parentElem.querySelector('strong').textContent;
+    let nomAliment = target.closest('li').textContent;
+    let recette = listeEpicerie.find(r => r.recette === nomRecette);
+    index = listeEpicerie.indexOf(recette);
 }
 
 function ajouterElementPanier(strongs, index) {
@@ -87,9 +88,6 @@ function ajouterElementPanier(strongs, index) {
     afficherSucces();
     sauvegarderListeEpicerie();
     majNombreEpicerie();
-    // let recipeCount = localStorage.getItem('notification-cart') || 0;
-    // recipeCount = parseInt(recipeCount) + 1;
-    // localStorage.setItem('notification-cart', recipeCount);
     setTimeout(function(){
         enleverSucces();
     }, 5000);
@@ -116,12 +114,19 @@ function enleverSucces(){
 
 function listerAliment(ul, aliments, index) {
     for (let i = 0; i < aliments.length; i++) {
-        let button = `<button type="button" class="btn-close btn-close-aliment"></button>`
-        ul[index].innerHTML += button
         let li = document.createElement('li');
-        li.innerText = aliments[i].textContent;
+        let button = creerCloseButton();
+        li.append(button);
+        li.innerHTML += aliments[i].textContent;
         ul[index].append(li);
     }
+}
+
+function creerCloseButton() {
+    let button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn-close btn-close-aliment';
+    return button;
 }
 
 function sauvegarderListeEpicerie() {
@@ -207,10 +212,10 @@ function ajouterRecetteAuDiv(div, entree, index) {
     
     const ul = div.querySelectorAll('.accordion-body ul')[index];
     for (let j = 0; j < entree.items.length; j++) {
-        let button = `<button type="button" class="btn-close btn-close-aliment"></button>`
-        ul.innerHTML += button
         let li = document.createElement('li');
-        li.innerText = entree.items[j];
+        let button = creerCloseButton();
+        li.append(button);
+        li.innerHTML += entree.items[j];
         ul.append(li);
     }
 }

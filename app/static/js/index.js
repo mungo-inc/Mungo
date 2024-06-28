@@ -70,10 +70,9 @@ function ajouterElementPanier(strongs, index) {
     let ul = document.querySelectorAll('.accordion-body ul');
     listerAliment(ul, aliments, index);
     sauvegarderListeEpicerie();
-
 }
 
-function ajouterNombrePanier(){
+function ajouterNombrePanier() {
     let child = afficherSucces();
     incrementerNumeroRecette();
         setTimeout(function(){
@@ -83,10 +82,9 @@ function ajouterNombrePanier(){
             compteur--;
         }, 1500);
     }, 5000);
+}
 
-   }
-
-function creationMessageAlerte(){
+function creationMessageAlerte() {
     const message = document.createElement('p');
     message.textContent = "La recette a été ajouté au panier."
     message.classList.add("alert-success", "alert");
@@ -101,11 +99,11 @@ function creationMessageAlerte(){
     return div_alerte;
 }
 
-function suppressionMessageAlerte(child){
+function suppressionMessageAlerte(child) {
     document.getElementById('notif-succes').removeChild(child);
 }
 
-function afficherSucces(){
+function afficherSucces() {
     let child = creationMessageAlerte();
     let alerte_id = document.getElementById('notif-succes');
     alerte_id.hidden = false;
@@ -115,6 +113,7 @@ function afficherSucces(){
 
     return child;
 }
+
 
 function enleverSucces(child){
     child.classList.add("alert-animation-enlever");
@@ -223,4 +222,30 @@ function ajouterRecetteAuDiv(div, entree, index) {
     }
 }
 
+
+function ecrireTexteConteneur(texte, container, vitesse, callback) {
+    let index = 0;
+    function type() {
+        if (index < texte.length) {
+            container.textContent += texte.charAt(index);
+            index++;
+            setTimeout(type, vitesse);
+        } else {
+            if (callback) callback();        }
+    }
+    type();
+}
+
+const texte1 = "Des recettes personnalisées,";
+const texte2 = "des courses optimisées";
+const conteneur1 = document.querySelector('.phrase1'); 
+const conteneur2 = document.querySelector('.phrase2'); 
+
+if (conteneur1 && conteneur2) {
+    ecrireTexteConteneur(texte1, conteneur1, 50, () => {
+        ecrireTexteConteneur(texte2, conteneur2, 50);
+    });
+}
+
 majNombreEpicerie();
+

@@ -3,7 +3,22 @@ const buttons = document.querySelectorAll(".btn-recettes");
 const defilement  = document.getElementById("customRange1");
 const defilement_out = document.getElementById("montant-budget");
 const nombre_recette_panier = document.getElementById("notification-cart");
+const afficher_ecran_connexion_btn = document.querySelector(".login-btn");
+const connecterEnregistrerLien = document.querySelectorAll(".form-box .lien-creation-compte a");
+const afficher_ecran_enregistrer = document.querySelector(".formulaire-popup");
+
+const fermer_connexion_btn =  document.getElementById("fermer-connexion");
 let compteur = 0;
+
+
+connecterEnregistrerLien.forEach(link => {
+    link.addEventListener("click", (e) => {
+    e.preventDefault();
+    afficher_ecran_enregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
+    });
+});
+
+
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
 });
@@ -12,6 +27,16 @@ if (defilement != null && defilement_out != null) {
     defilement_out.innerHTML = defilement.value;
     defilement.oninput = function(){defilement_out.innerHTML = this.value;}
 }
+
+afficher_ecran_connexion_btn.addEventListener("click", () => {
+    document.body.classList.toggle("afficher-popup");
+
+});
+
+fermer_connexion_btn.addEventListener("click", () => {
+    document.body.classList.toggle("afficher-popup");
+});
+
 
 /**
  *
@@ -71,7 +96,6 @@ function creationMessageAlerte() {
     }
     message.style.top = topValue + "px";
     let div_alerte = document.getElementById('notif-succes').appendChild(message);
-    console.log(compteur);
     return div_alerte;
 }
 
@@ -90,12 +114,10 @@ function afficherSucces() {
     return child;
 }
 
-function enleverSucces(child) {
-    //alerte_id = document.getElementById('notif-succes');
+
+function enleverSucces(child){
     child.classList.add("alert-animation-enlever");
     child.classList.remove("alert-animation");
-    //alerte_id.classList.add("alert-animation-enlever");
-    //alerte_id.classList.remove("alert-animation");
 }
 
 

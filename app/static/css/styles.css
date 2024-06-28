@@ -374,8 +374,119 @@ input[type="range" i] {
 }
 
 .alert.alert-animation-enlever {
-    animation: enlever
+    animation: enlever_message 1.5s ease forwards;
 }
+
+@keyframes enlever_message {
+    0% {
+        transform: translateX(-10px);
+    }
+    40% {
+        transform: translateX(0%);
+    }
+    80% {
+        transform: translateX(-10%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.formulaire-popup {
+    position: fixed;
+    top:50%;
+    left:50%;
+    max-width: 720px;
+    width: 25%;
+    background: #9DC28B;
+    border: 2px solid #fff;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.1s ease;
+    border-radius: 10px;
+}
+
+.formulaire-popup .btn-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 2%;
+    cursor: pointer;
+}
+
+.afficher-popup .formulaire-popup {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease, opacity 0.1s;
+}
+.formulaire-popup .form-box  {
+    display: flex;
+
+}
+
+.form-box .form-details {
+    max-width: 330px;
+}
+
+.form-box h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-box .form-content {
+    width: 100%;
+    padding: 35px;
+}
+
+form .input-field {
+    height: 50px;
+    width: 100% !important;
+    margin-top:20px;
+}
+
+form .input-field {
+    height: 100%;
+    width: 100%;
+    font-size: 0.95rem;
+    border: 1px #717171;
+}
+
+.flou {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.1s ease;
+}
+
+.afficher-popup .flou  {
+    opacity: 1;
+    pointer-events: auto;
+}
+.formulaire-popup input {
+    width: 100%;
+}
+
+.formulaire-popup button{
+    width: 100%;
+
+}
+
+.formulaire-popup .sign-up,
+.formulaire-popup.afficher-enregistrer .login {
+    display: none;
+}
+
+.formulaire-popup.afficher-enregistrer .sign-up {
+    display : flex;
+}
+
 
 
 /* ***RECETTES*** */

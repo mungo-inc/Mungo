@@ -14,6 +14,11 @@
 }
 
 @font-face {
+    font-family: DMSerifDisplay-Italic;
+    src: url(../fonts/DM_Serif_Display/DMSerifDisplay-Italic.ttf);
+}
+
+@font-face {
     font-family: Inter-Bold;
     src: url(../fonts/Inter-Bold.otf);
 }
@@ -82,7 +87,7 @@ html, body {
 }
 
 .logo {
-    width: 185px;
+    width: 165px;
     padding-top: 50px;
     height: auto;
     display: block;
@@ -196,15 +201,22 @@ div.container-fluid, .col-2, .col-8, .row {}
     position: relative;
     left: -10%;
     font-family: FlinkBold;
-    font-size: 75px;
+    font-size: 65px;
     color: #FFFFFF;
     display: flex;
     justify-content: center;
 }
 
 div.message-acceuil {
-position: absolute; /* Position relative to the parent */
+    position: absolute;
     top: 10%;
+}
+p.phrase1 {
+    margin-top: 25px !important;
+}
+
+p.phrase1, p.phrase2 {
+    margin-bottom: 0 !important;
 }
 
 .cumstom-font {
@@ -212,19 +224,49 @@ position: absolute; /* Position relative to the parent */
 }
 
 .section-top .content {
-    max-width: 800px; /* Adjust as per your design */
+    max-width: 800px;
     margin: 0 auto;
-    color: #fff; /* Text color */
-    text-align: center; /* Center align text */
+    color: #fff; 
+    text-align: center;
     font-family: ;
 }
 
+.conteneur-parent {
+    width: 80%; /* Adjust width as needed */
+    margin: 0 auto; /* Center the parent container */
+}
+
+.section-milieu {
+    position: relative;
+    right: -8.333333%;
+    display: flex;
+    justify-content: space-between; /* Equal spacing around text and form */
+    align-items: center; /* Align items vertically at the start */
+    gap: 0; /* Adjust gap as needed */
+    max-width: 1200px; /* Adjust max-width as needed */
+    margin: 0 auto; /* Center the section-milieu */
+}
+
+.message-form {
+    width: 250px; /* Adjust width as needed */
+    font-family: FlinkBold;
+    font-size: 18px;
+}
+
+.font2 {
+ font-family: DMSerifDisplay-Italic; 
+ font-size: 19px
+}
+
+#form-accueil {
+    width: 45%; /* Adjust width as needed */
+}
 .col-10 form {
     background-color: #FFFFFF;
     width: 80%;   
-    max-width: 800px;    
+    max-width: 600px;    
     margin: 100px auto;    
-    padding: 25px;
+    padding: 35px 0;
     border-radius: 25px;
     display: flex;
     flex-direction: column;
@@ -289,7 +331,6 @@ html, body {
     --bs-btn-disabled-bg: transparent !important;
     --bs-btn-disabled-border-color: #383632 !important;
     --bs-gradient: none !important;
-
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 

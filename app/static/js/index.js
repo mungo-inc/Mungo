@@ -3,6 +3,22 @@ const retirerPanierButtons = document.getElementById("collapseOne");
 const defilement  = document.getElementById("customRange1");
 const defilement_out = document.getElementById("montant-budget");
 const nombre_recette_panier = document.getElementById("notification-cart");
+const afficher_ecran_connexion_btn = document.querySelector(".login-btn");
+const connecterEnregistrerLien = document.querySelectorAll(".form-box .lien-creation-compte a");
+const afficher_ecran_enregistrer = document.querySelector(".formulaire-popup");
+
+const fermer_connexion_btn =  document.getElementById("fermer-connexion");
+let compteur = 0;
+
+
+connecterEnregistrerLien.forEach(link => {
+    link.addEventListener("click", (e) => {
+    e.preventDefault();
+    afficher_ecran_enregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
+    });
+});
+
+
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
     majNombreEpicerie();
@@ -12,6 +28,16 @@ if (defilement != null && defilement_out != null) {
     defilement_out.innerHTML = defilement.value;
     defilement.oninput = function(){defilement_out.innerHTML = this.value;}
 }
+
+afficher_ecran_connexion_btn.addEventListener("click", () => {
+    document.body.classList.toggle("afficher-popup");
+
+});
+
+fermer_connexion_btn.addEventListener("click", () => {
+    document.body.classList.toggle("afficher-popup");
+});
+
 
 /**
  *
@@ -34,6 +60,7 @@ ajouterButtons.forEach(function(button) {
             let strongs = document.querySelectorAll('.accordion-body strong');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
         }
+        ajouterNombrePanier();
     });
 });
 
@@ -94,7 +121,6 @@ function ajouterElementPanier(strongs, index) {
     let aliments = document.querySelectorAll('.r' + recette_id);
     let ul = document.querySelectorAll('.accordion-body ul');
     listerAliment(ul, aliments, index);
-    afficherSucces();
     sauvegarderListeEpicerie();
     majNombreEpicerie();
     setTimeout(function(){
@@ -107,17 +133,51 @@ function ajouterCloseButton() {
     buttons[0].hidden = false;
 }
 
-function afficherSucces(){
-    alerte_id = document.getElementById('notif-succes');
-    alerte_id.hidden = false;
-    alerte_id.classList.add("alert-animation");
-    alerte_id.classList.remove("alert-animation-enlever");
+function ajouterNombrePanier() {
+    let child = afficherSucces();
+    incrementerNumeroRecette();
+        setTimeout(function(){
+        enleverSucces(child);
+        setTimeout(function(){
+             suppressionMessageAlerte(child);
+            compteur--;
+        }, 1500);
+    }, 5000);
 }
 
-function enleverSucces(){
-    alerte_id = document.getElementById('notif-succes');
-    alerte_id.classList.add("alert-animation-enlever");
-    alerte_id.classList.remove("alert-animation");
+function creationMessageAlerte() {
+    const message = document.createElement('p');
+    message.textContent = "La recette a été ajouté au panier."
+    message.classList.add("alert-success", "alert");
+    let topValue;
+    if (++compteur == 1) {
+         topValue = 15;
+    } else {
+         topValue = ((compteur - 1) * 60) + 15;
+    }
+    message.style.top = topValue + "px";
+    let div_alerte = document.getElementById('notif-succes').appendChild(message);
+    return div_alerte;
+}
+
+function suppressionMessageAlerte(child) {
+    document.getElementById('notif-succes').removeChild(child);
+}
+
+function afficherSucces() {
+    let child = creationMessageAlerte();
+    let alerte_id = document.getElementById('notif-succes');
+    alerte_id.hidden = false;
+    child.hidden = false;
+    child.classList.add("alert-animation");
+    child.classList.remove("alert-animation-enlever");
+    return child;
+}
+
+
+function enleverSucces(child){
+    child.classList.add("alert-animation-enlever");
+    child.classList.remove("alert-animation");
 }
 
 
@@ -142,6 +202,13 @@ function sauvegarderListeEpicerie() {
     let accordions = document.querySelectorAll('.accordion-body');
     let listeEpicerie = extraireListeEpicerie(accordions);
     localStorage.setItem('listeEpicerie', JSON.stringify(listeEpicerie));
+}
+
+function incrementerNumeroRecette(){
+    let recipeCount = localStorage.getItem('notification-cart') || 0;
+    recipeCount = parseInt(recipeCount) + 1;
+    localStorage.setItem('notification-cart', recipeCount);
+    majNombreEpicerie();
 }
 
 function majNombreEpicerie() {
@@ -228,3 +295,29 @@ function ajouterRecetteAuDiv(div, entree, index) {
         ul.append(li);
     }
 }
+
+function ecrireTexteConteneur(texte, container, vitesse, callback) {
+    let index = 0;
+    function type() {
+        if (index < texte.length) {
+            container.textContent += texte.charAt(index);
+            index++;
+            setTimeout(type, vitesse);
+        } else {
+            if (callback) callback();        }
+    }
+    type();
+}
+
+const texte1 = "Des recettes personnalisées,";
+const texte2 = "des courses optimisées";
+const conteneur1 = document.querySelector('.phrase1'); 
+const conteneur2 = document.querySelector('.phrase2'); 
+
+if (conteneur1 && conteneur2) {
+    ecrireTexteConteneur(texte1, conteneur1, 50, () => {
+        ecrireTexteConteneur(texte2, conteneur2, 50);
+    });
+}
+  
+majNombreEpicerie();

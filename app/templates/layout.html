@@ -66,9 +66,9 @@
             <ul id="liste-epicerie"></ul>
           </span>
           {% if current_user.is_authenticated %}
-          <a href="{{ url_for('logout')}}" type="submit" class="btn btn-primary logout-btn">Se déconnecter</a>
+          <a href="{{ url_for('logout')}}" type="submit" class="btn logout-btn">Se déconnecter</a>
           {% else %}
-          <button type="submit" class="btn btn-primary login-btn">Se connecter</button>
+          <button type="submit" class="btn login-btn">Se connecter</button>
           {% endif %}
         </div>
         {% block content %}{% endblock %}

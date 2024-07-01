@@ -375,6 +375,8 @@ input[type="range" i] {
 
 .accordion-body, strong {
     font-family: Pressura-Mono-Regular !important;
+    position: relative;
+    align-items: center;
 }
 
 #notification-cart {
@@ -438,6 +440,18 @@ input[type="range" i] {
     100% {
         transform: translateX(100%);
     }
+}
+
+
+.btn-close {
+    height: 0.3em !important;
+    width: 0.3em !important;
+    position: absolute;
+    vertical-align: middle;
+    right: 0 !important;
+    margin-top: 6px;
+    margin-right: 4px;
+    transition: height 0.2s ease;
 }
 
 .formulaire-popup {
@@ -565,4 +579,3 @@ div.liste-recettes {
     font-family: Pressura-Mono-Light;
     font-size: 18px;
 }
-

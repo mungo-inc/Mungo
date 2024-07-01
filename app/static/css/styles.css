@@ -63,8 +63,12 @@ html, body {
 
 .section-form h2 {
     font-family: FlinkBold;
-    padding-bottom: 3px; 
+    margin: 15px 0 5px 0 !important;
     font-size: 22px;
+}
+
+.col-sm-8 {
+    margin-bottom: 10px
 }
 
 @media (min-width: 1200px) {
@@ -245,11 +249,10 @@ p.phrase1, p.phrase2 {
 
 .section-milieu {
     position: relative;
-    right: -8.333333%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0; 
+    gap: 50px; 
     max-width: 1200px;
     margin: 0 auto; 
 }
@@ -257,12 +260,12 @@ p.phrase1, p.phrase2 {
 .message-form {
     width: 250px;
     font-family: FlinkBold;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .font2 {
  font-family: DMSerifDisplay-Italic; 
- font-size: 19px
+ font-size: 23px;
 }
 
 #form-accueil {
@@ -271,13 +274,14 @@ p.phrase1, p.phrase2 {
 .col-10 form {
     background-color: #FFFFFF;
     width: 80%;   
-    max-width: 600px;    
-    margin: 100px auto;    
+    width: 600px !important;    
+    margin: 50px auto;    
     padding: 35px 0;
     border-radius: 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;   
+    align-items: center;
     box-sizing: border-box;
     align-content: center;
 }
@@ -303,13 +307,9 @@ html, body {
     width: 80%; 
 }
 
-.section-form {
-    padding: 4%;
-}
-
 #customRange1 {
     appearance: none;
-    width: 80%;
+    width: 100%;
 }
 
 .list-recettes {
@@ -578,4 +578,9 @@ div.liste-recettes {
 .text-container p {
     font-family: Pressura-Mono-Light;
     font-size: 18px;
+}
+
+span#montant-budget {
+    display: flex;
+    justify-content: right;
 }

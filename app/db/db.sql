@@ -28,8 +28,8 @@ CREATE TABLE Critique (
 
 CREATE TABLE Client (
     ID_client INTEGER PRIMARY KEY AUTOINCREMENT,
-    Nom TEXT NOT NULL UNIQUE,
-    Mot_de_passe TEXT NOT NULL
+    courriel TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
 );
 
 CREATE TABLE Panier (

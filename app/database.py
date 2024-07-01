@@ -99,7 +99,6 @@ class Database:
         donnees_diete = []
         donnees_epicerie = []
         donnees_allergie = set(self.filtrer_par_allergie(allergies))
-        print(donnees_allergie)
         donnees_diete = set(self.filtrer_par_diete(dietes))
         donnees_epicerie = set(self.filtrer_par_epicerie(epiceries))
         donnees = donnees_epicerie & donnees_allergie & donnees_diete

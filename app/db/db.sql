@@ -27,9 +27,9 @@ CREATE TABLE Critique (
 );
 
 CREATE TABLE Client (
-    ID_client INTEGER PRIMARY KEY,
-    Nom TEXT NOT NULL,
-    Mot_de_passe TEXT NOT NULL
+    ID_client INTEGER PRIMARY KEY AUTOINCREMENT,
+    courriel TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
 );
 
 CREATE TABLE Panier (

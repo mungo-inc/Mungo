@@ -1037,3 +1037,6 @@ INSERT INTO Aliment_Allergie VALUES (151, 1);
 INSERT INTO Aliment_Allergie VALUES (152, 2);  
 INSERT INTO Aliment_Allergie VALUES (159, 1);  
 
+--Ajout de compte
+
+INSERT INTO CLIENT (courriel, password) VALUES ("admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");

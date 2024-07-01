@@ -1,19 +1,38 @@
+import os
 import re
-from flask import Flask 
-from flask import render_template 
-from flask import g 
-from flask import redirect 
-from flask import request
+from flask import Flask, render_template, g, redirect, request, session, url_for
+from flask_login import LoginManager, login_user, logout_user
+from flask_sqlalchemy import SQLAlchemy
 from .database import Database
-#from diete import Diete
-#from aliment import Aliment
-#from recette import Recette
-#import sqlite3
+import hashlib
+import sqlite3
 
 app = Flask(__name__, static_url_path="", static_folder="static")
+app.secret_key = 'tv75JvcA3y' 
+basedir = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(basedir, 'app', 'db', 'epicerie.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///../app/db/epicerie.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route('/')
+db = SQLAlchemy(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+from .client import Client
+
+@login_manager.user_loader
+def load_user(id_client):
+    return Client.query.get(id_client)
+
+@app.route('/', methods=['GET', 'POST'])
 def accueil():
+    if request.method == 'POST':
+        session.pop('user', None)
+
+        if request.form['password'] == 'password':
+            session['user'] =  request.form['courriel']
+            return render_template('index.html')
     return render_template('index.html')
 
 @app.route('/panier')
@@ -35,6 +54,7 @@ def recettes():
     # return render_template('recettes.html', recettes=recettes)
     print(recettes)
     return render_template('resultats.html', resultats=recettes)
+
 
 @app.route('/articles')
 def articles():
@@ -59,12 +79,51 @@ def search():
     return render_template('resultats.html', resultats=resultats)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('index.html')
+    elif request.method == 'POST':
+        courriel = request.form['courriel']
+        mot_passe = request.form['password'] 
+        mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
+        user = Client.query.filter_by(courriel=courriel).first()
+        
+        if user and user.password == mot_passe_crypte:
+            login_user(user)
+            return redirect('/')
+
+    return  redirect("/")
+
+
+@app.route('/register', methods=['GET' , 'POST'])
+def register():
+    if request.method  ==  'GET':
+        return render_template('index.html')
+    elif request.method ==  'POST':
+
+        courriel = request.form['courriel']
+        mot_passe = request.form['password'] 
+        mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
+
+        client = Client(courriel = courriel, password = mot_passe_crypte)
+
+        db.session.add(client)
+        db.session.commit()
+
+    return redirect('/')
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
+
 def construire_recette(donnees):
     recettes = {}
     recettes["nom"] = donnees[0]
 
     return recettes
-  
+
 class Allergie():
     def __init__(self, id, nom) -> None:
         pass

@@ -69,7 +69,7 @@ html, body {
 
 @media (min-width: 1200px) {
   .Titre h1 {
-    font-size: 75px; /* Set a fixed font size for larger screens */
+    font-size: 75px;
   }
 }
 
@@ -84,6 +84,13 @@ html, body {
     .Titre h1 {
         font-size: 10vw;    
     }
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 .logo {
@@ -232,23 +239,23 @@ p.phrase1, p.phrase2 {
 }
 
 .conteneur-parent {
-    width: 80%; /* Adjust width as needed */
-    margin: 0 auto; /* Center the parent container */
+    width: 80%; 
+    margin: 0 auto;
 }
 
 .section-milieu {
     position: relative;
     right: -8.333333%;
     display: flex;
-    justify-content: space-between; /* Equal spacing around text and form */
-    align-items: center; /* Align items vertically at the start */
-    gap: 0; /* Adjust gap as needed */
-    max-width: 1200px; /* Adjust max-width as needed */
-    margin: 0 auto; /* Center the section-milieu */
+    justify-content: space-between;
+    align-items: center;
+    gap: 0; 
+    max-width: 1200px;
+    margin: 0 auto; 
 }
 
 .message-form {
-    width: 250px; /* Adjust width as needed */
+    width: 250px;
     font-family: FlinkBold;
     font-size: 18px;
 }
@@ -259,7 +266,7 @@ p.phrase1, p.phrase2 {
 }
 
 #form-accueil {
-    width: 45%; /* Adjust width as needed */
+    width: 45%; 
 }
 .col-10 form {
     background-color: #FFFFFF;
@@ -337,23 +344,23 @@ html, body {
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px; /* Customize the thumb size if necessary */
+    width: 20px;
     height: 20px;
-    background:  #9DC28B; /* Change the color here */
+    background:  #9DC28B;
     cursor: pointer;
-    border-radius: 50%; /* Optional: to make the thumb round */
-    border: 2px solid #9DC28B; /* Optional: to add a border */
+    border-radius: 50%;
+    border: 2px solid #9DC28B;
 }
 
 input[type=range]::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px; /* Customize the thumb size if necessary */
+    width: 20px;
     height: 20px;
-    background:  #9DC28B; /* Change the color here */
+    background:  #9DC28B;
     cursor: pointer;
-    border-radius: 50%; /* Optional: to make the thumb round */
-    border: 2px solid #9DC28B; /* Optional: to add a border */
+    border-radius: 50%;
+    border: 2px solid #9DC28B;
 }
 
 input[type="range" i] {
@@ -362,7 +369,7 @@ input[type="range" i] {
 
 #basket {
     color: #33302B;
-    width: 1.8em; /* Customize the thumb size if necessary */
+    width: 1.8em;
     height: 1.8em;
 }
 
@@ -538,14 +545,14 @@ div.text-container.list-recettes {
     justify-content: center;
     box-sizing: border-box;
     align-content: center;
-    width: 300px; /* Adjusting width to fit 3 columns with some spacing */
-    margin: 10px; /* Adding margin for spacing between columns */
+    width: 300px;
+    margin: 10px;
 }
 
 div.liste-recettes {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Adjusting spacing between columns */
+    justify-content: space-between;
 }
 
 .conteneur-recettes {

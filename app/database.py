@@ -191,3 +191,59 @@ class Database:
         
         return resultat
 
+    def construire_tableau_epicerie(self, id):
+        query = (
+            """
+            SELECT id_epicerie
+            FROM Client_Epicerie
+            WHERE id_client = ?
+            """
+        )
+        curseur = self.get_connection().cursor()
+        curseur.execute(query, (id,))
+        donnees = curseur.fetchall()
+        
+        resultat = []
+
+        for id_epicerie in donnees:
+            resultat.append(id_epicerie[0])
+
+        return resultat
+
+    def construire_tableau_diete(self, id):
+        query = (
+            """
+            SELECT id_diete
+            FROM Client_Diete
+            WHERE id_client = ?
+            """
+        )
+        curseur = self.get_connection().cursor()
+        curseur.execute(query, (id,))
+        donnees = curseur.fetchall()
+        
+        resultat = []
+
+        for id_diete in donnees:
+            resultat.append(id_diete[0])
+
+        return resultat
+
+    def construire_tableau_allergie(self, id):
+        query = (
+            """
+            SELECT id_allergie
+            FROM Client_Allergie
+            WHERE id_client = ?
+            """
+        )
+        curseur = self.get_connection().cursor()
+        curseur.execute(query, (id,))
+        donnees = curseur.fetchall()
+        
+        resultat = []
+
+        for id_allergie in donnees:
+            resultat.append(id_allergie[0])
+
+        return resultat

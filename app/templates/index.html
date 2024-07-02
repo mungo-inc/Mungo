@@ -30,35 +30,35 @@
                     <div class="section-form">
                         <h2>Allergies</h2>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="0" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="0" name="allergie" {% if 0 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox5">Arachide</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="1" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="1" name="allergie" {% if 1 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox6">Lactose</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="2" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="2" name="allergie" {% if 2 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox7">Gluten</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" value="3" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" value="3" name="allergie" {% if 3 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox8">Poisson</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox16" value="4" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox16" value="4" name="allergie" {% if 4 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox16">Fruit de mer</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="5" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="5" name="allergie" {% if 5 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox17">Oeuf</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox18" value="6" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox18" value="6" name="allergie" {% if 6 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox18">Soja</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox19" value="7" name="allergie">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox19" value="7" name="allergie" {% if 7 in liste_allergie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox19">Sésame</label>
                         </div>
 
@@ -66,31 +66,31 @@
                     <div class="section-form">
                         <h2>Diètes</h2>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox9" value="0" name="diete" checked>
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox9" value="0" name="diete" {%if 0 in liste_diete %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox9">Omnivore</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox10" value="1" name="diete">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox10" value="1" name="diete" {%if 1 in liste_diete %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox10">Végétarienne</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox11" value="2" name="diete">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox11" value="2" name="diete" {%if 2 in liste_diete %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox11">Végétalienne</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox12" value="3" name="diete">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox12" value="3" name="diete" {%if 3 in liste_diete %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox12">Paléo</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox13" value="4" name="diete">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox13" value="4" name="diete" {%if 4 in liste_diete %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox13">Pesco-végétarienne</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox14" value="5" name="diete">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox14" value="5" name="diete" {%if 5 in liste_diete %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox14">Ovo-lacto-végétarienne</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox15" value="6" name="diete">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox15" value="6" name="diete" {%if 6 in liste_diete %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox15">Lacto-végétarisme</label>
                         </div>
                     </div>

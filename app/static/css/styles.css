@@ -14,6 +14,11 @@
 }
 
 @font-face {
+    font-family: DMSerifDisplay-Italic;
+    src: url(../fonts/DM_Serif_Display/DMSerifDisplay-Italic.ttf);
+}
+
+@font-face {
     font-family: Inter-Bold;
     src: url(../fonts/Inter-Bold.otf);
 }
@@ -58,13 +63,17 @@ html, body {
 
 .section-form h2 {
     font-family: FlinkBold;
-    padding-bottom: 3px; 
+    margin: 15px 0 5px 0 !important;
     font-size: 22px;
+}
+
+.col-sm-8 {
+    margin-bottom: 10px
 }
 
 @media (min-width: 1200px) {
   .Titre h1 {
-    font-size: 75px; /* Set a fixed font size for larger screens */
+    font-size: 75px;
   }
 }
 
@@ -81,8 +90,15 @@ html, body {
     }
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+}
+
 .logo {
-    width: 185px;
+    width: 165px;
     padding-top: 50px;
     height: auto;
     display: block;
@@ -196,15 +212,22 @@ div.container-fluid, .col-2, .col-8, .row {}
     position: relative;
     left: -10%;
     font-family: FlinkBold;
-    font-size: 75px;
+    font-size: 65px;
     color: #FFFFFF;
     display: flex;
     justify-content: center;
 }
 
 div.message-acceuil {
-position: absolute; /* Position relative to the parent */
+    position: absolute;
     top: 10%;
+}
+p.phrase1 {
+    margin-top: 25px !important;
+}
+
+p.phrase1, p.phrase2 {
+    margin-bottom: 0 !important;
 }
 
 .cumstom-font {
@@ -212,23 +235,53 @@ position: absolute; /* Position relative to the parent */
 }
 
 .section-top .content {
-    max-width: 800px; /* Adjust as per your design */
+    max-width: 800px;
     margin: 0 auto;
-    color: #fff; /* Text color */
-    text-align: center; /* Center align text */
+    color: #fff; 
+    text-align: center;
     font-family: ;
 }
 
+.conteneur-parent {
+    width: 80%; 
+    margin: 0 auto;
+}
+
+.section-milieu {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px; 
+    max-width: 1200px;
+    margin: 0 auto; 
+}
+
+.message-form {
+    width: 250px;
+    font-family: FlinkBold;
+    font-size: 22px;
+}
+
+.font2 {
+ font-family: DMSerifDisplay-Italic; 
+ font-size: 23px;
+}
+
+#form-accueil {
+    width: 45%; 
+}
 .col-10 form {
     background-color: #FFFFFF;
     width: 80%;   
-    max-width: 800px;    
-    margin: 100px auto;    
-    padding: 25px;
+    width: 600px !important;    
+    margin: 50px auto;    
+    padding: 35px 0;
     border-radius: 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;   
+    align-items: center;
     box-sizing: border-box;
     align-content: center;
 }
@@ -254,13 +307,9 @@ html, body {
     width: 80%; 
 }
 
-.section-form {
-    padding: 4%;
-}
-
 #customRange1 {
     appearance: none;
-    width: 80%;
+    width: 100%;
 }
 
 .list-recettes {
@@ -289,30 +338,29 @@ html, body {
     --bs-btn-disabled-bg: transparent !important;
     --bs-btn-disabled-border-color: #383632 !important;
     --bs-gradient: none !important;
-
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px; /* Customize the thumb size if necessary */
+    width: 20px;
     height: 20px;
-    background:  #9DC28B; /* Change the color here */
+    background:  #9DC28B;
     cursor: pointer;
-    border-radius: 50%; /* Optional: to make the thumb round */
-    border: 2px solid #9DC28B; /* Optional: to add a border */
+    border-radius: 50%;
+    border: 2px solid #9DC28B;
 }
 
 input[type=range]::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px; /* Customize the thumb size if necessary */
+    width: 20px;
     height: 20px;
-    background:  #9DC28B; /* Change the color here */
+    background:  #9DC28B;
     cursor: pointer;
-    border-radius: 50%; /* Optional: to make the thumb round */
-    border: 2px solid #9DC28B; /* Optional: to add a border */
+    border-radius: 50%;
+    border: 2px solid #9DC28B;
 }
 
 input[type="range" i] {
@@ -321,12 +369,14 @@ input[type="range" i] {
 
 #basket {
     color: #33302B;
-    width: 1.8em; /* Customize the thumb size if necessary */
+    width: 1.8em;
     height: 1.8em;
 }
 
 .accordion-body, strong {
     font-family: Pressura-Mono-Regular !important;
+    position: relative;
+    align-items: center;
 }
 
 #notification-cart {
@@ -390,6 +440,18 @@ input[type="range" i] {
     100% {
         transform: translateX(100%);
     }
+}
+
+
+.btn-close {
+    height: 0.3em !important;
+    width: 0.3em !important;
+    position: absolute;
+    vertical-align: middle;
+    right: 0 !important;
+    margin-top: 6px;
+    margin-right: 4px;
+    transition: height 0.2s ease;
 }
 
 .formulaire-popup {
@@ -497,14 +559,14 @@ div.text-container.list-recettes {
     justify-content: center;
     box-sizing: border-box;
     align-content: center;
-    width: 300px; /* Adjusting width to fit 3 columns with some spacing */
-    margin: 10px; /* Adding margin for spacing between columns */
+    width: 300px;
+    margin: 10px;
 }
 
 div.liste-recettes {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Adjusting spacing between columns */
+    justify-content: space-between;
 }
 
 .conteneur-recettes {
@@ -518,3 +580,7 @@ div.liste-recettes {
     font-size: 18px;
 }
 
+span#montant-budget {
+    display: flex;
+    justify-content: right;
+}

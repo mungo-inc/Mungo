@@ -247,16 +247,4 @@ if (conteneur1 && conteneur2) {
     });
 }
 
-
-function afficherPreferenceAllergie(){
-    let div_allergie = document.getElementsByClassName("form-input-allergie");
-    condition = true;
-    for (let i = 0; i < div_allergie.length; i++) {
-        if (condition) {
-            div_allergie[i].checked = true; 
-        }
-    }
-}
-
-afficherPreferenceAllergie();
 majNombreEpicerie();

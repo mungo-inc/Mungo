@@ -1,12 +1,14 @@
 import os
 import re
 from flask import Flask, render_template, g, redirect, request, session, url_for
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user, user_logged_in
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql.functions import current_user
 from .database import Database
 import hashlib
 import sqlite3
 
+client_id = None
 app = Flask(__name__, static_url_path="", static_folder="static")
 app.secret_key = 'tv75JvcA3y' 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -23,16 +25,16 @@ from .client import Client
 
 @login_manager.user_loader
 def load_user(id_client):
-    return Client.query.get(id_client)
+    return Client.query.get(int(id_client))
 
 @app.route('/', methods=['GET', 'POST'])
 def accueil():
     if request.method == 'POST':
         session.pop('user', None)
-
         if request.form['password'] == 'password':
-            session['user'] =  request.form['courriel']
+            session['user'] = request.form['courriel']
             return render_template('index.html')
+
     return render_template('index.html')
 
 @app.route('/panier')
@@ -88,9 +90,10 @@ def login():
         mot_passe = request.form['password'] 
         mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
         user = Client.query.filter_by(courriel=courriel).first()
-        
+
         if user and user.password == mot_passe_crypte:
             login_user(user)
+            client_id = Client.get_id(user)
             return redirect('/')
 
     return  redirect("/")
@@ -114,15 +117,27 @@ def register():
     return redirect('/')
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
+    client_id = None
     return redirect('/')
+
+
+
 
 def construire_recette(donnees):
     recettes = {}
     recettes["nom"] = donnees[0]
 
     return recettes
+
+def construire_tableau_allergie(id):
+    query = ""
+
+
+
+    return True
 
 class Allergie():
     def __init__(self, id, nom) -> None:

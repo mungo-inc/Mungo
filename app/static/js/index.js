@@ -30,10 +30,13 @@ if (defilement != null && defilementOut != null) {
     defilement.oninput = function(){defilementOut.innerHTML = this.value;}
 }
 
-afficherEcranConnexionBtn.addEventListener("click", () => {
-    document.body.classList.toggle("afficher-popup");
-
-});
+if (afficherEcranConnexionBtn) {
+    afficherEcranConnexionBtn.addEventListener("click", () => {
+        document.body.classList.toggle("afficher-popup");
+    });
+} else {
+    console.error("Element with class 'login-btn' not found.");
+}
 
 fermerConnexionBtn.addEventListener("click", () => {
     document.body.classList.toggle("afficher-popup");

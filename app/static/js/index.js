@@ -7,14 +7,14 @@ const afficher_ecran_connexion_btn = document.querySelector(".login-btn");
 const connecterEnregistrerLien = document.querySelectorAll(".form-box .lien-creation-compte a");
 const afficher_ecran_enregistrer = document.querySelector(".formulaire-popup");
 
-const fermer_connexion_btn =  document.getElementById("fermer-connexion");
+const fermer_connexion_btn = document.getElementById("fermer-connexion");
 let compteur = 0;
 
 
 connecterEnregistrerLien.forEach(link => {
     link.addEventListener("click", (e) => {
-    e.preventDefault();
-    afficher_ecran_enregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
+        e.preventDefault();
+        afficher_ecran_enregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
     });
 });
 
@@ -47,9 +47,10 @@ ajouterButtons.forEach(function(button) {
         let strongs = document.querySelectorAll('.accordion-body strong');
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
             ajouterElementPanier.call(this, strongs, 0);
-            ajouterCloseButton();
+            montrerButton('btn-close');
+            montrerButton('btn-vider');
         } else {
-            let div = document.getElementById('collapseOne');
+            let div = document.getElementById('accordion-content');
             div.innerHTML += `
                 <div class="accordion-body">
                     <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
@@ -85,6 +86,10 @@ function estCloseButtonAliment(target) {
    return target.classList.contains('btn-close-aliment');
 }
 
+function estViderButton(target) {
+    return target.classList.contains('btn-vider');
+}
+
 function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     let recette = listeEpicerie.find(r => r.recette === nomRecette);
     index = listeEpicerie.indexOf(recette);
@@ -95,7 +100,7 @@ function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     sauvegarderListeEpicerie();
     majNombreEpicerie();
     if (listeEpicerie.length === 0) {
-        afficherAucunItem(document.getElementById('collapseOne'));
+        afficherAucunItem(document.getElementById('accordion-content'));
     }
 }
 
@@ -128,9 +133,9 @@ function ajouterElementPanier(strongs, index) {
     }, 5000);
 }
 
-function ajouterCloseButton() {
-    let buttons = document.getElementsByClassName('btn-close');
-    buttons[0].hidden = false;
+function montrerButton(className) {
+    let button = document.getElementsByClassName(className);
+    button[0].hidden = false;
 }
 
 function ajouterNombrePanier() {
@@ -257,9 +262,9 @@ function chargerListeLocale() {
 }
 
 function afficherListeEpicerie(listeEpicerie) {
-    let div = document.getElementById('collapseOne');
+    // let div = document.getElementById('collapseOne');
+    let div = document.getElementById('accordion-content');
     div.innerHTML = '';
-    
     if (listeEpicerie.length === 0) {
         afficherAucunItem(div);
     } else {
@@ -276,6 +281,8 @@ function afficherAucunItem(div) {
             <strong>Aucun item</strong>
             <ul></ul>
         </div>`;
+    let button = document.getElementsByClassName('btn-vider');
+    button[0].hidden = true;
 }
 
 function ajouterRecetteAuDiv(div, entree, index) {

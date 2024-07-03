@@ -15,3 +15,6 @@ class Client(db.Model, UserMixin):
 
     def get_id(self):
         return str(self.id_client)
+
+    def get_courriel(self):
+        return str(self.courriel)

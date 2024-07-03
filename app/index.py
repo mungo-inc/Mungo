@@ -34,7 +34,7 @@ def load_user(id_client):
 def accueil():
     liste_allergie = []
     liste_diete = [0]
-    # liste_epicerie = []
+    liste_epicerie = [0, 1, 2]
     if request.method == 'POST':
         session.pop('user', None)
         if request.form['password'] == 'password':
@@ -45,11 +45,12 @@ def accueil():
         db = Database('app/db/epicerie.db')
         liste_allergie = db.construire_tableau_allergie(current_user.get_id())
         liste_diete = db.construire_tableau_diete(current_user.get_id())
-        # liste_epicerie = db.construire_tableau_epicerie
+        liste_epicerie = db.construire_tableau_epicerie(current_user.get_id())
         # (current_user.get_id())
     return render_template('index.html',
                            liste_allergie=liste_allergie,
-                           liste_diete=liste_diete)
+                           liste_diete=liste_diete,
+                           liste_epicerie=liste_epicerie)
 
 
 @app.route('/panier')
@@ -59,7 +60,20 @@ def panier():
 
 @app.route('/profil')
 def profil():
-    return render_template('profil.html')
+    liste_allergie = []
+    liste_diete = [0]
+    liste_epicerie = [0, 1, 2]
+
+    if current_user.is_authenticated:
+        db = Database('app/db/epicerie.db')
+        liste_allergie = db.construire_tableau_allergie(current_user.get_id())
+        liste_diete = db.construire_tableau_diete(current_user.get_id())
+        liste_epicerie = db.construire_tableau_epicerie(current_user.get_id())
+
+    return render_template('profil.html',
+                           liste_allergie=liste_allergie,
+                           liste_diete=liste_diete,
+                           liste_epicerie=liste_epicerie)
 
 
 @app.route('/compagnie')
@@ -83,6 +97,21 @@ def articles():
     return render_template('articles.html', articles=articles)
 
 
+@app.route('/profil-modification', methods=['GET', 'POST'])
+def modifier_preference():
+    db = Database('app/db/epicerie.db')
+    db.get_connection()
+    epiceries = request.args.getlist('epicerie')
+    allergies = request.args.getlist('allergie')
+    dietes = request.args.getlist('diete')
+    courriel = current_user.get_courriel()
+    db.creation_requete_diete(courriel, dietes)
+    db.creation_requete_epicerie(courriel, epiceries)
+    db.creation_requete_allergie(courriel, allergies)
+
+    return redirect('/profil')
+
+
 @app.route('/search', methods=['GET'])
 def search():
     db = Database('app/db/epicerie.db')
@@ -95,7 +124,6 @@ def search():
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
     resultats = db.avoir_recettes(allergies, dietes, epiceries)
-    print("Donnee")
     print(resultats)
     return render_template('resultats.html', resultats=resultats)
 
@@ -133,7 +161,8 @@ def register():
         db.session.commit()
         db_dur = Database('app/db/epicerie.db')
         db_dur.get_connection()
-        db_dur.creation_requete_diete(courriel, 0)
+        db_dur.creation_requete_diete(courriel, [0])
+        db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
 
     return redirect('/')
 

@@ -264,7 +264,7 @@ class Database:
 
         return resultat
 
-    def creation_requete_diete(self, courriel, id_diete):
+    def creation_requete_diete(self, courriel, t_diete):
         query = (
             """
                 SELECT id_client
@@ -278,13 +278,44 @@ class Database:
 
         query = (
             """
-                INSERT INTO Client_Diete VALUES (?, ?)
+                SELECT  id_diete
+                FROM    Client_Diete
+                WHERE   id_client = ?
             """
         )
-        curseur.execute(query, (donnees[0], id_diete))
-        self.get_connection().commit()
+        curseur.execute(query, (donnees[0],))
+        donnees_diete = curseur.fetchall()
+        resultat_diete = []
 
-    def creation_requete_allergie(self, courriel, id_allergie):
+        for id_diete in donnees_diete:
+            resultat_diete.append(id_diete[0])
+        set_diete = set(t_diete)
+        set_db = set(resultat_diete)
+        ensemble_diff = list(set_db - set_diete)
+
+        for id_diete in ensemble_diff:
+            query = (
+                """
+                    DELETE
+                    FROM Client_Diete
+                    WHERE id_client = ? AND id_diete = ?
+                """
+            )
+            curseur.execute(query, (donnees[0], id_diete))
+            self.get_connection().commit()
+
+        for id_diete in t_diete:
+            if id_diete not in resultat_diete:
+
+                query = (
+                    """
+                        INSERT INTO Client_Diete VALUES (?, ?)
+                    """
+                )
+            curseur.execute(query, (donnees[0], id_diete))
+            self.get_connection().commit()
+
+    def creation_requete_allergie(self, courriel, t_allergie):
         query = (
             """
                 SELECT id_client
@@ -298,8 +329,91 @@ class Database:
 
         query = (
             """
-                INSERT INTO Client_Allergie VALUES (?, ?)
+                SELECT  id_allergie
+                FROM    Client_Allergie
+                WHERE   id_client = ?
             """
         )
-        curseur.execute(query, (donnees[0], id_allergie))
-        self.get_connection().commit()
+        curseur.execute(query, (donnees[0],))
+        donnees_allergie = curseur.fetchall()
+        resultat_allergie = []
+
+        for id_allergie in donnees_allergie:
+            resultat_allergie.append(id_allergie[0])
+
+        set_allergie = set(t_allergie)
+        set_db = set(resultat_allergie)
+        ensemble_diff = list(set_db - set_allergie)
+
+        for id_allergie in ensemble_diff:
+            query = (
+                """
+                    DELETE
+                    FROM Client_Allergie
+                    WHERE id_client = ? AND id_allergie = ?
+                """
+            )
+            curseur.execute(query, (donnees[0], id_allergie))
+            self.get_connection().commit()
+
+        for id_allergie in t_allergie:
+            if id_allergie not in resultat_allergie:
+
+                query = (
+                    """
+                        INSERT INTO Client_Allergie VALUES (?, ?)
+                    """
+                )
+            curseur.execute(query, (donnees[0], id_allergie))
+            self.get_connection().commit()
+
+    def creation_requete_epicerie(self, courriel, t_epicerie):
+        query = (
+            """
+                SELECT id_client
+                FROM    Client
+                WHERE   courriel = ?
+            """
+        )
+        curseur = self.get_connection().cursor()
+        curseur.execute(query, (courriel, ))
+        donnees = curseur.fetchone()
+
+        query = (
+            """
+                SELECT  id_epicerie
+                FROM    Client_Epicerie
+                WHERE   id_client = ?
+            """
+        )
+        curseur.execute(query, (donnees[0],))
+        donnees_epicerie = curseur.fetchall()
+        resultat_epicerie = []
+
+        for id_epicerie in donnees_epicerie:
+            resultat_epicerie.append(str(id_epicerie[0]))
+
+        set_epicerie = set(t_epicerie)
+        set_db = set(resultat_epicerie)
+        ensemble_diff = list(set_db - set_epicerie)
+
+        for id_epicerie in ensemble_diff:
+            query = (
+                 """
+                    DELETE
+                    FROM Client_Epicerie
+                    WHERE id_client = ? AND id_epicerie = ?
+                """
+            )
+            curseur.execute(query, (donnees[0], id_epicerie))
+            self.get_connection().commit()
+
+        for id_epicerie in t_epicerie:
+            if id_epicerie not in resultat_epicerie:
+                query = (
+                    """
+                        INSERT INTO Client_Epicerie VALUES (?, ?)
+                    """
+                )
+                curseur.execute(query, (donnees[0], id_epicerie))
+                self.get_connection().commit()

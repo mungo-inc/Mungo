@@ -109,3 +109,9 @@ CREATE TABLE Aliment_Allergie (
     FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),
     FOREIGN KEY (ID_allergie) REFERENCES Allergie(ID_allergie)
 );
+
+CREATE TABLE Client_Epicerie (
+    ID_Client INTEGER,
+    ID_Epicerie INTEGER,
+    PRIMARY KEY (ID_client, ID_epicerie)
+);

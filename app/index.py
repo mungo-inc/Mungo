@@ -131,6 +131,9 @@ def register():
 
         db.session.add(client)
         db.session.commit()
+        db_dur = Database('app/db/epicerie.db')
+        db_dur.get_connection()
+        db_dur.creation_requete_diete(courriel, 0)
 
     return redirect('/')
 

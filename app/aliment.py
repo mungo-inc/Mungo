@@ -7,22 +7,21 @@ class Aliment():
         self.nom = nom
         self.epicerie_id = epicerie_id
 
-    
     def __eq__(self, other):
         """
-        Redéfinition de l’opérateur “==” qui vérifie les IDs des aliments comme comparaison.
+        Redéfinition de l’opérateur “==” qui vérifie
+        les IDs des aliments comme comparaison.
         """
         if isinstance(other, Aliment):
             return self.id == other.id
         return False
 
-
     def __str__(self):
         """
         Cette fonction permet d’afficher un objet Aliment en string.
         """
-        return f'\n\t(id: {self.id}, nom: {self.nom}, epicerie: {self.epicerie_id})\n'
-    
+        return f'''\n\t(id: {self.id}, nom: {self.nom},
+        epicerie: {self.epicerie_id})\n'''
 
     def __repr__(self) -> str:
         """
@@ -30,10 +29,9 @@ class Aliment():
         """
         return str(self)
 
-
     def __hash__(self):
         """
-        Cette fonction permet d’utiliser l’ID de l’objet Aliment pour la fonction de hachage.
+        Cette fonction permet d’utiliser l’ID de
+        l’objet Aliment pour la fonction de hachage.
         """
         return hash(self.id)
-

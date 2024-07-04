@@ -54,6 +54,7 @@ ajouterButtons.forEach(function(button) {
             ajouterElementPanier.call(this, strongs, 0);
             montrerButton('btn-close');
             montrerButton('btn-vider');
+            montrerButton('save-list-btn');
         } else {
             let div = document.getElementById('accordion-content');
             div.innerHTML += `
@@ -89,7 +90,7 @@ viderPanierButton.addEventListener("click", function() {
     let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
     while (listeEpicerie.length) {
         let parents = document.getElementsByClassName('accordion-body');
-        retirerRecettes(parents[0], listeEpicerie, listeEpicerie[0].recette);
+        retirerRecettes(parents[0], listeEpicerie, listeEpicerie[0].nomRecette);
     }
 });
 
@@ -116,15 +117,17 @@ function estCloseButtonAliment(target) {
 }
 
 function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
-    let recette = listeEpicerie.find(r => r.recette === nomRecette);
-    index = listeEpicerie.indexOf(recette);
+    let recette = listeEpicerie.find(r => r.nomRecette === nomRecette);
+    let index = listeEpicerie.indexOf(recette);
     if (index > -1) {
         listeEpicerie.splice(index, 1);
     }
     parentElem.remove();
     sauvegarderListeEpicerie();
     majNombreEpicerie();
+    console.log("La");
     if (listeEpicerie.length === 0) {
+        console.log("Ici");
         afficherAucunItem(document.getElementById('accordion-content'));
     }
 }
@@ -280,7 +283,6 @@ function extraireItems(accordion) {
     for (let j = 0; j < lis.length; j++) {
         items.push({ id: lis[j].getAttribute('id-aliment'), nom: lis[j].textContent });
     }
-    console.log(items);
     return items;
 }
 
@@ -318,6 +320,8 @@ function afficherAucunItem(div) {
             <ul></ul>
         </div>`;
     let button = document.getElementsByClassName('btn-vider');
+    let saveButton = document.getElementById('save-list-btn');
+    saveButton.hidden = true;
     button[0].hidden = true;
 }
 

@@ -98,14 +98,25 @@ sauvegarderButton.addEventListener("click", function() {
     let accordionBodies = document.querySelectorAll('.accordion-body');
     let listeASauvegarder = [];
     accordionBodies.forEach(body => {
-        let recetteNom = body.querySelector('strong').textContent;
+        let nomRecette = body.querySelector('strong').textContent;
         let lis = body.querySelectorAll('li');
         aliments = [];
         lis.forEach(li => {
-            aliments.push(li.textContent.trim());
+            aliments.push({
+                id: li.getAttribute('id-aliment'), 
+                nom: li.textContent.trim() 
+            });
         });
+        listeASauvegarder.push({nom: nomRecette, aliments: aliments})
     });
-
+    fetch('/sauvegarder-liste', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(listeASauvegarder)
+    })
+    .then(response => response.json())
 });
 
 function estCloseButtonRecette(target) {
@@ -125,9 +136,7 @@ function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     parentElem.remove();
     sauvegarderListeEpicerie();
     majNombreEpicerie();
-    console.log("La");
     if (listeEpicerie.length === 0) {
-        console.log("Ici");
         afficherAucunItem(document.getElementById('accordion-content'));
     }
 }

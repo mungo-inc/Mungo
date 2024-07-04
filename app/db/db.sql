@@ -1,7 +1,9 @@
 CREATE TABLE Aliment (
     ID_aliment INTEGER PRIMARY KEY,
     Nom TEXT NOT NULL,
-    Type TEXT NOT NULL
+    Type TEXT NOT NULL,
+    Quantite TEXT NOT NULL,
+    Prix REAL NOT NULL
 );
 
 CREATE TABLE Recette (
@@ -13,6 +15,7 @@ CREATE TABLE Recette (
 CREATE TABLE Aliment_Recette (
     ID_aliment INTEGER,
     ID_recette INTEGER,
+    Quantite   REAL,
     PRIMARY KEY (ID_aliment, ID_recette),
     FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),
     FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)

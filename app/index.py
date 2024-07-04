@@ -4,6 +4,7 @@ from flask import Flask, render_template
 from flask import g, redirect, request, session, url_for
 from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, user_logged_in, current_user
+from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 from .database import Database
 import hashlib
@@ -85,8 +86,6 @@ def compagnie():
 def recettes():
     db = Database('app/db/epicerie.db')
     recettes = db.get_recettes()
-    # return render_template('recettes.html', recettes=recettes)
-    print(recettes)
     return render_template('resultats.html', resultats=recettes)
 
 
@@ -109,6 +108,7 @@ def modifier_preference():
     db.creation_requete_epicerie(courriel, epiceries)
     db.creation_requete_allergie(courriel, allergies)
 
+    flash("Les préférences ont bien été modifié.")
     return redirect('/profil')
 
 

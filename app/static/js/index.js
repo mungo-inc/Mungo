@@ -65,9 +65,11 @@ ajouterButtons.forEach(function(button) {
             let strongs = document.querySelectorAll('.accordion-body strong');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
         }
-        ajouterNombrePanier();
+        let message = "La recette a été ajouté au panier."
+        ajouterNombrePanier(message);
     });
 });
+
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
@@ -149,8 +151,8 @@ function montrerButton(className) {
     button[0].hidden = false;
 }
 
-function ajouterNombrePanier() {
-    let child = afficherSucces();
+function ajouterNombrePanier(message) {
+    let child = afficherSucces(message);
     incrementerNumeroRecette();
         setTimeout(function(){
         enleverSucces(child);
@@ -161,9 +163,9 @@ function ajouterNombrePanier() {
     }, 5000);
 }
 
-function creationMessageAlerte() {
+function creationMessageAlerte(messageSucces) {
     const message = document.createElement('p');
-    message.textContent = "La recette a été ajouté au panier."
+    message.textContent = messageSucces;
     message.classList.add("alert-success", "alert");
     let topValue;
     if (++compteur == 1) {
@@ -172,16 +174,16 @@ function creationMessageAlerte() {
          topValue = ((compteur - 1) * 60) + 15;
     }
     message.style.top = topValue + "px";
-    let div_alerte = document.getElementById('notif-succes').appendChild(message);
-    return div_alerte;
+    let divAlerte = document.getElementById('notif-succes').appendChild(message);
+    return divAlerte;
 }
 
 function suppressionMessageAlerte(child) {
     document.getElementById('notif-succes').removeChild(child);
 }
 
-function afficherSucces() {
-    let child = creationMessageAlerte();
+function afficherSucces(message) {
+    let child = creationMessageAlerte(message);
     let alerte_id = document.getElementById('notif-succes');
     alerte_id.hidden = false;
     child.hidden = false;

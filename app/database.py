@@ -417,3 +417,12 @@ class Database:
                 )
                 curseur.execute(query, (donnees[0], id_epicerie))
                 self.get_connection().commit()
+
+
+"""
+Quand le user veut aller regarder ses listes enregistrés, on veut:
+    1. Retrouver tous les paniers qui sont associés au ID du client
+    2. Pour chaque panier, on veut:
+        - Le id des recettes selectionnés (le nom),
+        - La liste des aliments faisant partie de la recette 
+"""

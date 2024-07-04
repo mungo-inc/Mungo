@@ -7,6 +7,7 @@ const nombreRecettePanier = document.getElementById("notification-cart");
 const afficherEcranConnexionBtn = document.querySelector(".login-btn");
 const connecterEnregistrerLien = document.querySelectorAll(".form-box .lien-creation-compte a");
 const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
+const sauvegarderButton = document.getElementById("save-list-btn");
 
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 let compteur = 0;
@@ -92,6 +93,20 @@ viderPanierButton.addEventListener("click", function() {
     }
 });
 
+sauvegarderButton.addEventListener("click", function() {
+    let accordionBodies = document.querySelectorAll('.accordion-body');
+    let listeASauvegarder = [];
+    accordionBodies.forEach(body => {
+        let recetteNom = body.querySelector('strong').textContent;
+        let lis = body.querySelectorAll('li');
+        aliments = [];
+        lis.forEach(li => {
+            aliments.push(li.textContent.trim());
+        });
+    });
+
+});
+
 function estCloseButtonRecette(target) {
     return target.classList.contains('btn-close-recette');
 }
@@ -106,7 +121,6 @@ function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     if (index > -1) {
         listeEpicerie.splice(index, 1);
     }
-    console.log(parentElem);
     parentElem.remove();
     sauvegarderListeEpicerie();
     majNombreEpicerie();
@@ -117,9 +131,9 @@ function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
 
 function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
     let nomAliment = li.textContent;
-    let recette = listeEpicerie.find(r => r.recette === nomRecette);
+    let recette = listeEpicerie.find(r => r.nomRecette === nomRecette);
     index = listeEpicerie.indexOf(recette);
-    let aliment= listeEpicerie[index].items.find(a => a === nomAliment);
+    let aliment = listeEpicerie[index].items.find(a => a.nom === nomAliment);
     let indexAliment = listeEpicerie[index].items.indexOf(aliment);
     if (index > -1) {
         listeEpicerie[index].items.splice(indexAliment, 1);
@@ -133,13 +147,16 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
 
 function ajouterElementPanier(strongs, index) {
     strongs[index].textContent = this.getAttribute('nom-recette');
-    recette_id = this.getAttribute('id-recette');
-    let aliments = document.querySelectorAll('.r' + recette_id);
+    let idRecette = document.createAttribute('id-recette');
+    idRecette.value = this.getAttribute('id-recette');
+    strongs[index].setAttributeNode(idRecette);
+    idRecette = this.getAttribute('id-recette');
+    let aliments = document.querySelectorAll('.r' + idRecette);
     let ul = document.querySelectorAll('.accordion-body ul');
     listerAliment(ul, aliments, index);
     sauvegarderListeEpicerie();
     majNombreEpicerie();
-    setTimeout(function(){
+    setTimeout(function() {
         enleverSucces();
     }, 5000);
 }
@@ -203,6 +220,9 @@ function listerAliment(ul, aliments, index) {
         let button = creerCloseButton();
         li.append(button);
         li.innerHTML += aliments[i].textContent;
+        let idAliment = document.createAttribute('id-aliment');
+        idAliment.value = aliments[i].getAttribute('id-aliment');
+        li.setAttributeNode(idAliment);
         ul[index].append(li);
     }
 }
@@ -241,9 +261,14 @@ function majNombreEpicerie() {
 function extraireListeEpicerie(accordions) {
     let listeEpicerie = [];
     for (let i = 0; i < accordions.length; i++) {
-        let recette = accordions[i].querySelector('strong').textContent;
+        let nomRecette = accordions[i].querySelector('strong').textContent;
+        let idRecette = accordions[i]
+            .querySelector('strong')
+            .getAttribute('id-recette');
         let items = extraireItems(accordions[i]);
-        listeEpicerie.push({ recette: recette, items: items });
+        listeEpicerie.push(
+            { idRecette: idRecette, nomRecette: nomRecette, items: items }
+        );
     }
     return listeEpicerie;
 }
@@ -253,8 +278,9 @@ function extraireItems(accordion) {
     const items = [];
     let lis = ul.querySelectorAll('li');
     for (let j = 0; j < lis.length; j++) {
-        items.push(lis[j].textContent);
+        items.push({ id: lis[j].getAttribute('id-aliment'), nom: lis[j].textContent });
     }
+    console.log(items);
     return items;
 }
 
@@ -273,7 +299,6 @@ function chargerListeLocale() {
 }
 
 function afficherListeEpicerie(listeEpicerie) {
-    // let div = document.getElementById('collapseOne');
     let div = document.getElementById('accordion-content');
     div.innerHTML = '';
     if (listeEpicerie.length === 0) {
@@ -300,7 +325,7 @@ function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
         <div class="accordion-body">
             <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-            <strong>${entree.recette}</strong>
+            <strong id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
             <ul></ul>
         </div>`;
     
@@ -309,7 +334,10 @@ function ajouterRecetteAuDiv(div, entree, index) {
         let li = document.createElement('li');
         let button = creerCloseButton();
         li.append(button);
-        li.innerHTML += entree.items[j];
+        let idAliment = document.createAttribute('id-aliment');
+        idAliment.value = entree.items[j].id;
+        li.setAttributeNode(idAliment);
+        li.innerHTML += entree.items[j].nom;
         ul.append(li);
     }
 }

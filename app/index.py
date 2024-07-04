@@ -174,6 +174,16 @@ def logout():
     return redirect('/')
 
 
+@app.route('/sauvegarder-liste', methods=['POST'])
+def save_list():
+    #doit etre redigier vers la page panier ou l'on voit les liste
+    # db.ajouter_panier()
+    db = Database('app/db/epicerie.db')
+    return redirect('/')
+
+
+
+
 def construire_recette(donnees):
     recettes = {}
     recettes["nom"] = donnees[0]

@@ -55,6 +55,8 @@ def accueil():
 
 @app.route('/panier')
 def panier():
+    db = Database('app/db/epicerie.db')
+    paniers = db.get_paniers(current_user.id_client)
     return render_template('panier.html')
 
 
@@ -86,7 +88,6 @@ def recettes():
     db = Database('app/db/epicerie.db')
     recettes = db.get_recettes()
     # return render_template('recettes.html', recettes=recettes)
-    print(recettes)
     return render_template('resultats.html', resultats=recettes)
 
 
@@ -124,7 +125,6 @@ def search():
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
     resultats = db.avoir_recettes(allergies, dietes, epiceries)
-    print(resultats)
     return render_template('resultats.html', resultats=resultats)
 
 

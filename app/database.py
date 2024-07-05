@@ -429,7 +429,7 @@ class Database:
                     """
                 )
                 curseur.execute(query, 
-                    (id_panier, id_client, recette['nom'], aliment['id'])
+                    (id_panier, id_client, aliment['id'], recette['nom'])
                 )
                 self.get_connection().commit()
 
@@ -445,15 +445,42 @@ class Database:
             """
         )
         curseur.execute(query, (id_client, ))
-        id = curseur.fetchone()[0]
+        id = curseur.fetchone()
         if id is None:
             return 0
-        return int(id) + 1
+        return int(id[0]) + 1
 
-"""
-Quand le user veut aller regarder ses listes enregistrés, on veut:
-    1. Retrouver tous les paniers qui sont associés au ID du client
-    2. Pour chaque panier, on veut:
-        - Le id des recettes selectionnés (le nom),
-        - La liste des aliments faisant partie de la recette 
-"""
+    def get_paniers(self, id_client):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT *
+            FROM Client_Panier_Aliment
+            WHERE id_client = (?)
+            """
+        )
+        curseur.execute(query, (id_client, ))
+        items = curseur.fetchall()
+        groups = {}
+        for item in items:
+            nom_recette = item[3]
+            id_aliment = item[2]
+            if nom_recette not in groups:
+                groups[nom_recette] = []
+            groups[nom_recette].append(self.get_nom_aliment(id_aliment))
+
+    def get_nom_aliment(self, id_aliment):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT aliment.nom
+            FROM aliment
+            WHERE id_aliment = (?)
+            """
+        )
+        curseur.execute(query, (id_aliment, ))
+        nom = curseur.fetchone()
+        return nom[0]
+
+    def supprimer_panier(self, id_client):
+        pass

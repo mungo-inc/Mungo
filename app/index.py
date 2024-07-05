@@ -177,12 +177,10 @@ def logout():
 @app.route('/sauvegarder-liste', methods=['POST'])
 def save_list():
     db = Database('app/db/epicerie.db')
-    # db.ajouter_panier()
     data = request.get_json()
-    print(data)
+    db.ajouter_panier(current_user.id_client, data)
     return redirect('/')
-
-
+    #return jsonify({"message": "Liste sauvegardé avec succès!"})
 
 
 def construire_recette(donnees):

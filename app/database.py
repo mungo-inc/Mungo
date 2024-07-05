@@ -418,6 +418,27 @@ class Database:
                 curseur.execute(query, (donnees[0], id_epicerie))
                 self.get_connection().commit()
 
+    def ajouter_panier(self, id_client, data):
+        id_panier = self.generer_panier_id(id_client)
+        for recette in data:
+            pass
+
+    def generer_panier_id(self, id_client):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT id_panier
+            FROM Client_Panier_Aliment
+            WHERE id_client = (?)
+            ORDER BY id_panier
+            LIMIT 1
+            """
+        )
+        curseur.execute(query, (id_client, ))
+        id = curseur.fetchone()
+        if id is None:
+            return 0
+        return id + 1
 
 """
 Quand le user veut aller regarder ses listes enregistrés, on veut:

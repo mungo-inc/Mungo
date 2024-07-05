@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="col-10 recette">
+    <div>
+        <img class="photo-recette" src="{{ url_for('static', filename='img/' ~ recette.id|string ~ '.jpg') }}" alt="image recette">
+    </div>
+    <div class="details-recette">
+        <h2 class="titre-recette"> {{ recette.nom }}</h2>
+            <div class="aliments">
+                {% for aliment in aliments %}
+                <p> {{ aliment.nom }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette="{{ recette.id }}">Ajouter</button>
+    </div>
+</div>
+{% endblock content %}
+

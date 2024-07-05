@@ -135,6 +135,7 @@ def login():
     elif request.method == 'POST':
         courriel = request.form['courriel']
         mot_passe = request.form['password']
+
         mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
         user = Client.query.filter_by(courriel=courriel).first()
 
@@ -154,18 +155,29 @@ def register():
         courriel = request.form['courriel']
         mot_passe = request.form['password']
         mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
-
-        client = Client(courriel=courriel, password=mot_passe_crypte)
-
-        db.session.add(client)
-        db.session.commit()
-        db_dur = Database('app/db/epicerie.db')
-        db_dur.get_connection()
-        db_dur.creation_requete_diete(courriel, [0])
-        db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
+        if not validation_mot_de_passe() or not validation_adresse_courriel():
+            redirect('/incorrect')
+        else:
+            client = Client(courriel=courriel, password=mot_passe_crypte)
+            db.session.add(client)
+            db.session.commit()
+            db_dur = Database('../app/db/epicerie.db')
+            db_dur.get_connection()
+            db_dur.creation_requete_diete(courriel, [0])
+            db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
 
     return redirect('/')
 
+@app.route("/incorrect")
+def incorrect():
+    '''Fonction qui renvoie la page en cas de mauvaise soumission'''
+    print("Est-ce que ça entre ici?")
+    return render_template("incorrect.html"), 400
+
+@app.errorhandler(404)
+def not_found_404(e):
+    '''Fonction qui renvoie une page erreur 404'''
+    return render_template('404.html'), 404
 
 @app.route('/logout')
 @login_required
@@ -180,6 +192,17 @@ def construire_recette(donnees):
 
     return recettes
 
+def validation_adresse_courriel():
+    '''Valide adresse courriel à partir d'un regex'''
+    valeur = True
+    adresse_courriel = request.form["courriel"]
+    if re.search(r"^\w+@\w+.\w{2,}$", adresse_courriel) is None:
+        valeur = False
+    return valeur
+
+def validation_mot_de_passe():
+    '''Valide un mot de passe'''
+    return request.form["password"] != ""
 
 class Allergie():
     def __init__(self, id, nom) -> None:

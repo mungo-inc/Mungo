@@ -20,8 +20,7 @@ class Aliment():
         """
         Cette fonction permet d’afficher un objet Aliment en string.
         """
-        return f'''\n\t(id: {self.id}, nom: {self.nom},
-        epicerie: {self.epicerie_id})\n'''
+        return f'\n\t(id: {self.id}, nom: {self.nom}, epicerie: {self.epicerie_id})\n'
 
     def __repr__(self) -> str:
         """

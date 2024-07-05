@@ -420,8 +420,18 @@ class Database:
 
     def ajouter_panier(self, id_client, data):
         id_panier = self.generer_panier_id(id_client)
+        curseur = self.get_connection().cursor()
         for recette in data:
-            pass
+            for aliment in recette['aliments']:
+                query = (
+                    """
+                    INSERT INTO Client_Panier_Aliment VALUES (?, ?, ?, ?)
+                    """
+                )
+                curseur.execute(query, 
+                    (id_panier, id_client, recette['nom'], aliment['id'])
+                )
+                self.get_connection().commit()
 
     def generer_panier_id(self, id_client):
         curseur = self.get_connection().cursor()
@@ -435,10 +445,10 @@ class Database:
             """
         )
         curseur.execute(query, (id_client, ))
-        id = curseur.fetchone()
+        id = curseur.fetchone()[0]
         if id is None:
             return 0
-        return id + 1
+        return int(id) + 1
 
 """
 Quand le user veut aller regarder ses listes enregistrés, on veut:

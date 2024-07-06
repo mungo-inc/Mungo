@@ -10,7 +10,6 @@ from .database import Database
 import hashlib
 import sqlite3
 
-client_id = None
 app = Flask(__name__, static_url_path="", static_folder="static")
 app.secret_key = 'tv75JvcA3y'
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -161,7 +160,7 @@ def register():
             client = Client(courriel=courriel, password=mot_passe_crypte)
             db.session.add(client)
             db.session.commit()
-            db_dur = Database('../app/db/epicerie.db')
+            db_dur = Database('app/db/epicerie.db')
             db_dur.get_connection()
             db_dur.creation_requete_diete(courriel, [0])
             db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
@@ -171,7 +170,6 @@ def register():
 @app.route("/incorrect")
 def incorrect():
     '''Fonction qui renvoie la page en cas de mauvaise soumission'''
-    print("Est-ce que ça entre ici?")
     return render_template("incorrect.html"), 400
 
 @app.errorhandler(404)

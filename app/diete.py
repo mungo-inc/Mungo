@@ -19,7 +19,7 @@ class Diete():
         """
         Cette fonction permet d’afficher un objet diète en string.
         """
-        return f'id: {self.id}, nom: {self.nom}'
+        return f'\n\t(id: {self.id}, nom: {self.nom})\n'
 
     def __repr__(self) -> str:
         """

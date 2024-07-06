@@ -1,0 +1,92 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import unittest
+import pytest
+from pytest_mock import MockFixture
+from app.index import app
+
+
+@pytest.fixture
+def client():
+    app.config.update({"TESTING": True})
+
+    with app.test_client() as client:
+        yield client
+
+def test_accueil(client):
+    response = client.get("/")
+    assert response.status_code == 200
+    assert b"Bienvenue sur notre formulaire de recherche personnalis" in response.data
+
+
+def test_panier(client):
+    response = client.get("/panier")
+    assert response.status_code == 200
+    assert b"" in response.data
+
+
+def test_profil(client):
+    response = client.get("/profil")
+    assert response.status_code == 200
+    assert b"Bienvenue sur notre formulaire pour changer vos" in response.data
+
+
+def test_compagnie(client):
+    response = client.get("/compagnie")
+    assert response.status_code == 200
+    assert b"" in response.data
+
+def test_recettes(client):
+    response = client.get("/recettes")
+    assert response.status_code == 200
+    assert b"" in response.data
+
+def test_articles(client):
+    response = client.get("/articles")
+    assert response.status_code == 200
+    assert b"Articles" in response.data
+
+def test_modifier_preference(client):
+    response = client.get("/profil-modification")
+    assert response.status_code == 200
+
+def test_search(client):
+    response = client.get("/search")
+    assert response.status_code == 200
+    assert b"" in response.data
+
+def test_login(client):
+    response = client.get("/login")
+    assert response.status_code == 200
+    assert b"" in response.data
+
+def test_login_credentials(client):
+    response  = client.post("/login", data={
+                            "courriel": "admin@1gmail.com",
+                            "password": "admin",
+    })
+    assert response.status_code == 302
+
+def test_register(client):
+    response = client.get("/register")
+    assert response.status_code == 200
+    assert b"" in response.data
+
+def test_register_post(client):
+    response  = client.post("/register", data={
+                            "courriel": "admin@1gmail.com",
+                            "password": "admin",
+    })
+    assert response.status_code == 302
+
+def test_incorrect(client):
+    response = client.get("/incorrect")
+    assert response.status_code == 400
+    assert b"" in response.data
+
+def test_logout_not_login(client):
+    response = client.get("/logout")
+    assert response.status_code == 401
+    assert b"" in response.data
+

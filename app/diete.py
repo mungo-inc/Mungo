@@ -8,7 +8,8 @@ class Diete():
 
     def __eq__(self, other):
         """
-        Redéfinition de l’opérateur “==” qui vérifie les IDs des diètes comme comparaison.
+        Redéfinition de l’opérateur “==” qui vérifie
+        les IDs des diètes comme comparaison.
         """
         if isinstance(other, Diete):
             return self.id == other.id
@@ -28,6 +29,7 @@ class Diete():
 
     def __hash__(self):
         """
-        Cette fonction permet d’utiliser l’ID de l’objet Diete pour la fonction de hachage.
+        Cette fonction permet d’utiliser l’ID de
+        l’objet Diete pour la fonction de hachage.
         """
         return hash(self.id)

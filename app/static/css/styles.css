@@ -560,6 +560,15 @@ form .input-field {
     text-decoration: none;
 }
 
+.preference-message {
+  text-align: center;
+  background-color: #9dc28b9e;
+  padding: 1em;
+  border-radius: 5px;
+  margin: 1em;
+  width: 100%;
+}
+
 /* ***RECETTES*** */
 div.recette {
     box-sizing: border-box;

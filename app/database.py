@@ -2,7 +2,7 @@ import sqlite3
 from .recette import Recette
 from .aliment import Aliment
 from .diete import Diete
-
+import math
 
 class Database:
     def __init__(self, path):
@@ -98,7 +98,7 @@ class Database:
         cursor = self.get_connection().cursor()
         query = """
                 SELECT aliment.id_aliment, aliment.nom,
-                aliment_epicerie.id_epicerie
+                aliment_epicerie.id_epicerie,aliment_recette.quantite
                 FROM aliment
                 JOIN aliment_recette ON aliment.id_aliment
                 = aliment_recette.id_aliment
@@ -109,8 +109,8 @@ class Database:
         for recette in recettes:
             cursor.execute(query, (recette.id, ))
             aliments = cursor.fetchall()
-            for id, nom, epicerie in aliments:
-                aliment = Aliment(id, nom, epicerie)
+            for id, nom, quantite, epicerie in aliments:
+                aliment = Aliment(id, nom, quantite, epicerie)
                 recette.ajouter_aliment(aliment)
             resultat.append(recette)
         return resultat
@@ -132,7 +132,7 @@ class Database:
             aliments.append(aliment)
         return set(aliments)
 
-    def avoir_recettes(self, allergies, dietes, epiceries):
+    def avoir_recettes(self, allergies, dietes, epiceries, budget):
         """
         Cette fonction permet de faire la recherche
         selon toutes les options sélectionnées de l’utilisateur.
@@ -145,7 +145,54 @@ class Database:
         donnees_diete = set(self.filtrer_par_diete(dietes))
         donnees_epicerie = set(self.filtrer_par_epicerie(epiceries))
         donnees = donnees_epicerie & donnees_allergie & donnees_diete
-        return self.get_aliments_par_recettes(sorted(donnees))
+        donnees_budget = set(self.filtrer_par_budget(donnees, budget))
+        donnees = donnees_epicerie & donnees_allergie & donnees_diete & donnees_budget
+        return self.get_aliments_par_recettes(sorted(donnees))  
+
+    def filtrer_par_budget(self, donnees, budget):
+        budget = int(budget)
+        cursor = self.get_connection().cursor()
+        query = """
+            SELECT
+                Aliment.ID_aliment,
+                Aliment_Recette.ID_recette,
+                Aliment_Recette.Quantite AS Quantite_Recette,
+                Aliment.Quantite AS Quantite_Aliment,
+                Aliment.Prix,
+                Aliment.Type
+            FROM
+                Aliment
+            JOIN
+                Aliment_Recette ON Aliment.ID_aliment = Aliment_Recette.ID_aliment
+            WHERE
+                Aliment_Recette.ID_recette = ?;
+        """
+        nouvelle_donnees = []
+        for recette in donnees:
+            prix_total = 0  
+            cursor.execute(query, (recette.id,))
+            result = cursor.fetchall()
+            ingredients_calculer = set()
+            for row in result:
+                aliment_id = row[0]
+                quantite_recette = row[2]
+                quantite_aliment = row[3]
+                prix = row[4]
+                Type = row[5]
+                if aliment_id not in ingredients_calculer:
+                    if quantite_aliment != 0 and (Type == 'u' or Type == 'l' or Type == 'g'):  
+                        quantite = math.ceil(quantite_recette / quantite_aliment)
+                        prix_total += quantite * prix
+                        ingredients_calculer.add(aliment_id)
+                    elif Type == 'p':
+                        quantite = (quantite_recette / quantite_aliment)
+                        prix_total += quantite * prix
+                        ingredients_calculer.add(aliment_id)
+            if prix_total <= budget:
+                nouvelle_donnees.append(recette)
+        return nouvelle_donnees
+
+
 
     def filtrer_par_diete(self, dietes):
         """
@@ -203,6 +250,7 @@ class Database:
             SELECT DISTINCT aliment_recette.id_recette,
                             aliment_recette.id_aliment,
                             aliment_epicerie.id_epicerie,
+                            aliment_recette.quantite,
                             recette.nom as r_nom,
                             aliment.nom as a_nom
             FROM aliment_epicerie
@@ -219,8 +267,8 @@ class Database:
         recettes = {}
         recettes_epicerie = {}
 
-        for (recette_id, aliment_id, epicerie_id, r_nom, a_nom) in donnees:
-            aliment = Aliment(aliment_id, a_nom, epicerie_id)
+        for (recette_id, aliment_id, epicerie_id, quantite, r_nom, a_nom) in donnees:
+            aliment = Aliment(aliment_id, a_nom, quantite, epicerie_id)
             if recette_id not in recettes:
                 recettes[recette_id] = Recette(recette_id, r_nom)
             recettes[recette_id].ajouter_aliment(aliment)

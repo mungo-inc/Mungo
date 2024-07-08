@@ -321,3 +321,7 @@ if (conteneur1 && conteneur2) {
 }
   
 majNombreEpicerie();
+
+function allerBasPage() {
+    document.getElementById('bottom').scrollIntoView();
+}

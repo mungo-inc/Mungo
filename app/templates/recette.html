@@ -17,8 +17,8 @@
                     precision="2"
                     ></b-form-rating>
             </div>
-            <p class="mt-2">Value: {{ value1 }}</p>
-            <button type="button" onClick="allerBasPage()">Évaluer cette recette</button>
+            <p class="mt-2">Note: {{ value1 }}/5</p>
+            <button type="button" class="evaluer-bouton" onClick="allerBasPage()">Évaluer cette recette</button>
             <div class="aliments">
                 {% for aliment in aliments %}
                 <p> {{ aliment.nom }}</p>

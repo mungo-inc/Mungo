@@ -599,11 +599,11 @@ span#montant-budget {
 
 .recette {
     box-sizing: border-box;
-    height: 100%;
+    height: 800px;
     display: flex;
     justify-content: center; 
     align-items: center;
-    margin: 0 auto; 
+    margin: 0 auto 50px auto; 
     gap: 50px !important; 
     padding: 0; 
     width: 80%;
@@ -653,7 +653,6 @@ p.mt-2 {
 
 div.evaluation {
     background-color: #F5F5F5 !important;
-    padding-bottom: 50px;
 }
 
 .evaluation form {
@@ -661,4 +660,14 @@ div.evaluation {
     height: 80%;
 }
 
-
+.evaluer-bouton {
+    display: inline-block;
+    font-family: FlinkBold;
+    color: #9DC28B !important;
+    padding-bottom: 25px !important;
+    border: none;
+    background-color: #F5F5F5 !important;
+    outline: none;
+    box-shadow: none;
+    padding: 0 0 25px 0 !important;
+}

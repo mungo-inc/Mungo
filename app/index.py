@@ -89,6 +89,18 @@ def recettes():
     return render_template('resultats.html', resultats=recettes)
 
 
+@app.route('/recette/<identifiant>')
+def page_recette(identifiant):
+    """
+    retourne la page d'une recette selon son identifiant
+    """
+    db = Database('app/db/epicerie.db')
+    print(identifiant)
+    recette = db.get_recette(identifiant)
+    aliments = []
+    aliments = db.get_aliments_par_recette(identifiant)
+    return render_template('recette.html', recette=recette, aliments=aliments)
+
 @app.route('/articles')
 def articles():
     db = Database('app/db/epicerie.db')
@@ -177,10 +189,11 @@ def logout():
 def construire_recette(donnees):
     recettes = {}
     recettes["nom"] = donnees[0]
-
     return recettes
 
 
 class Allergie():
     def __init__(self, id, nom) -> None:
         pass
+
+

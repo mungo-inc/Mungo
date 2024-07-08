@@ -116,13 +116,13 @@ CREATE TABLE Client_Epicerie (
     PRIMARY KEY (ID_client, ID_epicerie)
 );
 
-CREATE TABLE Client_Panier_Aliment (
+CREATE TABLE Client_Panier_Aliment_Recette (
     ID_panier INTEGER,
     ID_client INTEGER,
     ID_aliment INTEGER,
-    Nom_Recette TEXT,
-    PRIMARY KEY (ID_panier, ID_client, ID_aliment),
+    ID_recette INTEGER,
+    PRIMARY KEY (ID_panier, ID_client, ID_aliment, ID_recette),
     FOREIGN KEY (ID_panier) REFERENCES Panier(ID_panier),
-    FOREIGN KEY (Nom_Recette) REFERENCES Recette(Nom),
-    FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment)
+    FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),
+    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
 );

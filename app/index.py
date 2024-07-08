@@ -178,7 +178,7 @@ def logout():
 def save_list():
     db = Database('app/db/epicerie.db')
     data = request.get_json()
-    db.ajouter_panier(current_user.id_client, data)
+    db.sauvegarder_panier(current_user.id_client, data)
     return redirect('/')
     #return jsonify({"message": "Liste sauvegardé avec succès!"})
 

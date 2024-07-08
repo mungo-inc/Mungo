@@ -98,6 +98,7 @@ sauvegarderButton.addEventListener("click", function() {
     let accordionBodies = document.querySelectorAll('.accordion-body');
     let listeASauvegarder = [];
     accordionBodies.forEach(body => {
+        let idRecette = body.querySelector('strong').getAttribute('id-recette')
         let nomRecette = body.querySelector('strong').textContent;
         let lis = body.querySelectorAll('li');
         aliments = [];
@@ -107,7 +108,11 @@ sauvegarderButton.addEventListener("click", function() {
                 nom: li.textContent.trim() 
             });
         });
-        listeASauvegarder.push({nom: nomRecette, aliments: aliments})
+        listeASauvegarder.push({
+            id: idRecette, 
+            nom: nomRecette, 
+            aliments: aliments
+        });
     });
     fetch('/sauvegarder-liste', {
         method: 'POST',

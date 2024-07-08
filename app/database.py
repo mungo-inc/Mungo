@@ -418,18 +418,19 @@ class Database:
                 curseur.execute(query, (donnees[0], id_epicerie))
                 self.get_connection().commit()
 
-    def ajouter_panier(self, id_client, data):
+    def sauvegarder_panier(self, id_client, data):
         id_panier = self.generer_panier_id(id_client)
+        print(f"ID du panier: {id_panier}")
         curseur = self.get_connection().cursor()
         for recette in data:
             for aliment in recette['aliments']:
                 query = (
                     """
-                    INSERT INTO Client_Panier_Aliment VALUES (?, ?, ?, ?)
+                    INSERT INTO Client_Panier_Aliment_Recette VALUES (?, ?, ?, ?)
                     """
                 )
                 curseur.execute(query, 
-                    (id_panier, id_client, aliment['id'], recette['nom'])
+                    (id_panier, id_client, aliment['id'], recette['id'])
                 )
                 self.get_connection().commit()
 
@@ -438,9 +439,9 @@ class Database:
         query = (
             """
             SELECT id_panier
-            FROM Client_Panier_Aliment
+            FROM Client_Panier_Aliment_Recette
             WHERE id_client = (?)
-            ORDER BY id_panier
+            ORDER BY id_panier DESC
             LIMIT 1
             """
         )
@@ -448,6 +449,7 @@ class Database:
         id = curseur.fetchone()
         if id is None:
             return 0
+        print(f"generated ID: {id}")
         return int(id[0]) + 1
 
     def get_paniers(self, id_client):
@@ -455,21 +457,26 @@ class Database:
         query = (
             """
             SELECT *
-            FROM Client_Panier_Aliment
+            FROM Client_Panier_Aliment_Recette
             WHERE id_client = (?)
             """
         )
         curseur.execute(query, (id_client, ))
         items = curseur.fetchall()
         groups = {}
+        print(items)
         for item in items:
-            nom_recette = item[3]
+            nom_recette = self.get_nom_recette(item[3])
             id_aliment = item[2]
             if nom_recette not in groups:
                 groups[nom_recette] = []
             groups[nom_recette].append(self.get_nom_aliment(id_aliment))
+        # Est-ce que je creer des calisses d'objet?
 
     def get_nom_aliment(self, id_aliment):
+        """
+        Permet d'obtenir le nom d'un aliment selon un ID
+        """
         curseur = self.get_connection().cursor()
         query = (
             """
@@ -481,6 +488,23 @@ class Database:
         curseur.execute(query, (id_aliment, ))
         nom = curseur.fetchone()
         return nom[0]
+
+    def get_nom_recette(self, id_recette):
+        """
+        Permet d'obtenir le nom d'une recette selon un ID
+        """
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT recette.nom
+            FROM recette 
+            WHERE id_recette = (?)
+            """
+        )
+        curseur.execute(query, (id_recette, ))
+        nom = curseur.fetchone()
+        return nom[0]
+
 
     def supprimer_panier(self, id_client):
         pass

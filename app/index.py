@@ -123,7 +123,7 @@ def search():
     allergies = request.args.getlist('allergie')
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
-    resultats = db.avoir_recettes(allergies, dietes, epiceries)
+    resultats = db.avoir_recettes(allergies, dietes, epiceries,budget)
     print(resultats)
     return render_template('resultats.html', resultats=resultats)
 

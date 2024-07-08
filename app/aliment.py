@@ -1,12 +1,12 @@
 class Aliment():
-    def __init__(self, id, nom, epicerie_id) -> None:
+    def __init__(self, id, nom, quantite, epicerie_id) -> None:
         """
         Constructeur de l’objet Aliment.
         """
         self.id = id
         self.nom = nom
         self.epicerie_id = epicerie_id
-
+        self.quantite = quantite
     def __eq__(self, other):
         """
         Redéfinition de l’opérateur “==” qui vérifie

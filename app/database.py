@@ -76,7 +76,22 @@ class Database:
             nom = elem[1]
             recettes.append(Recette(id_recette, nom))
         resultat = self.get_aliments_par_recettes(recettes)
-        return resultat
+        return resultat 
+
+    def get_recette(self, id_recette):
+        """
+            Cette fonction prend une recette dans la base de donnees
+        """
+        cursor = self.get_connection().cursor()
+        query = f"""
+                SELECT DISTINCT *
+                FROM recette
+                WHERE recette.id_recette = {id_recette}
+        """
+        cursor.execute(query)
+        resultat = cursor.fetchone()
+        recette = Recette(resultat[0], resultat[1])
+        return recette
 
     def get_aliments_par_recettes(self, recettes):
         resultat = []
@@ -100,6 +115,23 @@ class Database:
             resultat.append(recette)
         return resultat
 
+    def get_aliments_par_recette(self, id_recette):
+        cursor = self.get_connection().cursor()
+        query = f"""
+                SELECT DISTINCT aliment.id_aliment, aliment.nom, aliment_epicerie.id_epicerie
+                FROM aliment 
+                JOIN aliment_recette ON aliment.id_aliment = aliment_recette.id_aliment 
+                JOIN aliment_epicerie ON aliment.id_aliment = aliment_epicerie.id_aliment 
+                WHERE aliment_recette.id_recette = {id_recette}
+                """
+        cursor.execute(query)
+        resultat = cursor.fetchall()
+        aliments = []
+        for id, nom, epicerie in resultat:
+            aliment = Aliment(id, nom, epicerie)
+            aliments.append(aliment)
+        return set(aliments)
+
     def avoir_recettes(self, allergies, dietes, epiceries, budget):
         """
         Cette fonction permet de faire la recherche
@@ -115,11 +147,7 @@ class Database:
         donnees = donnees_epicerie & donnees_allergie & donnees_diete
         donnees_budget = set(self.filtrer_par_budget(donnees, budget))
         donnees = donnees_epicerie & donnees_allergie & donnees_diete & donnees_budget
-        return self.get_aliments_par_recettes(sorted(donnees))
-
-    
-    
-
+        return self.get_aliments_par_recettes(sorted(donnees))  
 
     def filtrer_par_budget(self, donnees, budget):
         budget = int(budget)

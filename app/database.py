@@ -2,6 +2,7 @@ import sqlite3
 from .recette import Recette
 from .aliment import Aliment
 from .diete import Diete
+from .panier import Panier
 
 
 class Database:
@@ -463,15 +464,23 @@ class Database:
         )
         curseur.execute(query, (id_client, ))
         items = curseur.fetchall()
-        groups = {}
-        print(items)
+        paniers = []
+    
         for item in items:
-            nom_recette = self.get_nom_recette(item[3])
-            id_aliment = item[2]
-            if nom_recette not in groups:
-                groups[nom_recette] = []
-            groups[nom_recette].append(self.get_nom_aliment(id_aliment))
-        # Est-ce que je creer des calisses d'objet?
+            panier, recette, aliment = None, None, None
+            
+            panier = Panier(item[0])
+            if panier not in paniers:
+                panier.recettes = []
+                paniers.append(panier)
+            
+            recette = Recette(item[3], self.get_nom_recette(item[3]))
+            if recette not in paniers[-1].recettes:
+                paniers[-1].ajouter_recette(recette)
+
+            aliment = Aliment(item[2], self.get_nom_aliment(item[2]))
+            paniers[-1].recettes[-1].ajouter_aliment(aliment)
+        return paniers
 
     def get_nom_aliment(self, id_aliment):
         """

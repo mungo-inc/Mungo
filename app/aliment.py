@@ -1,5 +1,5 @@
 class Aliment():
-    def __init__(self, id, nom, epicerie_id) -> None:
+    def __init__(self, id, nom, epicerie_id=None) -> None:
         """
         Constructeur de l’objet Aliment.
         """

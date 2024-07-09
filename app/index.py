@@ -57,6 +57,7 @@ def accueil():
 def panier():
     db = Database('app/db/epicerie.db')
     paniers = db.get_paniers(current_user.id_client)
+    print(paniers)
     return render_template('panier.html')
 
 

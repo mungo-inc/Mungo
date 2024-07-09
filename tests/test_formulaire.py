@@ -2,8 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import unittest
-from app.index import app, db, Database
-from app.client import Client
+from app.index import app, db, Database, Client
 
 class TestFormValidation(unittest.TestCase):
     def setUp(self) -> None:

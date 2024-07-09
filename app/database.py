@@ -2,7 +2,9 @@ import sqlite3
 from .recette import Recette
 from .aliment import Aliment
 from .diete import Diete
+from .panier import Panier
 import math
+
 
 class Database:
     def __init__(self, path):
@@ -497,3 +499,126 @@ class Database:
                 )
                 curseur.execute(query, (donnees[0], id_epicerie))
                 self.get_connection().commit()
+
+    def sauvegarder_panier(self, id_client, data):
+        id_panier = self.generer_panier_id(id_client)
+        nom_panier = self.generer_nom_panier(id_client)
+        print(nom_panier)
+        curseur = self.get_connection().cursor()
+        for recette in data:
+            for aliment in recette['aliments']:
+                query = (
+                    """
+                    INSERT INTO Client_Panier_Aliment_Recette 
+                    VALUES (?, ?, ?, ?, ?)
+                    """
+                )
+                curseur.execute(query, 
+                    (
+                        id_panier, 
+                        id_client, 
+                        aliment['id'], 
+                        recette['id'], 
+                        nom_panier
+                    )
+                )
+                self.get_connection().commit()
+    
+
+    def generer_nom_panier(self, id_client):
+        nombre_paniers = self.get_nombre_paniers(id_client)
+        return f"Liste d'épicerie #{int(nombre_paniers) + 1}"
+
+    def generer_panier_id(self, id_client):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT id_panier
+            FROM Client_Panier_Aliment_Recette
+            WHERE id_client = (?)
+            ORDER BY id_panier DESC
+            LIMIT 1
+            """
+        )
+        curseur.execute(query, (id_client, ))
+        id = curseur.fetchone()
+        if id is None:
+            return 0
+        print(f"generated ID: {id}")
+        return int(id[0]) + 1
+
+    def get_paniers(self, id_client):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT *
+            FROM Client_Panier_Aliment_Recette
+            WHERE id_client = (?)
+            """
+        )
+        curseur.execute(query, (id_client, ))
+        items = curseur.fetchall()
+        paniers = []
+        for item in items:
+            panier, recette, aliment = None, None, None
+            panier = Panier(item[0], item[1], [], item[4])
+            if panier not in paniers:
+                paniers.append(panier)
+            recette = Recette(item[3], self.get_nom_recette(item[3]))
+            if recette not in paniers[-1].recettes:
+                paniers[-1].ajouter_recette(recette)
+            aliment = Aliment(item[2], self.get_nom_aliment(item[2]))
+            paniers[-1].recettes[-1].ajouter_aliment(aliment)
+        return paniers
+
+    def get_nombre_paniers(self, id_client):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT COUNT(DISTINCT id_panier)
+            FROM Client_Panier_Aliment_Recette
+            WHERE id_client = (?)
+            """
+        )
+        curseur.execute(query, (id_client, ))
+        result = curseur.fetchone()
+        if result is not None:
+            return result[0]
+        return 0 
+
+
+    def get_nom_aliment(self, id_aliment):
+        """
+        Permet d'obtenir le nom d'un aliment selon un ID
+        """
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT aliment.nom
+            FROM aliment
+            WHERE id_aliment = (?)
+            """
+        )
+        curseur.execute(query, (id_aliment, ))
+        nom = curseur.fetchone()
+        return nom[0]
+
+    def get_nom_recette(self, id_recette):
+        """
+        Permet d'obtenir le nom d'une recette selon un ID
+        """
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT recette.nom
+            FROM recette 
+            WHERE id_recette = (?)
+            """
+        )
+        curseur.execute(query, (id_recette, ))
+        nom = curseur.fetchone()
+        return nom[0]
+
+
+    def supprimer_panier(self, id_client):
+        pass

@@ -1,6 +1,6 @@
 import os
 import re
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask import g, redirect, request, session, url_for
 from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, user_logged_in, current_user
@@ -56,7 +56,9 @@ def accueil():
 
 @app.route('/panier')
 def panier():
-    return render_template('panier.html')
+    db = Database('app/db/epicerie.db')
+    paniers = db.get_paniers(current_user.id_client)
+    return render_template('panier.html', paniers=paniers)
 
 
 @app.route('/profil')
@@ -135,7 +137,7 @@ def search():
     allergies = request.args.getlist('allergie')
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
-    resultats = db.avoir_recettes(allergies, dietes, epiceries,budget)
+    resultats = db.avoir_recettes(allergies, dietes, epiceries, budget)
     print(resultats)
     return render_template('resultats.html', resultats=resultats)
 
@@ -184,6 +186,14 @@ def register():
 def logout():
     logout_user()
     return redirect('/')
+
+
+@app.route('/sauvegarder-liste', methods=['POST'])
+def save_list():
+    db = Database('app/db/epicerie.db')
+    data = request.get_json()
+    db.sauvegarder_panier(current_user.id_client, data)
+    return jsonify({"message": "Liste sauvegardée avec succès."})
 
 
 def construire_recette(donnees):

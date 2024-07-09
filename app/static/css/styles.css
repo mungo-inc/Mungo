@@ -42,6 +42,11 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    background-color: #F5F5F5;
+}
+
+div.row {
+    background-color: #F5F5F5;
 }
 
 .container-fluid {
@@ -121,7 +126,7 @@ nav ul li:last-child {
 
 .nav-link {
     font-family: FlinkBold;
-    color: #33302B !important;
+    color: #212529 !important;
     display: flex;
     align-items: center;
     margin: 0 !important;
@@ -143,7 +148,7 @@ a.nav-link.active {
 h3 {
     font-family: Pressura-Mono-Regular !important;
     font-size: 28px;
-    color: #33302B !important;
+    color: #212529 !important;
 }
 
 .text-container {
@@ -368,7 +373,7 @@ input[type="range" i] {
 }
 
 #basket {
-    color: #33302B;
+    color: #212529;
     width: 1.8em;
     height: 1.8em;
 }
@@ -549,9 +554,25 @@ form .input-field {
     display : flex;
 }
 
+.nom-recette {
+    color: #212529 !important;
+    font-size: 22px;    
+    text-decoration: none;
+}
 
+.preference-message {
+  text-align: center;
+  background-color: #9dc28b9e;
+  padding: 1em;
+  border-radius: 5px;
+  margin: 1em;
+  width: 100%;
+}
 
 /* ***RECETTES*** */
+div.recette {
+    box-sizing: border-box;
+}
 
 div.text-container.list-recettes {
     display: flex;
@@ -583,4 +604,79 @@ div.liste-recettes {
 span#montant-budget {
     display: flex;
     justify-content: right;
+}
+
+.recette {
+    box-sizing: border-box;
+    height: 800px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin: 0 auto 50px auto; 
+    gap: 50px !important; 
+    padding: 0; 
+    width: 80%;
+}
+
+.recette > * {
+    margin: 0; 
+    padding: 0; 
+}
+
+h2.titre-recette{
+    margin-bottom: 20px;
+    font-family: FlinkBold;
+    margin-bottom: 10px;
+}
+
+div.aliments {
+    font-family: Pressura-Mono-Light;
+    margin-bottom: 25px;
+}
+
+img.photo-recette {
+    width: 562.5px;
+    height: 750px;
+    border-radius: 0;
+}
+
+a {
+    display: inline-block;
+    font-family: FlinkBold;
+    color: #9DC28B !important;
+    padding-bottom: 25px !important;
+}
+
+/* evalutation etoiles */
+.form-control {
+    margin-bottom: 25px !important;
+}
+output#__BVID__3.b-rating.form-control.align-items-center.d-flex {
+    margin-bottom: 5px !important;
+}
+
+p.mt-2 {
+    margin-bottom: 5px !important;
+    font-family: FlinkBold !important;
+}
+
+div.evaluation {
+    background-color: #F5F5F5 !important;
+}
+
+.evaluation form {
+    margin-top: 0px;
+    height: 80%;
+}
+
+.evaluer-bouton {
+    display: inline-block;
+    font-family: FlinkBold;
+    color: #9DC28B !important;
+    padding-bottom: 25px !important;
+    border: none;
+    background-color: #F5F5F5 !important;
+    outline: none;
+    box-shadow: none;
+    padding: 0 0 25px 0 !important;
 }

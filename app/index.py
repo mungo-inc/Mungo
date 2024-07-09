@@ -4,6 +4,7 @@ from flask import Flask, render_template, jsonify
 from flask import g, redirect, request, session, url_for
 from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, user_logged_in, current_user
+from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 from .database import Database
 import hashlib
@@ -87,9 +88,20 @@ def compagnie():
 def recettes():
     db = Database('app/db/epicerie.db')
     recettes = db.get_recettes()
-    # return render_template('recettes.html', recettes=recettes)
     return render_template('resultats.html', resultats=recettes)
 
+
+@app.route('/recette/<identifiant>')
+def page_recette(identifiant):
+    """
+    retourne la page d'une recette selon son identifiant
+    """
+    db = Database('app/db/epicerie.db')
+    print(identifiant)
+    recette = db.get_recette(identifiant)
+    aliments = []
+    aliments = db.get_aliments_par_recette(identifiant)
+    return render_template('recette.html', recette=recette, aliments=aliments)
 
 @app.route('/articles')
 def articles():
@@ -110,6 +122,7 @@ def modifier_preference():
     db.creation_requete_epicerie(courriel, epiceries)
     db.creation_requete_allergie(courriel, allergies)
 
+    flash("Les préférences ont bien été modifié.")
     return redirect('/profil')
 
 
@@ -124,7 +137,8 @@ def search():
     allergies = request.args.getlist('allergie')
     dietes = request.args.getlist('diete')
     budget = request.args['budget']
-    resultats = db.avoir_recettes(allergies, dietes, epiceries)
+    resultats = db.avoir_recettes(allergies, dietes, epiceries, budget)
+    print(resultats)
     return render_template('resultats.html', resultats=resultats)
 
 
@@ -185,10 +199,11 @@ def save_list():
 def construire_recette(donnees):
     recettes = {}
     recettes["nom"] = donnees[0]
-
     return recettes
 
 
 class Allergie():
     def __init__(self, id, nom) -> None:
         pass
+
+

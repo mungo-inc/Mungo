@@ -8,6 +8,13 @@
         </div>
     </div>
     <div class="conteneur-parent">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+        <div class="preference-message"> {{ message }} </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <div class="section-milieu">
             <p class="message-form">Bienvenue sur notre formulaire pour changer vos préférences! Sélectionnez vos <span class="font2">épiceries</span> préférées, indiquez vos <span class="font2">allergies</span> et choisissez votre type de <span class="font2">diète</span> pour sauvegarder vos préférences alimentaires. Cliquez sur <span class="font2">"Sauvegarder les préférences"</span> pour ne plus devoir cocher ces cases.</p>
             <form id="form-accueil" method="get" action="/profil-modification">
@@ -23,7 +30,7 @@
                             <label class="form-check-label" for="inlineCheckbox2">IGD</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="epicerie" value="2" {% if 2 in liste_epicerie %} checked {%endif%}
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="epicerie" value="2" {% if 2 in liste_epicerie %} checked {%endif%}>
                             <label class="form-check-label" for="inlineCheckbox3">Détro</label>
                         </div>
                     </div>
@@ -102,4 +109,5 @@
         </div>
     </div>
 </div>
+<script src="{{url_for('static', filename='js/profil.js')}}"></script>
 {% endblock content%}

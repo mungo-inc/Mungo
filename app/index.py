@@ -2,7 +2,7 @@ import os
 import re
 from flask import Flask, render_template
 from flask import g, redirect, request, session, url_for
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, UserMixin
 from flask_login import login_user, logout_user, user_logged_in, current_user
 from flask import flash
 from flask_sqlalchemy import SQLAlchemy
@@ -22,9 +22,6 @@ db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-from .client import Client
-
 
 @login_manager.user_loader
 def load_user(id_client):
@@ -168,10 +165,18 @@ def register():
             redirect('/incorrect')
         else:
             client = Client(courriel=courriel, password=mot_passe_crypte)
-            db.session.add(client)
-            db.session.commit()
+            #db.session.add(client)
+            #db.session.commit()
             db_dur = Database(app.config['DATABASE_PATH'])
             db_dur.get_connection()
+            query = (
+            """
+                insert into client (courriel, password) values (?, ?)
+            """
+            )
+            curseur = db_dur.get_connection().cursor()
+            curseur.execute(query, (client.courriel, client.password))
+            db_dur.get_connection().commit() 
             db_dur.creation_requete_diete(courriel, [0])
             db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
 
@@ -215,3 +220,20 @@ def validation_mot_de_passe():
 class Allergie():
     def __init__(self, id, nom) -> None:
         pass
+
+class Client(db.Model, UserMixin):
+    __tablename__ = 'client'
+
+    id_client = db.Column(db.Integer, primary_key=True)
+    courriel = db.Column(db.Text, nullable=False, unique=True)
+    password = db.Column(db.Text,  nullable=False)
+
+    def __init__(self, courriel, password):
+        self.courriel = courriel
+        self.password = password
+
+    def get_id(self):
+        return str(self.id_client)
+
+    def get_courriel(self):
+        return str(self.courriel)

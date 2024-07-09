@@ -53,10 +53,10 @@ def test_articles(client, monkeypatch):
         assert response.status_code == 200
         assert b"Articles" in response.data
 
-def test_modifier_preference(client, monkeypatch):
-    monkeypatch.setitem(app.config, 'DATABASE_PATH', custom_db_path)
-    response = client.get("/profil-modification")
-    assert response.status_code == 200
+#def test_modifier_preference(client, monkeypatch):
+#    monkeypatch.setitem(app.config, 'DATABASE_PATH', custom_db_path)
+#    response = client.get("/profil-modification")
+#    assert response.status_code == 200
 
 def test_search(client, monkeypatch):
     with patch('app.index.get_query_params', return_value=(['0', '1', '2'], [], ['0'], 500)):

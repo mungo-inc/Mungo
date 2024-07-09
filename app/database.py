@@ -3,7 +3,6 @@ from .recette import Recette
 from .aliment import Aliment
 from .diete import Diete
 
-
 class Database:
     def __init__(self, path):
         """

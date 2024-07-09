@@ -18,4 +18,4 @@ build/
 venv/
 
 app/db/epicerie.db
-
+app/db/epicerie_test.db

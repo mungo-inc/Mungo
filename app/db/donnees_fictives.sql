@@ -997,7 +997,7 @@ INSERT INTO Aliment_Allergie VALUES (159, 1);
 
 --Ajout de compte
 
-INSERT INTO client (courriel, password) VALUES ('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
+INSERT INTO client (courriel, password) VALUES ('admin', 'admin');
 
 --Ajout des allergies pour un client
 

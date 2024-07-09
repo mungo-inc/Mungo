@@ -16,6 +16,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, 'app', 'db', 'epicerie.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///../app/db/epicerie.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['DATABASE_PATH'] = 'app/db/epicerie.db'
 
 db = SQLAlchemy(app)
 
@@ -65,7 +66,7 @@ def profil():
     liste_epicerie = [0, 1, 2]
 
     if current_user.is_authenticated:
-        db = Database('app/db/epicerie.db')
+        db = Database(app.config['DATABASE_PATH'])
         liste_allergie = db.construire_tableau_allergie(current_user.get_id())
         liste_diete = db.construire_tableau_diete(current_user.get_id())
         liste_epicerie = db.construire_tableau_epicerie(current_user.get_id())
@@ -83,21 +84,21 @@ def compagnie():
 
 @app.route('/recettes')
 def recettes():
-    db = Database('app/db/epicerie.db')
+    db = Database(app.config['DATABASE_PATH'])
     recettes = db.get_recettes()
     return render_template('resultats.html', resultats=recettes)
 
 
 @app.route('/articles')
 def articles():
-    db = Database('app/db/epicerie.db')
+    db = Database(app.config['DATABASE_PATH'])
     articles = db.get_articles()
     return render_template('articles.html', articles=articles)
 
 
 @app.route('/profil-modification', methods=['GET', 'POST'])
 def modifier_preference():
-    db = Database('app/db/epicerie.db')
+    db = Database(app.config['DATABASE_PATH'])
     db.get_connection()
     epiceries = request.args.getlist('epicerie')
     allergies = request.args.getlist('allergie')
@@ -111,17 +112,26 @@ def modifier_preference():
     return redirect('/profil')
 
 
+def get_query_params():
+    epiceries = request.args.getlist('epicerie')
+    allergies = request.args.getlist('allergie')
+    dietes = request.args.getlist('diete')
+    budget = request.args.get('budget')  # Assuming budget can be None or some integer
+    return epiceries, allergies, dietes, budget
+
+
 @app.route('/search', methods=['GET'])
 def search():
-    db = Database('app/db/epicerie.db')
+    db = Database(app.config['DATABASE_PATH'])
     db.get_connection()
     # requete POST au lieu de GET?
     # aller chercher les valeurs cochées et le budget
     # avec ces valeurs, effectuer une query sql afin d'obtenir des resultats
-    epiceries = request.args.getlist('epicerie')
-    allergies = request.args.getlist('allergie')
-    dietes = request.args.getlist('diete')
-    budget = request.args['budget']
+    # epiceries = request.args.getlist('epicerie')
+    # allergies = request.args.getlist('allergie')
+    # dietes = request.args.getlist('diete')
+    # budget = request.args['budget']
+    epiceries, allergies, dietes, budget = get_query_params()
     resultats = db.avoir_recettes(allergies, dietes, epiceries)
     print(resultats)
     return render_template('resultats.html', resultats=resultats)
@@ -160,7 +170,7 @@ def register():
             client = Client(courriel=courriel, password=mot_passe_crypte)
             db.session.add(client)
             db.session.commit()
-            db_dur = Database('app/db/epicerie.db')
+            db_dur = Database(app.config['DATABASE_PATH'])
             db_dur.get_connection()
             db_dur.creation_requete_diete(courriel, [0])
             db_dur.creation_requete_epicerie(courriel, [0, 1, 2])

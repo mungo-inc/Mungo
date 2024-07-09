@@ -96,6 +96,7 @@ viderPanierButton.addEventListener("click", function() {
     }
 });
 
+if (sauvegarderButton) {
 sauvegarderButton.addEventListener("click", function() {
     let accordionBodies = document.querySelectorAll('.accordion-body');
     let listeASauvegarder = [];
@@ -134,6 +135,7 @@ sauvegarderButton.addEventListener("click", function() {
         }, 5000);
     })
 });
+}
 
 function estCloseButtonRecette(target) {
     return target.classList.contains('btn-close-recette');
@@ -346,7 +348,9 @@ function afficherAucunItem(div) {
         </div>`;
     let button = document.getElementsByClassName('btn-vider');
     let saveButton = document.getElementById('save-list-btn');
-    saveButton.hidden = true;
+    if (saveButton != null) {
+        saveButton.hidden = true;
+    }
     button[0].hidden = true;
 }
 

@@ -2,7 +2,7 @@ import os
 import re
 from flask import Flask, render_template, jsonify
 from flask import g, redirect, request, session, url_for
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, UserMixin
 from flask_login import login_user, logout_user, user_logged_in, current_user
 from flask import flash
 from flask_sqlalchemy import SQLAlchemy
@@ -10,21 +10,18 @@ from .database import Database
 import hashlib
 import sqlite3
 
-client_id = None
 app = Flask(__name__, static_url_path="", static_folder="static")
 app.secret_key = 'tv75JvcA3y'
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, 'app', 'db', 'epicerie.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///../app/db/epicerie.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['DATABASE_PATH'] = 'app/db/epicerie.db'
 
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-from .client import Client
-
 
 @login_manager.user_loader
 def load_user(id_client):
@@ -68,7 +65,7 @@ def profil():
     liste_epicerie = [0, 1, 2]
 
     if current_user.is_authenticated:
-        db = Database('app/db/epicerie.db')
+        db = Database(app.config['DATABASE_PATH'])
         liste_allergie = db.construire_tableau_allergie(current_user.get_id())
         liste_diete = db.construire_tableau_diete(current_user.get_id())
         liste_epicerie = db.construire_tableau_epicerie(current_user.get_id())
@@ -86,7 +83,7 @@ def compagnie():
 
 @app.route('/recettes')
 def recettes():
-    db = Database('app/db/epicerie.db')
+    db = Database(app.config['DATABASE_PATH'])
     recettes = db.get_recettes()
     return render_template('resultats.html', resultats=recettes)
 
@@ -105,14 +102,14 @@ def page_recette(identifiant):
 
 @app.route('/articles')
 def articles():
-    db = Database('app/db/epicerie.db')
+    db = Database(app.config['DATABASE_PATH'])
     articles = db.get_articles()
     return render_template('articles.html', articles=articles)
 
 
 @app.route('/profil-modification', methods=['GET', 'POST'])
 def modifier_preference():
-    db = Database('app/db/epicerie.db')
+    db = Database(app.config['DATABASE_PATH'])
     db.get_connection()
     epiceries = request.args.getlist('epicerie')
     allergies = request.args.getlist('allergie')
@@ -126,19 +123,21 @@ def modifier_preference():
     return redirect('/profil')
 
 
-@app.route('/search', methods=['GET'])
-def search():
-    db = Database('app/db/epicerie.db')
-    db.get_connection()
-    # requete POST au lieu de GET?
-    # aller chercher les valeurs cochées et le budget
-    # avec ces valeurs, effectuer une query sql afin d'obtenir des resultats
+def get_query_params():
     epiceries = request.args.getlist('epicerie')
     allergies = request.args.getlist('allergie')
     dietes = request.args.getlist('diete')
-    budget = request.args['budget']
+    budget = request.args.get('budget') 
+    return epiceries, allergies, dietes, budget
+
+
+@app.route('/search', methods=['GET'])
+def search():
+    db = Database(app.config['DATABASE_PATH'])
+    db.get_connection()
+    epiceries, allergies, dietes, budget = get_query_params()
     resultats = db.avoir_recettes(allergies, dietes, epiceries, budget)
-    print(resultats)
+
     return render_template('resultats.html', resultats=resultats)
 
 
@@ -149,6 +148,7 @@ def login():
     elif request.method == 'POST':
         courriel = request.form['courriel']
         mot_passe = request.form['password']
+
         mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
         user = Client.query.filter_by(courriel=courriel).first()
 
@@ -168,18 +168,36 @@ def register():
         courriel = request.form['courriel']
         mot_passe = request.form['password']
         mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
-
-        client = Client(courriel=courriel, password=mot_passe_crypte)
-
-        db.session.add(client)
-        db.session.commit()
-        db_dur = Database('app/db/epicerie.db')
-        db_dur.get_connection()
-        db_dur.creation_requete_diete(courriel, [0])
-        db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
+        if not validation_mot_de_passe() or not validation_adresse_courriel():
+            redirect('/incorrect')
+        else:
+            client = Client(courriel=courriel, password=mot_passe_crypte)
+            #db.session.add(client)
+            #db.session.commit()
+            db_dur = Database(app.config['DATABASE_PATH'])
+            db_dur.get_connection()
+            query = (
+            """
+                insert into client (courriel, password) values (?, ?)
+            """
+            )
+            curseur = db_dur.get_connection().cursor()
+            curseur.execute(query, (client.courriel, client.password))
+            db_dur.get_connection().commit() 
+            db_dur.creation_requete_diete(courriel, [0])
+            db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
 
     return redirect('/')
 
+@app.route("/incorrect")
+def incorrect():
+    '''Fonction qui renvoie la page en cas de mauvaise soumission'''
+    return render_template("incorrect.html"), 400
+
+@app.errorhandler(404)
+def not_found_404(e):
+    '''Fonction qui renvoie une page erreur 404'''
+    return render_template('404.html'), 404
 
 @app.route('/logout')
 @login_required
@@ -201,9 +219,35 @@ def construire_recette(donnees):
     recettes["nom"] = donnees[0]
     return recettes
 
+def validation_adresse_courriel():
+    '''Valide adresse courriel à partir d'un regex'''
+    valeur = True
+    adresse_courriel = request.form["courriel"]
+    if re.search(r"^\w+@\w+.\w{2,}$", adresse_courriel) is None:
+        valeur = False
+    return valeur
+
+def validation_mot_de_passe():
+    '''Valide un mot de passe'''
+    return request.form["password"] != ""
 
 class Allergie():
     def __init__(self, id, nom) -> None:
         pass
 
+class Client(db.Model, UserMixin):
+    __tablename__ = 'client'
 
+    id_client = db.Column(db.Integer, primary_key=True)
+    courriel = db.Column(db.Text, nullable=False, unique=True)
+    password = db.Column(db.Text,  nullable=False)
+
+    def __init__(self, courriel, password):
+        self.courriel = courriel
+        self.password = password
+
+    def get_id(self):
+        return str(self.id_client)
+
+    def get_courriel(self):
+        return str(self.courriel)

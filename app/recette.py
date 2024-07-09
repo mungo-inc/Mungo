@@ -25,8 +25,7 @@ class Recette():
         """
         Cette fonction permet d’afficher un objet Recette en string.
         """
-        return f'''id: {self.id}, nom: {self.nom}, aliments: {self.aliments},
-            diete: {self.dietes}\n'''
+        return f'id: {self.id}, nom: {self.nom}, aliments: {self.aliments}, diete: {self.dietes}\n'
 
     def __repr__(self) -> str:
         """

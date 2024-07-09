@@ -5,7 +5,6 @@ from .diete import Diete
 from .panier import Panier
 import math
 
-
 class Database:
     def __init__(self, path):
         """

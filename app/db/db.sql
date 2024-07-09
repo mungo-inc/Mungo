@@ -121,6 +121,7 @@ CREATE TABLE Client_Panier_Aliment_Recette (
     ID_client INTEGER,
     ID_aliment INTEGER,
     ID_recette INTEGER,
+    Nom TEXT,
     PRIMARY KEY (ID_panier, ID_client, ID_aliment, ID_recette),
     FOREIGN KEY (ID_panier) REFERENCES Panier(ID_panier),
     FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),

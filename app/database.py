@@ -421,19 +421,32 @@ class Database:
 
     def sauvegarder_panier(self, id_client, data):
         id_panier = self.generer_panier_id(id_client)
-        print(f"ID du panier: {id_panier}")
+        nom_panier = self.generer_nom_panier(id_client)
+        print(nom_panier)
         curseur = self.get_connection().cursor()
         for recette in data:
             for aliment in recette['aliments']:
                 query = (
                     """
-                    INSERT INTO Client_Panier_Aliment_Recette VALUES (?, ?, ?, ?)
+                    INSERT INTO Client_Panier_Aliment_Recette 
+                    VALUES (?, ?, ?, ?, ?)
                     """
                 )
                 curseur.execute(query, 
-                    (id_panier, id_client, aliment['id'], recette['id'])
+                    (
+                        id_panier, 
+                        id_client, 
+                        aliment['id'], 
+                        recette['id'], 
+                        nom_panier
+                    )
                 )
                 self.get_connection().commit()
+    
+
+    def generer_nom_panier(self, id_client):
+        nombre_paniers = self.get_nombre_paniers(id_client)
+        return f"Liste d'épicerie #{int(nombre_paniers) + 1}"
 
     def generer_panier_id(self, id_client):
         curseur = self.get_connection().cursor()
@@ -467,9 +480,8 @@ class Database:
         paniers = []
         for item in items:
             panier, recette, aliment = None, None, None
-            panier = Panier(item[0])
+            panier = Panier(item[0], item[1], [], item[4])
             if panier not in paniers:
-                panier.recettes = []
                 paniers.append(panier)
             recette = Recette(item[3], self.get_nom_recette(item[3]))
             if recette not in paniers[-1].recettes:
@@ -477,6 +489,22 @@ class Database:
             aliment = Aliment(item[2], self.get_nom_aliment(item[2]))
             paniers[-1].recettes[-1].ajouter_aliment(aliment)
         return paniers
+
+    def get_nombre_paniers(self, id_client):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            SELECT COUNT(DISTINCT id_panier)
+            FROM Client_Panier_Aliment_Recette
+            WHERE id_client = (?)
+            """
+        )
+        curseur.execute(query, (id_client, ))
+        result = curseur.fetchone()
+        if result is not None:
+            return result[0]
+        return 0 
+
 
     def get_nom_aliment(self, id_aliment):
         """

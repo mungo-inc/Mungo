@@ -1,6 +1,7 @@
 class Panier:
-    def __init__(self, id, recettes=[], nom=None) -> None:
+    def __init__(self, id, id_client, recettes=[], nom=None) -> None:
         self.id = id
+        self.id_client = id_client
         self.recettes = recettes
         self.nom = nom
     

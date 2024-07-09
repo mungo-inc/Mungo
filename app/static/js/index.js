@@ -122,6 +122,15 @@ sauvegarderButton.addEventListener("click", function() {
         body: JSON.stringify(listeASauvegarder)
     })
     .then(response => response.json())
+    .then(response => {
+        let child = afficherSucces(response.message);
+        setTimeout(function() {
+            enleverSucces(child);
+            setTimeout(function() {
+                suppressionMessageAlerte(child);
+            }, 1500);
+        }, 5000);
+    })
 });
 
 function estCloseButtonRecette(target) {
@@ -184,7 +193,7 @@ function montrerButton(className) {
 }
 
 function ajouterNombrePanier() {
-    let child = afficherSucces();
+    let child = afficherSucces("La recette a été ajouté au panier.");
     incrementerNumeroRecette();
         setTimeout(function(){
         enleverSucces(child);
@@ -195,9 +204,9 @@ function ajouterNombrePanier() {
     }, 5000);
 }
 
-function creationMessageAlerte() {
+function creationMessageAlerte(contenuMessage) {
     const message = document.createElement('p');
-    message.textContent = "La recette a été ajouté au panier."
+    message.textContent = contenuMessage;
     message.classList.add("alert-success", "alert");
     let topValue;
     if (++compteur == 1) {
@@ -214,8 +223,8 @@ function suppressionMessageAlerte(child) {
     document.getElementById('notif-succes').removeChild(child);
 }
 
-function afficherSucces() {
-    let child = creationMessageAlerte();
+function afficherSucces(contenuMessage) {
+    let child = creationMessageAlerte(contenuMessage);
     let alerte_id = document.getElementById('notif-succes');
     alerte_id.hidden = false;
     child.hidden = false;

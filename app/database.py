@@ -465,19 +465,15 @@ class Database:
         curseur.execute(query, (id_client, ))
         items = curseur.fetchall()
         paniers = []
-    
         for item in items:
             panier, recette, aliment = None, None, None
-            
             panier = Panier(item[0])
             if panier not in paniers:
                 panier.recettes = []
                 paniers.append(panier)
-            
             recette = Recette(item[3], self.get_nom_recette(item[3]))
             if recette not in paniers[-1].recettes:
                 paniers[-1].ajouter_recette(recette)
-
             aliment = Aliment(item[2], self.get_nom_aliment(item[2]))
             paniers[-1].recettes[-1].ajouter_aliment(aliment)
         return paniers

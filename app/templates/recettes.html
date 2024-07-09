@@ -7,7 +7,7 @@
                     {% for recette in recettes %}
                         <div class="text-container list-recettes">
                             <img src="{{ url_for('static', filename='img/' ~ recette.id|string ~ '.jpg') }}" alt="Image Recette">
-                            <p>{{ recette.nom }}</p>
+                            <a href="{{ url_for('recette', recette.id }}">{{ recette.nom }}</a>
                             <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette = "{{ recette.id }}">Ajouter</button>
                             {% for aliment in recette.aliments %}
                                 <p class="r{{ recette.id }}"hidden> {{ aliment }}</p>

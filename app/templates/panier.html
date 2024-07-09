@@ -1,5 +1,32 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="col-10">
+    <div>
+        <h2>Panier actuel</h2>
+    </div>
+    <div>
+        <h2>Listes d'épicerie sauvegardées</h2>
+        <div>
+            {% if not paniers %}
+            <p> Aucun panier </p>
+            {% else %}
+            {% for panier in paniers %}
+            <h3>{{ panier.nom }}</h3>
+                {% if not panier.recettes %}
+                <p> Aucune recette dans le panier </p>
+                {% else %}
+                {% for recette in panier.recettes %}
+                <h5>{{ recette.nom }}</h5>
+                    {% for aliment in recette.aliments %}
+                    <p>{{ aliment.nom }}</p>
+                    {% endfor %} 
+                {% endfor %} 
+                {% endif %}
+                <button class="btn">Modifier</button>
+                <button class="btn">Supprimer</button>
+            {% endfor %} 
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock content%}

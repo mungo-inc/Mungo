@@ -32,10 +32,10 @@ INSERT INTO recette VALUES (31, 'Keftas de boeufs sur pain naan', 0);
 INSERT INTO recette VALUES (32, 'Ragoût d''aubergine à la viande', 0);
 
 --Ajout des ingrédients dans la BD
-INSERT INTO aliment VALUES (0, 'Pomme de terre', 'u', 'Unite', 1.69);
+INSERT INTO aliment VALUES (0, 'Pomme de terre', 'u', '1', 1.69);
 INSERT INTO aliment VALUES (1, 'Beurre', 'g', '454 ', 6.49);
 INSERT INTO aliment VALUES (2, 'Lait', 'l', '1000', 2.26);
-INSERT INTO aliment VALUES (3, 'Boeuf haché', 'g', '1000', 7);
+INSERT INTO aliment VALUES (3, 'Boeuf haché', 'p', '1000', 7);
 INSERT INTO aliment VALUES (4, 'Oignon', 'u', '1', 1.87);
 INSERT INTO aliment VALUES (5, 'Maïs en crème', 'l', '341', 2);
 INSERT INTO aliment VALUES (6, 'Paprika', 'g', '30', 3);
@@ -43,7 +43,7 @@ INSERT INTO aliment VALUES (7, 'Persil séché', 'g', '12', 2);
 INSERT INTO aliment VALUES (8, 'Crevette', 'g', '340', 10);
 INSERT INTO aliment VALUES (9, 'Patate douce', 'u', '1', 1.32);
 INSERT INTO aliment VALUES (10, 'Poivron rouge', 'u', '1', 2);
-INSERT INTO aliment VALUES (11, 'Porc haché', 'g', '1000', 4.5);
+INSERT INTO aliment VALUES (11, 'Porc haché', 'p', '1000', 4.5);
 INSERT INTO aliment VALUES (12, 'Viande hachée végétarienne', 'g', '340', 6);
 INSERT INTO aliment VALUES (13, 'Pois chiche', 'l', '540', 2.5);
 INSERT INTO aliment VALUES (14, 'Pâte de tomate', 'l', '156', 1.5);
@@ -118,7 +118,7 @@ INSERT INTO aliment VALUES (84, 'Laitue', 'u', '12', 1.5);
 INSERT INTO aliment VALUES (85, 'Ketchup', 'l', '1000', 4.3);
 INSERT INTO aliment VALUES (86, 'Mayonnaise', 'l', '445', 5);
 INSERT INTO aliment VALUES (87, 'Moutarde', 'l', '550', 1.5);
-INSERT INTO aliment VALUES (88, 'Cornichon', 'l', '1', 3.3);
+INSERT INTO aliment VALUES (88, 'Cornichon', 'u', '20', 3.3);
 INSERT INTO aliment VALUES (89, 'Pain hamburger', 'u', '12', 2.5);
 INSERT INTO aliment VALUES (90, 'Tomate', 'u', '1', 1.3);
 INSERT INTO aliment VALUES (91, 'Cheddar', 'g', '250', 4.7);
@@ -139,7 +139,7 @@ INSERT INTO aliment VALUES (108, 'Clou de girofle', 'g','27',2.7);
 INSERT INTO aliment VALUES (109, 'Menthe', 'g','21',2.7);
 INSERT INTO aliment VALUES (110, 'Graine de coriandre', 'g','21',2.5);
 INSERT INTO aliment VALUES (111, 'Orange', 'u','1',1.9);
-INSERT INTO aliment VALUES (112, 'Roti de palette de boeuf', 'g','1250',27.5);
+INSERT INTO aliment VALUES (112, 'Roti de palette de boeuf', 'p','1250',27.5);
 INSERT INTO aliment VALUES (113, 'Bacon', 'g','375',5);
 INSERT INTO aliment VALUES (114, 'Vinaigne balsamique', 'l','500',4);
 INSERT INTO aliment VALUES (115, 'Romarin', 'g','21',2.7);
@@ -204,8 +204,8 @@ INSERT INTO aliment_recette VALUES (7, 0, 1);
 INSERT INTO aliment_recette VALUES (0, 1, 3);
 INSERT INTO aliment_recette VALUES (1, 1, 55);
 INSERT INTO aliment_recette VALUES (2, 1, 125);
-INSERT INTO aliment_recette VALUES (12, 1, 2);
-INSERT INTO aliment_recette VALUES (4, 1, 450);
+INSERT INTO aliment_recette VALUES (12, 1, 450);
+INSERT INTO aliment_recette VALUES (4, 1, 2);
 INSERT INTO aliment_recette VALUES (5, 1, 540);
 INSERT INTO aliment_recette VALUES (6, 1, 1);
 INSERT INTO aliment_recette VALUES (7, 1, 1);
@@ -997,7 +997,7 @@ INSERT INTO Aliment_Allergie VALUES (159, 1);
 
 --Ajout de compte
 
-INSERT INTO client (courriel, password) VALUES ("admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
+INSERT INTO client (courriel, password) VALUES ('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
 
 --Ajout des allergies pour un client
 

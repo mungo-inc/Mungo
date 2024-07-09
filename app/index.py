@@ -1,6 +1,6 @@
 import os
 import re
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask import g, redirect, request, session, url_for
 from flask_login import LoginManager, login_required, UserMixin
 from flask_login import login_user, logout_user, user_logged_in, current_user
@@ -53,7 +53,9 @@ def accueil():
 
 @app.route('/panier')
 def panier():
-    return render_template('panier.html')
+    db = Database('app/db/epicerie.db')
+    paniers = db.get_paniers(current_user.id_client)
+    return render_template('panier.html', paniers=paniers)
 
 
 @app.route('/profil')
@@ -86,6 +88,18 @@ def recettes():
     return render_template('resultats.html', resultats=recettes)
 
 
+@app.route('/recette/<identifiant>')
+def page_recette(identifiant):
+    """
+    retourne la page d'une recette selon son identifiant
+    """
+    db = Database('app/db/epicerie.db')
+    print(identifiant)
+    recette = db.get_recette(identifiant)
+    aliments = []
+    aliments = db.get_aliments_par_recette(identifiant)
+    return render_template('recette.html', recette=recette, aliments=aliments)
+
 @app.route('/articles')
 def articles():
     db = Database(app.config['DATABASE_PATH'])
@@ -113,7 +127,7 @@ def get_query_params():
     epiceries = request.args.getlist('epicerie')
     allergies = request.args.getlist('allergie')
     dietes = request.args.getlist('diete')
-    budget = request.args.get('budget')  # Assuming budget can be None or some integer
+    budget = request.args.get('budget') 
     return epiceries, allergies, dietes, budget
 
 
@@ -121,16 +135,9 @@ def get_query_params():
 def search():
     db = Database(app.config['DATABASE_PATH'])
     db.get_connection()
-    # requete POST au lieu de GET?
-    # aller chercher les valeurs cochées et le budget
-    # avec ces valeurs, effectuer une query sql afin d'obtenir des resultats
-    # epiceries = request.args.getlist('epicerie')
-    # allergies = request.args.getlist('allergie')
-    # dietes = request.args.getlist('diete')
-    # budget = request.args['budget']
     epiceries, allergies, dietes, budget = get_query_params()
-    resultats = db.avoir_recettes(allergies, dietes, epiceries)
-    print(resultats)
+    resultats = db.avoir_recettes(allergies, dietes, epiceries, budget)
+
     return render_template('resultats.html', resultats=resultats)
 
 
@@ -199,10 +206,17 @@ def logout():
     return redirect('/')
 
 
+@app.route('/sauvegarder-liste', methods=['POST'])
+def save_list():
+    db = Database('app/db/epicerie.db')
+    data = request.get_json()
+    db.sauvegarder_panier(current_user.id_client, data)
+    return jsonify({"message": "Liste sauvegardée avec succès."})
+
+
 def construire_recette(donnees):
     recettes = {}
     recettes["nom"] = donnees[0]
-
     return recettes
 
 def validation_adresse_courriel():

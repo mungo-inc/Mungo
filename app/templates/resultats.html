@@ -11,10 +11,10 @@
             {% for resultat in resultats %}
             <div class="text-container list-recettes">
                 <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">
-                <p> {{ resultat.nom }} </p>
+                <a class="nom-recette" href="{{ url_for('page_recette', identifiant=resultat.id) }}">{{ resultat.nom }}</a>
                 <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ resultat.nom }}" id-recette = "{{ resultat.id }}">Ajouter</button>
                 {% for aliment in resultat.aliments %}
-                <p class="r{{ resultat.id }}" hidden> {{ aliment.nom }}</p>
+                <p id-aliment="{{ aliment.id }}" class="r{{ resultat.id }}" hidden> {{ aliment.nom }}</p>
                 {% endfor %}
             </div>
             {% endfor %}
@@ -23,3 +23,5 @@
     </div>
 </div>
 {% endblock content %}
+
+

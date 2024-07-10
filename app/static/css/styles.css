@@ -693,17 +693,17 @@ div.evaluation {
 .panier-conteneur {
     font-family: FlinkBold;
     background-color: #FFFFFF;
-    width: 80%;
+    width: 40%;
     margin: 50px auto;
     padding-left: 35px;
     padding-top: 35px;
     border-radius: 25px;
     margin-bottom: 20px;
-    min-height: 150px;
-    max-height: 800px;
+    min-height: 15em;
+    max-height: 35em;
     overflow-y: auto;
     box-sizing: border-box;
-    position: relative;
+    position: relative; 
 }
 
 .btn-liste-epicerie-container {
@@ -724,4 +724,10 @@ div.evaluation {
 
 .panier-conteneur {
     -ms-overflow-style: none;  /* Masquer la barre de défilement pour Internet Explorer et Edge */
+}
+
+.paniers-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }

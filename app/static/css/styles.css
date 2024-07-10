@@ -680,3 +680,48 @@ div.evaluation {
     box-shadow: none;
     padding: 0 0 25px 0 !important;
 }
+
+#titre-liste-epicerie-sauvegardee {
+    font-family: FlinkBold;
+    text-align: center;
+}
+
+#panier-nom {
+    font-family: FlinkBold !important;
+}
+
+.panier-conteneur {
+    font-family: FlinkBold;
+    background-color: #FFFFFF;
+    width: 80%;
+    margin: 50px auto;
+    padding-left: 35px;
+    padding-top: 35px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    min-height: 150px;
+    max-height: 800px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.btn-liste-epicerie-container {
+    position: sticky !important;
+    bottom: 0;
+    background-color: #fff;
+    width: 100%;
+    padding-bottom: 55px;
+}
+
+.panier-conteneur::-webkit-scrollbar {
+    display: none;
+}
+
+.panier-conteneur {
+    scrollbar-width: none; /* Masquer la barre de défilement */
+}
+
+.panier-conteneur {
+    -ms-overflow-style: none;  /* Masquer la barre de défilement pour Internet Explorer et Edge */
+}

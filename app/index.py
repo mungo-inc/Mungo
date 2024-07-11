@@ -53,8 +53,8 @@ def accueil():
 
 @app.route('/panier')
 def panier():
-    db = Database('app/db/epicerie.db')
-    paniers = db.get_paniers(current_user.id_client)
+    db = Database(app.config['DATABASE_PATH'])
+    paniers = db.get_paniers(current_user.get_id())
     return render_template('panier.html', paniers=paniers)
 
 
@@ -172,8 +172,6 @@ def register():
             redirect('/incorrect')
         else:
             client = Client(courriel=courriel, password=mot_passe_crypte)
-            #db.session.add(client)
-            #db.session.commit()
             db_dur = Database(app.config['DATABASE_PATH'])
             db_dur.get_connection()
             query = (
@@ -186,6 +184,12 @@ def register():
             db_dur.get_connection().commit() 
             db_dur.creation_requete_diete(courriel, [0])
             db_dur.creation_requete_epicerie(courriel, [0, 1, 2])
+            user = Client.query.filter_by(courriel=courriel).first()
+
+            if user and user.password == mot_passe_crypte:
+                login_user(user)
+                return redirect('/')
+
 
     return redirect('/')
 

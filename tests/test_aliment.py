@@ -26,5 +26,5 @@ class TestAliment(unittest.TestCase):
 
     def test_str(self) -> None:
         a1 = Aliment(0, "Patate", 0)
-        self.assertEqual(str(a1), '\n\t(id: 0, nom: Patate, epicerie: 0)\n')
+        self.assertEqual(str(a1), '\n\t(id: 0, nom: Patate, epicerie: None)\n')
         print("test_str_aliment OK")

@@ -21,10 +21,10 @@
             <button type="button" class="evaluer-bouton" onClick="allerBasPage()">Évaluer cette recette</button>
             <div class="aliments">
                 {% for aliment in aliments %}
-                <p class="r{{ recette.id }}" id-aliment="{{ aliment.id }}"> {{ aliment.nom }}</p>
+                <p class="r{{ recette.id }}" data-id-aliment="{{ aliment.id }}"> {{ aliment.nom }}</p>
                 {% endfor %}
             </div>
-            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette="{{ recette.id }}">Ajouter</button>
+            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">Ajouter</button>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
             <label for="exampleFormControlTextarea1">Laissez-nous savoir vos commentaires!</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
-            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette="{{ recette.id }}">Envoyer</button>
+            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">Envoyer</button>
     </form>
     </div>
 </div>

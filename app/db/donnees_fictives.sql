@@ -189,6 +189,7 @@ INSERT INTO aliment VALUES (160, 'Vin Rouge', 'l','500',9);
 INSERT INTO aliment VALUES (161, 'Miel', 'g','375',6.5);
 INSERT INTO aliment VALUES (162, 'Poivre Sichuan', 'g','50',11);
 INSERT INTO aliment VALUES (163, 'Mais en grain', 'l','540',1.7);
+INSERT INTO aliment VALUES (164, 'Sauce tomate', 'l','680',2);
 
 
 --Ajout des recettes avec les aliments
@@ -215,7 +216,7 @@ INSERT INTO aliment_recette VALUES (3, 2, 675);
 INSERT INTO aliment_recette VALUES (4, 2, 3);
 INSERT INTO aliment_recette VALUES (21, 2, 4);
 INSERT INTO aliment_recette VALUES (22, 2, 4);
-INSERT INTO aliment_recette VALUES (14, 2, 1600);
+INSERT INTO aliment_recette VALUES (164, 2, 1600);
 INSERT INTO aliment_recette VALUES (155, 2, 675);
 INSERT INTO aliment_recette VALUES (132, 2, 60);
 INSERT INTO aliment_recette VALUES (37, 2, 4);

@@ -53,8 +53,8 @@ def accueil():
 
 @app.route('/panier')
 def panier():
-    db = Database('app/db/epicerie.db')
-    paniers = db.get_paniers(current_user.id_client)
+    db = Database(app.config['DATABASE_PATH'])
+    paniers = db.get_paniers(current_user.get_id())
     return render_template('panier.html', paniers=paniers)
 
 

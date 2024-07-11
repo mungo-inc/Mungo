@@ -11,6 +11,7 @@ const sauvegarderButton = document.getElementById("save-list-btn");
 
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 let compteur = 0;
+let restants = []; // {idAliment, qteRestante}
 
 
 connecterEnregistrerLien.forEach(link => {
@@ -58,7 +59,6 @@ fermerConnexionBtn.addEventListener("click", () => {
 ajouterButtons.forEach(function(button) {
     button.addEventListener("click", function() {
         let strongs = document.querySelectorAll('.accordion-body strong');
-        let restants = []; // {idAliment, qteRestante}
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
             ajouterElementPanier.call(this, strongs, 0);
             montrerTotalPanier();
@@ -76,8 +76,9 @@ ajouterButtons.forEach(function(button) {
                 </div>`
             let strongs = document.querySelectorAll('.accordion-body strong');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
-            updaterRestants.call(this, restants);
         }
+        updaterRestants.call(this, restants);
+        updaterPrixPage(restants);
         let message = "La recette a été ajouté au panier."
         ajouterNombrePanier(message);
     });
@@ -100,6 +101,24 @@ function updaterRestants(restants) {
             restants.push({idAliment, qteRestante});
         } else {
             restants.push({idAliment, qteRestante: 0});
+        }
+    });
+}
+
+function updaterPrixPage(restants) {
+    console.log(restants);
+    let div = document.querySelector('div.liste-recettes.conteneur-recettes');
+    restants.forEach(restant =>  {
+        for (let childDiv of div.children) {
+            let idRecette = childDiv.id;
+            childDiv.querySelectorAll('p.r' + idRecette).forEach(p => {
+                if (parseInt(p.getAttribute('data-id-aliment')) === restant.idAliment) {
+                    if (parseInt(p.getAttribute('data-quantite-recette')) < restant.qteRestante) {
+                        let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
+                        childDiv.querySelector('p .prix-recette').textContent = prix - parseFloat(p.getAttribute('data-prix-aliment'));
+                    }
+                }
+            });
         }
     });
 }

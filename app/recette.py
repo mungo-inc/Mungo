@@ -3,7 +3,7 @@ from .diete import Diete
 
 
 class Recette():
-    def __init__(self, id, nom) -> None:
+    def __init__(self, id, nom, prix) -> None:
         """
         Constructeur de l’objet Recette.
         """
@@ -11,7 +11,7 @@ class Recette():
         self.nom = nom
         self.aliments = set()
         self.dietes = set()
-
+        self.prix = prix
     def __eq__(self, other):
         """
         Redéfinition de l’opérateur “==” qui vérifie

@@ -12,9 +12,13 @@
             <div class="text-container list-recettes">
                 <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">
                 <a class="nom-recette" href="{{ url_for('page_recette', identifiant=resultat.id) }}">{{ resultat.nom }}</a>
+		<p> Prix: <span class="prix-recette">{{ resultat.prix }} </span>
                 <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ resultat.nom }}" data-id-recette = "{{ resultat.id }}">Ajouter</button>
                 {% for aliment in resultat.aliments %}
-                <p data-id-aliment="{{ aliment.id }}" class="r{{ resultat.id }}" hidden> {{ aliment.nom }}</p>
+		<p data-id-aliment="{{ aliment.id }}" class="r{{ resultat.id }}" hidden> {{ aliment.nom }}</p>
+		<p data-quantite-aliment="{{ aliment.quantite }}" class="r{{ resultat.quantite }}" hidden> {{ aliment.quantite }}</p>
+		<p data-quantite-recette="{{ aliment.quantite_recette }}" class="r{{ resultat.quantite_recette }}" hidden> {{ aliment.quantite_recette }}</p>
+		<p data-prix-aliment="{{ aliment.prix }}" class="r{{ resultat.prix }}" hidden> {{ aliment.prix }}</p>
                 {% endfor %}
             </div>
             {% endfor %}

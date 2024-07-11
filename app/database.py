@@ -48,7 +48,7 @@ class Database:
         donnees = curseur.fetchall()
         recettes_allergies = []
         for (nom, id_recette) in donnees:
-            recettes_allergies.append(Recette(nom, id_recette))
+            recettes_allergies.append(Recette(nom, id_recette, None))
         return recettes_allergies
 
     def get_articles(self):
@@ -75,7 +75,7 @@ class Database:
         for elem in resultat:
             id_recette = elem[0]
             nom = elem[1]
-            recettes.append(Recette(id_recette, nom))
+            recettes.append(Recette(id_recette, nom, None))
         resultat = self.get_aliments_par_recettes(recettes)
         return resultat 
 
@@ -99,7 +99,7 @@ class Database:
         cursor = self.get_connection().cursor()
         query = """
                 SELECT aliment.id_aliment, aliment.nom,
-                aliment_epicerie.id_epicerie,aliment_recette.quantite
+                aliment.Quantite, aliment_epicerie.id_epicerie, Aliment.Prix, aliment_recette.quantite
                 FROM aliment
                 JOIN aliment_recette ON aliment.id_aliment
                 = aliment_recette.id_aliment
@@ -110,8 +110,8 @@ class Database:
         for recette in recettes:
             cursor.execute(query, (recette.id, ))
             aliments = cursor.fetchall()
-            for id, nom, quantite, epicerie in aliments:
-                aliment = Aliment(id, nom, quantite, epicerie)
+            for id, nom, quantite_aliment, epicerie, prix, quantite_recette  in aliments:
+                aliment = Aliment(id, nom, quantite_aliment, epicerie,  prix, quantite_recette)
                 recette.ajouter_aliment(aliment)
             resultat.append(recette)
         return resultat
@@ -190,6 +190,7 @@ class Database:
                         prix_total += quantite * prix
                         ingredients_calculer.add(aliment_id)
             if prix_total <= budget:
+                recette.prix = prix_total
                 nouvelle_donnees.append(recette)
         return nouvelle_donnees
 
@@ -223,12 +224,12 @@ class Database:
         for (id_recette, id_diete, r_nom, d_nom) in donnees:
             diete = Diete(id_diete, d_nom)
             if id_recette not in recettes:
-                recettes[id_recette] = Recette(id_recette, r_nom)
+                recettes[id_recette] = Recette(id_recette, r_nom, None)
             recettes[id_recette].ajouter_diete(diete)
 
             if str(id_diete) in dietes:
                 if id_recette not in recettes_dietes:
-                    recettes_dietes[id_recette] = Recette(id_recette, r_nom)
+                    recettes_dietes[id_recette] = Recette(id_recette, r_nom, None)
                 recettes_dietes[id_recette].ajouter_diete(diete)
 
         resultat = []
@@ -271,12 +272,12 @@ class Database:
         for (recette_id, aliment_id, epicerie_id, quantite, r_nom, a_nom) in donnees:
             aliment = Aliment(aliment_id, a_nom, quantite, epicerie_id)
             if recette_id not in recettes:
-                recettes[recette_id] = Recette(recette_id, r_nom)
+                recettes[recette_id] = Recette(recette_id, r_nom, None)
             recettes[recette_id].ajouter_aliment(aliment)
 
             if str(epicerie_id) in epiceries:
                 if recette_id not in recettes_epicerie:
-                    recettes_epicerie[recette_id] = Recette(recette_id, r_nom)
+                    recettes_epicerie[recette_id] = Recette(recette_id, r_nom, None)
                 recettes_epicerie[recette_id].ajouter_aliment(aliment)
 
         resultat = []

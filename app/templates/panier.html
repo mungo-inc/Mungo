@@ -4,29 +4,31 @@
     <div>
         <h2>Panier actuel</h2>
     </div>
-    <div>
-        <h2>Listes d'épicerie sauvegardées</h2>
-        <div>
-            {% if not paniers %}
-            <p> Aucun panier </p>
+    <h2 id="titre-liste-epicerie-sauvegardee">Listes d'épicerie sauvegardées</h2>
+    {% if not paniers %}
+    <p> Aucun panier </p>
+    {% else %}
+    <div class="paniers-grid">
+        {% for panier in paniers %}
+        <div class="panier-conteneur">
+            <h3 id="panier-nom">{{ panier.nom }}</h3>
+            {% if not panier.recettes %}
+            <p> Aucune recette dans le panier </p>
             {% else %}
-            {% for panier in paniers %}
-            <h3>{{ panier.nom }}</h3>
-                {% if not panier.recettes %}
-                <p> Aucune recette dans le panier </p>
-                {% else %}
-                {% for recette in panier.recettes %}
-                <h5>{{ recette.nom }}</h5>
-                    {% for aliment in recette.aliments %}
-                    <p>{{ aliment.nom }}</p>
-                    {% endfor %} 
-                {% endfor %} 
-                {% endif %}
-                <button class="btn">Modifier</button>
-                <button class="btn">Supprimer</button>
+            {% for recette in panier.recettes %}
+            <h5>{{ recette.nom }}</h5>
+            {% for aliment in recette.aliments %}
+            <p>{{ aliment.nom }}</p>
+            {% endfor %} 
             {% endfor %} 
             {% endif %}
+            <div class="btn-liste-epicerie-container">
+                <button class="btn btn-liste-epicerie">Modifier</button>
+                <button class="btn btn-liste-epicerie">Supprimer</button>
+            </div>
         </div>
+        {% endfor %} 
+        {% endif %}
     </div>
 </div>
-{% endblock content%}
+{% endblock content %}

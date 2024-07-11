@@ -109,13 +109,13 @@ sauvegarderButton.addEventListener("click", function() {
     let accordionBodies = document.querySelectorAll('.accordion-body');
     let listeASauvegarder = [];
     accordionBodies.forEach(body => {
-        let idRecette = body.querySelector('strong').getAttribute('id-recette')
+        let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
         let nomRecette = body.querySelector('strong').textContent;
         let lis = body.querySelectorAll('li');
         aliments = [];
         lis.forEach(li => {
             aliments.push({
-                id: li.getAttribute('id-aliment'), 
+                id: li.getAttribute('data-id-aliment'), 
                 nom: li.textContent.trim() 
             });
         });
@@ -184,11 +184,11 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
 }
 
 function ajouterElementPanier(strongs, index) {
-    strongs[index].textContent = this.getAttribute('nom-recette');
-    let idRecette = document.createAttribute('id-recette');
-    idRecette.value = this.getAttribute('id-recette');
+    strongs[index].textContent = this.getAttribute('data-nom-recette');
+    let idRecette = document.createAttribute('data-id-recette');
+    idRecette.value = this.getAttribute('data-id-recette');
     strongs[index].setAttributeNode(idRecette);
-    idRecette = this.getAttribute('id-recette');
+    idRecette = this.getAttribute('data-id-recette');
     let aliments = document.querySelectorAll('.r' + idRecette);
     let ul = document.querySelectorAll('.accordion-body ul');
     listerAliment(ul, aliments, index);
@@ -258,8 +258,8 @@ function listerAliment(ul, aliments, index) {
         let button = creerCloseButton();
         li.append(button);
         li.innerHTML += aliments[i].textContent;
-        let idAliment = document.createAttribute('id-aliment');
-        idAliment.value = aliments[i].getAttribute('id-aliment');
+        let idAliment = document.createAttribute('data-id-aliment');
+        idAliment.value = aliments[i].getAttribute('data-id-aliment');
         li.setAttributeNode(idAliment);
         ul[index].append(li);
     }
@@ -302,7 +302,7 @@ function extraireListeEpicerie(accordions) {
         let nomRecette = accordions[i].querySelector('strong').textContent;
         let idRecette = accordions[i]
             .querySelector('strong')
-            .getAttribute('id-recette');
+            .getAttribute('data-id-recette');
         let items = extraireItems(accordions[i]);
         listeEpicerie.push(
             { idRecette: idRecette, nomRecette: nomRecette, items: items }
@@ -316,7 +316,7 @@ function extraireItems(accordion) {
     const items = [];
     let lis = ul.querySelectorAll('li');
     for (let j = 0; j < lis.length; j++) {
-        items.push({ id: lis[j].getAttribute('id-aliment'), nom: lis[j].textContent });
+        items.push({ id: lis[j].getAttribute('data-id-aliment'), nom: lis[j].textContent });
     }
     return items;
 }
@@ -366,7 +366,7 @@ function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
         <div class="accordion-body">
             <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-            <strong id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
+            <strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
             <ul></ul>
         </div>`;
     
@@ -375,7 +375,7 @@ function ajouterRecetteAuDiv(div, entree, index) {
         let li = document.createElement('li');
         let button = creerCloseButton();
         li.append(button);
-        let idAliment = document.createAttribute('id-aliment');
+        let idAliment = document.createAttribute('data-id-aliment');
         idAliment.value = entree.items[j].id;
         li.setAttributeNode(idAliment);
         li.innerHTML += entree.items[j].nom;

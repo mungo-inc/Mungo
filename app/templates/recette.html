@@ -9,7 +9,7 @@
         </div>
 
         <div class="details-recette">
-            <h2 class="titre-recette"> {{ recette.nom }}</h2>
+            <h2 class="titre-recette" id-recette="{{ recette.id }}"> {{ recette.nom }}</h2>
             <div id="rating-app-1">
                 <b-form-rating
                     v-model="value1"
@@ -21,10 +21,10 @@
             <button type="button" class="evaluer-bouton" onClick="allerBasPage()">Évaluer cette recette</button>
             <div class="aliments">
                 {% for aliment in aliments %}
-                <p> {{ aliment.nom }}</p>
+                <p class="r{{ recette.id }}" data-id-aliment="{{ aliment.id }}"> {{ aliment.nom }}</p>
                 {% endfor %}
             </div>
-            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette="{{ recette.id }}">Ajouter</button>
+            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">Ajouter</button>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
             <label for="exampleFormControlTextarea1">Laissez-nous savoir vos commentaires!</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
-            <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ recette.nom }}" id-recette="{{ recette.id }}">Envoyer</button>
+            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">Envoyer</button>
     </form>
     </div>
 </div>

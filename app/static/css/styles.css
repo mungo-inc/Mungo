@@ -753,3 +753,9 @@ div.evaluation {
     flex-wrap: wrap;
     gap: 20px;
 }
+
+#total-panier , #total-panier-valeur {
+    font-family: FlinkBold !important; 
+    font-weight: bold !important;
+    padding-left: 2px !important;
+}

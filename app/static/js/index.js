@@ -60,6 +60,7 @@ ajouterButtons.forEach(function(button) {
         let strongs = document.querySelectorAll('.accordion-body strong');
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
             ajouterElementPanier.call(this, strongs, 0);
+            montrerTotalPanier();
             montrerButton('btn-close');
             montrerButton('btn-vider');
             montrerButton('save-list-btn');
@@ -80,6 +81,10 @@ ajouterButtons.forEach(function(button) {
     });
 });
 
+function montrerTotalPanier() {
+    let total = document.getElementById('total-panier');
+    total.hidden = false;
+}
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
@@ -344,6 +349,8 @@ function afficherListeEpicerie(listeEpicerie) {
         for (let i = 0; i < listeEpicerie.length; i++) {
             ajouterRecetteAuDiv(div, listeEpicerie[i], i);
         }
+        montrerTotalPanier();
+        //calculerTotalPanier();
     }
 }
 
@@ -359,6 +366,8 @@ function afficherAucunItem(div) {
     if (saveButton != null) {
         saveButton.hidden = true;
     }
+    let total = document.getElementById('total-panier');
+    total.hidden = true;
     button[0].hidden = true;
 }
 

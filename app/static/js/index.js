@@ -16,7 +16,7 @@ let compteur = 0;
 connecterEnregistrerLien.forEach(link => {
     link.addEventListener("click", (e) => {
         e.preventDefault();
-        afficherEcranEnregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer").focus();
+        afficherEcranEnregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
     });
 });
 

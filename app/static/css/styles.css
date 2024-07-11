@@ -701,6 +701,7 @@ div.evaluation {
     font-family: FlinkBold;
     font-size: 3em;
     display: block;
+}
   
 #titre-liste-epicerie-sauvegardee {
     font-family: FlinkBold;
@@ -751,4 +752,10 @@ div.evaluation {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+
+#total-panier , #total-panier-valeur {
+    font-family: FlinkBold !important; 
+    font-weight: bold !important;
+    padding-left: 2px !important;
 }

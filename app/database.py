@@ -99,7 +99,8 @@ class Database:
         cursor = self.get_connection().cursor()
         query = """
                 SELECT aliment.id_aliment, aliment.nom,
-                aliment.Quantite, aliment_epicerie.id_epicerie, Aliment.Prix, aliment_recette.quantite
+                aliment.Quantite, aliment_epicerie.id_epicerie, 
+                aliment.Prix, aliment_recette.quantite, aliment.type
                 FROM aliment
                 JOIN aliment_recette ON aliment.id_aliment
                 = aliment_recette.id_aliment
@@ -110,8 +111,15 @@ class Database:
         for recette in recettes:
             cursor.execute(query, (recette.id, ))
             aliments = cursor.fetchall()
-            for id, nom, quantite_aliment, epicerie, prix, quantite_recette  in aliments:
-                aliment = Aliment(id, nom, quantite_aliment, epicerie,  prix, quantite_recette)
+            for (id, nom, quantite_aliment, epicerie, 
+                 prix, quantite_recette, type_unite)  in aliments:
+                aliment = Aliment(id, 
+                                  nom, 
+                                  quantite_aliment, 
+                                  epicerie, 
+                                  prix, 
+                                  quantite_recette, 
+                                  type_unite)
                 recette.ajouter_aliment(aliment)
             resultat.append(recette)
         return resultat

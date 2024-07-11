@@ -1,7 +1,15 @@
 class Aliment():
 
-    def __init__(self, id, nom, quantite=None, epicerie_id=None, prix=None, quantite_recette=None) -> None:
-
+    def __init__(
+            self, 
+            id, 
+            nom, 
+            quantite=None, 
+            epicerie_id=None, 
+            prix=None, 
+            quantite_recette=None, 
+            type_unite=None
+        ) -> None:
         """
         Constructeur de l’objet Aliment.
         """
@@ -11,6 +19,8 @@ class Aliment():
         self.quantite = quantite
         self.prix = prix
         self.quantite_recette = quantite_recette
+        self.type_unite = type_unite
+
     def __eq__(self, other):
         """
         Redéfinition de l’opérateur “==” qui vérifie

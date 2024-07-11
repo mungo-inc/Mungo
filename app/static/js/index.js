@@ -58,6 +58,7 @@ fermerConnexionBtn.addEventListener("click", () => {
 ajouterButtons.forEach(function(button) {
     button.addEventListener("click", function() {
         let strongs = document.querySelectorAll('.accordion-body strong');
+        let restants = []; // {idAliment, qteRestante}
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
             ajouterElementPanier.call(this, strongs, 0);
             montrerTotalPanier();
@@ -75,11 +76,33 @@ ajouterButtons.forEach(function(button) {
                 </div>`
             let strongs = document.querySelectorAll('.accordion-body strong');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
+            updaterRestants.call(this, restants);
         }
         let message = "La recette a été ajouté au panier."
         ajouterNombrePanier(message);
     });
 });
+
+function updaterRestants(restants) {
+    let idRecette = this.getAttribute('data-id-recette');
+    document.querySelectorAll('p.r' + idRecette).forEach (elem => {
+        let idAliment = parseInt(elem.getAttribute('data-id-aliment'));
+        let qteAliment = parseFloat(elem.getAttribute('data-quantite-aliment'));
+        let qteRecette = parseFloat(elem.getAttribute('data-quantite-recette'));
+        let qteRestante = qteAliment - qteRecette;
+        if (qteRestante >= 0) {
+            restants.push({idAliment, qteRestante});
+        } else if (elem.getAttribute("data-type-aliment") != 'p') {
+            while (qteRestante < 0) {
+                qteAliment += qteAliment;
+                qteRestante = qteAliment - qteRecette;
+            }
+            restants.push({idAliment, qteRestante});
+        } else {
+            restants.push({idAliment, qteRestante: 0});
+        }
+    });
+}
 
 function montrerTotalPanier() {
     let total = document.getElementById('total-panier');
@@ -212,7 +235,7 @@ function montrerButton(className) {
 function ajouterNombrePanier(message) {
     let child = afficherSucces(message);
     incrementerNumeroRecette();
-        setTimeout(function(){
+    setTimeout(function() {
         enleverSucces(child);
         setTimeout(function(){
              suppressionMessageAlerte(child);
@@ -350,8 +373,17 @@ function afficherListeEpicerie(listeEpicerie) {
             ajouterRecetteAuDiv(div, listeEpicerie[i], i);
         }
         montrerTotalPanier();
-        //calculerTotalPanier();
+        calculerTotalPanier();
     }
+}
+
+function calculerTotalPanier() {
+    restants = []; // { idAliment, qteRestante }
+    
+}
+
+function updatePrixResultat() {
+
 }
 
 function afficherAucunItem(div) {

@@ -17,6 +17,11 @@ connecterEnregistrerLien.forEach(link => {
     link.addEventListener("click", (e) => {
         e.preventDefault();
         afficherEcranEnregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
+        if (link.id === "lien-inscription") {
+            document.getElementById("courriel-r").focus();
+        } else {
+            document.getElementById("courriel").focus();
+        }
     });
 });
 
@@ -33,6 +38,9 @@ if (defilement != null && defilementOut != null) {
 
 if (afficherEcranConnexionBtn) {
     afficherEcranConnexionBtn.addEventListener("click", () => {
+        setTimeout(function() {
+                document.getElementById("courriel").focus();
+            }, 250);
         document.body.classList.toggle("afficher-popup");
     });
 } else {

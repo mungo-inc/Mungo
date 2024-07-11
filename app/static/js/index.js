@@ -17,6 +17,11 @@ connecterEnregistrerLien.forEach(link => {
     link.addEventListener("click", (e) => {
         e.preventDefault();
         afficherEcranEnregistrer.classList[link.id === "lien-inscription" ? 'add' : 'remove']("afficher-enregistrer");
+        if (link.id === "lien-inscription") {
+            document.getElementById("courriel-r").focus();
+        } else {
+            document.getElementById("courriel").focus();
+        }
     });
 });
 

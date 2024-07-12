@@ -11,7 +11,7 @@ const sauvegarderButton = document.getElementById("save-list-btn");
 
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 let compteur = 0;
-let restants = []; // {idAliment, qteRestante}
+let restants = []; // {idAliment, qteRestante, aDejaEteEnlever}
 
 
 connecterEnregistrerLien.forEach(link => {
@@ -91,22 +91,36 @@ function updaterRestants(restants) {
         let qteAliment = parseFloat(elem.getAttribute('data-quantite-aliment'));
         let qteRecette = parseFloat(elem.getAttribute('data-quantite-recette'));
         let qteRestante = qteAliment - qteRecette;
-        if (qteRestante >= 0) {
+        let alimentExiste = restants.some(aliment => aliment.idAliment === idAliment);
+        console.log(alimentExiste);
+        console.log(restants);
+        if (!alimentExiste && qteRestante >= 0) {
             restants.push({idAliment, qteRestante});
-        } else if (elem.getAttribute("data-type-aliment") != 'p') {
+        } else if (!alimentExiste && elem.getAttribute("data-type-aliment") != 'p') {
             while (qteRestante < 0) {
                 qteAliment += qteAliment;
                 qteRestante = qteAliment - qteRecette;
             }
             restants.push({idAliment, qteRestante});
-        } else {
+        } else if (!alimentExiste) {
             restants.push({idAliment, qteRestante: 0});
+        } else if (elem.getAttribute("data-type-aliment") != 'p') {
+            modifierQteRestante(restants, idAliment, qteRestante - qteRecette, qteAliment);
         }
     });
 }
 
+function modifierQteRestante(restants, idAliment, nouvelleQte, qteAliment) {
+    let aliment = restants.find(aliment => aliment.idAliment === idAliment);
+    if (aliment) {
+        aliment.qteRestante = nouvelleQte;
+        while (aliment.qteRestante < 0) {
+            aliment.qteRestante += qteAliment;
+        }
+    }
+}
+
 function updaterPrixPage(restants) {
-    console.log(restants);
     let div = document.querySelector('div.liste-recettes.conteneur-recettes');
     restants.forEach(restant =>  {
         for (let childDiv of div.children) {
@@ -248,7 +262,9 @@ function ajouterElementPanier(strongs, index) {
 
 function montrerButton(className) {
     let button = document.getElementsByClassName(className);
-    button[0].hidden = false;
+    if (button[0] != null) {
+        button[0].hidden = false;
+    }
 }
 
 function ajouterNombrePanier(message) {

@@ -137,7 +137,7 @@ function modifierQteRestante(restants,
         if (alimentExisteDansTagged && nouvelleQte < 0) {
             console.log(taggedAliments.length);
             taggedAliments = taggedAliments.filter(elem => 
-                elem.idAliment !== idAliment || elem.idRecette !== idRecette
+                elem.idAliment !== idAliment || elem.qteRecette <= nouvelleQte 
             );
             console.log(taggedAliments.length);
         }

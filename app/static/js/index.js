@@ -86,15 +86,19 @@ ajouterButtons.forEach(function(button) {
 });
 
 function updaterRestants(restants, taggedAliments) {
-    let idRecette = this.getAttribute('data-id-recette');
+    let idRecette = parseInt(this.getAttribute('data-id-recette'));
     document.querySelectorAll('p.r' + idRecette).forEach (elem => {
+        let qteRestante;
         let idAliment = parseInt(elem.getAttribute('data-id-aliment'));
         let qteAliment = parseFloat(elem.getAttribute('data-quantite-aliment'));
         let qteRecette = parseFloat(elem.getAttribute('data-quantite-recette'));
-        let qteRestante = qteAliment - qteRecette;
         let alimentExiste = restants.some(aliment => aliment.idAliment === idAliment);
-        // console.log(alimentExiste);
-        // console.log(restants);
+        if (alimentExiste) {
+            let aliment = restants.find(aliment => aliment.idAliment === idAliment);
+            qteRestante = aliment.qteRestante;
+        } else {
+            qteRestante = qteAliment - qteRecette;
+        }
         if (!alimentExiste && qteRestante >= 0) {
             restants.push({idAliment, qteRestante});
         } else if (!alimentExiste && elem.getAttribute("data-type-aliment") != 'p') {
@@ -106,7 +110,12 @@ function updaterRestants(restants, taggedAliments) {
         } else if (!alimentExiste) {
             restants.push({idAliment, qteRestante: 0});
         } else if (elem.getAttribute("data-type-aliment") != 'p') {
+            if (idAliment === 132) {
+                console.log("idAliment:", idAliment, "qteRestante:", qteRestante, "qteRecette:", qteRecette);
+            }
             modifierQteRestante(restants, idAliment, qteRestante - qteRecette, qteAliment, taggedAliments, idRecette);
+            let restantsCopy = [...restants];
+            console.log(restantsCopy);
         }
     });
 }
@@ -118,20 +127,29 @@ function modifierQteRestante(restants,
                              taggedAliments, 
                              idRecette) {
     let aliment = restants.find(aliment => aliment.idAliment === idAliment);
-    alimentExisteDansTagged = taggedAliments.some(elem => { 
+    alimentExisteDansTagged = taggedAliments.some(elem =>  
         elem.idAliment === idAliment && elem.idRecette === idRecette 
-    });
-    if (aliment && aliment.qteRestante < 0) {
-        if (alimentExisteDansTagged) {
-            taggedAliments.filter(elem => {
-                elem.idAliment !== idAliment && elem.idRecette !== idRecette
-            });
+    );
+    if (aliment) {
+        if (idAliment === 132) {
+            console.log(alimentExisteDansTagged, nouvelleQte);
+        }
+        if (alimentExisteDansTagged && nouvelleQte < 0) {
+            console.log(taggedAliments.length);
+            taggedAliments = taggedAliments.filter(elem => 
+                elem.idAliment !== idAliment || elem.idRecette !== idRecette
+            );
+            console.log(taggedAliments.length);
         }
         aliment.qteRestante = nouvelleQte;
         while (aliment.qteRestante < 0) {
             aliment.qteRestante += qteAliment;
         }
+        // Pour chaque aliment de chaque recette dans la page, allez verifier
+        // si la qteRestante > qteRecette. Ajuster le prix si ce n'est pas le 
+        // cas.
     }
+    console.log(taggedAliments);
 }
 
 function updaterPrixPage(restants, taggedAliments) {
@@ -144,8 +162,9 @@ function updaterPrixPage(restants, taggedAliments) {
                 let idRecette = parseInt(childDiv.id);
                 let qteRecette = parseInt(p.getAttribute('data-quantite-recette'));
                 if (idAliment === restant.idAliment) {
-                    let alimentExiste = taggedAliments.some(aliment => aliment.idAliment === idAliment && aliment.idRecette === idRecette);
-                    console.log(taggedAliments)
+                    let alimentExiste = taggedAliments.some(aliment => 
+                        aliment.idAliment === idAliment && aliment.idRecette === idRecette
+                    );
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
                         childDiv.querySelector('p .prix-recette').textContent = prix - parseFloat(p.getAttribute('data-prix-aliment'));

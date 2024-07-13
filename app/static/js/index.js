@@ -85,7 +85,7 @@ ajouterButtons.forEach(function(button) {
     });
 });
 
-function updaterRestants(restants, taggedAliments) {
+function updaterRestants(restants) {
     let idRecette = parseInt(this.getAttribute('data-id-recette'));
     document.querySelectorAll('p.r' + idRecette).forEach (elem => {
         let qteRestante;
@@ -111,11 +111,12 @@ function updaterRestants(restants, taggedAliments) {
             restants.push({idAliment, qteRestante: 0});
         } else if (elem.getAttribute("data-type-aliment") != 'p') {
             if (idAliment === 132) {
-                console.log("idAliment:", idAliment, "qteRestante:", qteRestante, "qteRecette:", qteRecette);
+                //console.log("idAliment:", idAliment, "qteRestante:", qteRestante, "qteRecette:", qteRecette);
             }
-            modifierQteRestante(restants, idAliment, qteRestante - qteRecette, qteAliment, taggedAliments, idRecette);
-            let restantsCopy = [...restants];
-            console.log(restantsCopy);
+            let nouvelleQte = qteRestante - qteRecette;
+            modifierQteRestante(restants, idAliment, nouvelleQte, qteAliment, idRecette);
+            // let restantsCopy = [...restants];
+            // console.log("restants: ", restantsCopy);
         }
     });
 }
@@ -123,23 +124,30 @@ function updaterRestants(restants, taggedAliments) {
 function modifierQteRestante(restants, 
                              idAliment, 
                              nouvelleQte, 
-                             qteAliment, 
-                             taggedAliments, 
+                             qteAliment,  
                              idRecette) {
     let aliment = restants.find(aliment => aliment.idAliment === idAliment);
+    let alimentTagged = taggedAliments.find(aliment => aliment.idAliment === idAliment);
     alimentExisteDansTagged = taggedAliments.some(elem =>  
         elem.idAliment === idAliment && elem.idRecette === idRecette 
     );
     if (aliment) {
         if (idAliment === 132) {
-            console.log(alimentExisteDansTagged, nouvelleQte);
+            //console.log(alimentExisteDansTagged, nouvelleQte);
         }
-        if (alimentExisteDansTagged && nouvelleQte < 0) {
-            console.log(taggedAliments.length);
-            taggedAliments = taggedAliments.filter(elem => 
+        // if (alimentExisteDansTagged && nouvelleQte < 0) {
+        if (alimentExisteDansTagged && nouvelleQte < alimentTagged.qteRecette) {
+            console.log(idAliment, nouvelleQte, aliment.qteRestante);
+            //console.log(taggedAliments.length);
+            let taggedAlimentsCpy = taggedAliments.filter(elem => 
                 elem.idAliment !== idAliment || elem.qteRecette <= nouvelleQte 
             );
-            console.log(taggedAliments.length);
+            let idsRecette = taggedAliments.filter(x => !taggedAlimentsCpy.includes(x));
+            //console.log(taggedAliments.length);
+            taggedAliments = taggedAlimentsCpy;
+            console.log("cpy", taggedAlimentsCpy);
+            console.log("tagged1", taggedAliments);
+            augmenterPrixPage(idAliment, idsRecette);
         }
         aliment.qteRestante = nouvelleQte;
         while (aliment.qteRestante < 0) {
@@ -149,10 +157,11 @@ function modifierQteRestante(restants,
         // si la qteRestante > qteRecette. Ajuster le prix si ce n'est pas le 
         // cas.
     }
-    console.log(taggedAliments);
+    //console.log("tagged: ", taggedAliments);
+    //console.log("restants: ", restants);
 }
 
-function updaterPrixPage(restants, taggedAliments) {
+function updaterPrixPage(restants) {
     let div = document.querySelector('div.liste-recettes.conteneur-recettes');
     restants.forEach(restant =>  {
         for (let childDiv of div.children) {
@@ -165,13 +174,38 @@ function updaterPrixPage(restants, taggedAliments) {
                     let alimentExiste = taggedAliments.some(aliment => 
                         aliment.idAliment === idAliment && aliment.idRecette === idRecette
                     );
+                    if (idAliment === 42) {
+                        console.log(qteRecette)
+                        console.log(restant.qteRestante)
+                        console.log(!alimentExiste)
+                        console.log("=============")
+                    }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
                         childDiv.querySelector('p .prix-recette').textContent = prix - parseFloat(p.getAttribute('data-prix-aliment'));
                         taggedAliments.push({idAliment, idRecette, qteRecette});
-                    }
+                    } 
                 }
             });
+        }
+    });
+}
+
+function augmenterPrixPage(idAliment, idsRecette) {
+    console.log(idsRecette);
+    let div = document.querySelector('div.liste-recettes.conteneur-recettes');
+    let prix = 0;
+    idsRecette.forEach(i => {
+        for (let childDiv of div.children) {
+            if (parseInt(childDiv.id) === i.idRecette) {
+                prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent)
+                childDiv.querySelectorAll('p.r' + i.idRecette).forEach(p => {
+                    if (parseInt(p.getAttribute('data-id-aliment')) === idAliment) {
+                        prix += parseFloat(p.getAttribute('data-prix-aliment'));
+                        childDiv.querySelector('p .prix-recette').textContent = prix;
+                    }
+                });
+            }
         }
     });
 }

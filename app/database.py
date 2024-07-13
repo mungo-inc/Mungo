@@ -91,7 +91,7 @@ class Database:
         """
         cursor.execute(query)
         resultat = cursor.fetchone()
-        recette = Recette(resultat[0], resultat[1])
+        recette = Recette(resultat[0], resultat[1], None) #None: temporaire
         return recette
 
     def get_aliments_par_recettes(self, recettes):
@@ -572,7 +572,7 @@ class Database:
             panier = Panier(item[0], item[1], [], item[4])
             if panier not in paniers:
                 paniers.append(panier)
-            recette = Recette(item[3], self.get_nom_recette(item[3]))
+            recette = Recette(item[3], self.get_nom_recette(item[3]), None) # None: temporaire
             if recette not in paniers[-1].recettes:
                 paniers[-1].ajouter_recette(recette)
             aliment = Aliment(item[2], self.get_nom_aliment(item[2]))

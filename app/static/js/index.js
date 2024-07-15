@@ -175,14 +175,15 @@ function updaterPrixPage(restants) {
                         aliment.idAliment === idAliment && aliment.idRecette === idRecette
                     );
                     if (idAliment === 42) {
-                        console.log(qteRecette)
-                        console.log(restant.qteRestante)
-                        console.log(!alimentExiste)
-                        console.log("=============")
+                        //console.log(qteRecette)
+                        //console.log(restant.qteRestante)
+                        //console.log(!alimentExiste)
+                       // console.log("=============")
                     }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
-                        childDiv.querySelector('p .prix-recette').textContent = prix - parseFloat(p.getAttribute('data-prix-aliment'));
+			prix -= parseFloat(p.getAttribute('data-prix-aliment'));
+                        childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2); 
                         taggedAliments.push({idAliment, idRecette, qteRecette});
                     } 
                 }
@@ -202,7 +203,7 @@ function augmenterPrixPage(idAliment, idsRecette) {
                 childDiv.querySelectorAll('p.r' + i.idRecette).forEach(p => {
                     if (parseInt(p.getAttribute('data-id-aliment')) === idAliment) {
                         prix += parseFloat(p.getAttribute('data-prix-aliment'));
-                        childDiv.querySelector('p .prix-recette').textContent = prix;
+                        childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2);
                     }
                 });
             }

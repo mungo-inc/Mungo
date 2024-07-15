@@ -168,6 +168,10 @@ def register():
         courriel = request.form['courriel']
         mot_passe = request.form['password']
         mot_passe_crypte = hashlib.sha256(mot_passe.encode()).hexdigest()
+        utilisateur = Client.query.filter_by(courriel=courriel).first()
+        if utilisateur:
+            return redirect('/register')
+
         if not validation_mot_de_passe() or not validation_adresse_courriel():
             redirect('/incorrect')
         else:

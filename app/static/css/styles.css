@@ -742,3 +742,11 @@ div.evaluation {
     font-weight: bold !important;
     padding-left: 2px !important;
 }
+
+a#bouton-deconnexion {
+    color: #000 !important;
+}
+
+a#bouton-deconnexion:hover {
+    color: #fff !important;
+}

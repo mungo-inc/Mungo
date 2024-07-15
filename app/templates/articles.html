@@ -1,19 +1,28 @@
 {% extends "layout.html" %}
 {% block content %}
  <div class="col-10">
-	<div class="liste-articles">
-		<h1>Articles</h1>
-    {% if articles %}
-        <ul>
+    <div class="recette">
         {% for article in articles %}
-            <div>
+        <div>
             <img class="photo-recette" src="{{ url_for('static', filename='img/' ~ article[0]|string ~ 'b.jpg') }}" alt="image recette">
         </div>
-            <li> {{ article[1] }}</li>
+        <div class="details-recette">
+            <h2 class="titre-recette" data-id-recette="{{ article[0] }}"> {{ article[1] }}</h2>
+            <div id="rating-app-1">
+                <b-form-rating
+                    v-model="value1"
+                    show-value-max
+                    precision="2"
+                    ></b-form-rating>
+            </div>
+            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ article[1] }}" data-id-recette="{{ article[1] }}">Ajouter</button>
+        </div>
         {% endfor %}
-        </ul>
-    {% endif %}
-	</div>
+    </div>
  </div>
+
+
+
 {% endblock content %}
+
 

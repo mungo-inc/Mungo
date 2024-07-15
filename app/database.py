@@ -77,6 +77,7 @@ class Database:
             nom = elem[1]
             recettes.append(Recette(id_recette, nom, None))
         resultat = self.get_aliments_par_recettes(recettes)
+        resultat = self.get_recette_prix(recettes)
         return resultat 
 
     def get_recette(self, id_recette):
@@ -198,9 +199,55 @@ class Database:
                         prix_total += quantite * prix
                         ingredients_calculer.add(aliment_id)
             if prix_total <= budget:
-                recette.prix = prix_total
+                recette.prix =round(prix_total, 2 )
                 nouvelle_donnees.append(recette)
         return nouvelle_donnees
+
+    def get_recette_prix(self, donnees):
+        cursor = self.get_connection().cursor()
+        query = """
+            SELECT
+                Aliment.ID_aliment,
+                Aliment_Recette.ID_recette,
+                Aliment_Recette.Quantite AS Quantite_Recette,
+                Aliment.Quantite AS Quantite_Aliment,
+                Aliment.Prix,
+                Aliment.Type
+            FROM
+                Aliment
+            JOIN
+                Aliment_Recette ON Aliment.ID_aliment = Aliment_Recette.ID_aliment
+             WHERE
+                Aliment_Recette.ID_recette = ?;
+
+        """
+        nouvelle_donnees = []
+        for recette in donnees:
+            prix_total = 0
+            cursor.execute(query, (recette.id,))
+            result = cursor.fetchall()
+            ingredients_calculer = set()
+            for row in result:
+                aliment_id = row[0]
+                quantite_recette = row[2]
+                quantite_aliment = row[3]
+                prix = row[4]
+                Type = row[5]
+                if aliment_id not in ingredients_calculer:
+                    if quantite_aliment != 0 and (Type == 'u' or Type == 'l' or Type == 'g'):
+                        quantite = math.ceil(quantite_recette / quantite_aliment)
+                        prix_total += quantite * prix
+                        ingredients_calculer.add(aliment_id)
+                    elif Type == 'p':
+                        quantite = (quantite_recette / quantite_aliment)
+                        prix_total += quantite * prix
+                        ingredients_calculer.add(aliment_id)
+            recette.prix = round(prix_total,2)
+            nouvelle_donnees.append(recette)
+        return nouvelle_donnees
+
+
+
 
 
 
@@ -511,8 +558,6 @@ class Database:
     def sauvegarder_panier(self, id_client, data):
         id_panier = self.generer_panier_id(id_client)
         nom_panier = self.generer_nom_panier(id_client)
-        print(nom_panier)
-        curseur = self.get_connection().cursor()
         for recette in data:
             for aliment in recette['aliments']:
                 query = (

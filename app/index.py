@@ -85,6 +85,7 @@ def compagnie():
 def recettes():
     db = Database(app.config['DATABASE_PATH'])
     recettes = db.get_recettes()
+
     return render_template('resultats.html', resultats=recettes)
 
 

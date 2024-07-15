@@ -38,32 +38,46 @@
     src: url(../fonts/GT-Pressura-Mono-Light.otf);
 }
 
+
 html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    height: 100%;
-    background-color: #F5F5F5;
-}
-
-div.row {
-    background-color: #F5F5F5;
+    overflow-x: auto;
 }
 
 .container-fluid {
     display: flex;
-    flex-direction: column;
+    justify-content: center; /* Adjust based on layout needs */
+    align-items: flex-start; /* Adjust based on layout needs */
     height: 100%;
+    margin: 0% !important;
+    padding: 0% !important;
 }
 
 .row {
-    flex: 1;
-    display: flex;
+    width: 100%;
+    height: 100%;
 }
 
 .col-2 {
     display: flex;
     flex-direction: column;
     z-index: 2;
+
+    height: 100%;
+    overflow-y: auto;
+    background-color: #FFFFFF;
+}
+
+.col-10 {
+    height: 100%;
+    overflow-y: auto;
+    background-color: #F5F5F5;
+}
+
+.menu {
+    overflow: auto;
 }
 
 .section-form h2 {
@@ -93,13 +107,6 @@ div.row {
     .Titre h1 {
         font-size: 10vw;    
     }
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow-x: hidden;
 }
 
 .logo {
@@ -181,26 +188,8 @@ label {
     color: #383632 !important;
 }
 
-div .col-2 {
-    background-color: #FFFFFF;
-}
-
-div .col-10 {
-    padding: 0%; 
-    background-color: #F5F5F5;
-}
-
 .col-10 label {
     font-size: 18px;
-}
-
-div.container-fluid, .col-2, .col-8, .row {}
-
-.container-fluid {
-    display: flex;
-    height: 100vh;
-    margin: 0; 
-    padding: 0; 
 }
 
 .col-10 .section-top {
@@ -291,10 +280,6 @@ p.phrase1, p.phrase2 {
 
 h1 {
     text-align: center;
-}
-
-html, body {
-    height: 100%;
 }
 
 #form-button-container {

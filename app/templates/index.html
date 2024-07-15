@@ -7,6 +7,7 @@
             <p class="phrase2"></p>
         </div>
     </div>
+
     <div class="conteneur-parent">
         <div class="section-milieu">
             <p class="message-form">Bienvenue sur notre formulaire de recherche personnalisé! Sélectionnez vos <span class="font2">épiceries</span> préférées, indiquez vos <span class="font2">allergies</span> et choisissez votre type de <span class="font2">diète</span> pour obtenir des recommandations adaptées à vos besoins. Ajustez votre <span class="font2">budget</span> et cliquez sur <span class="font2">"Débuter la recherche"</span> pour découvrir des options savoureuses à petits prix!</p>
@@ -106,5 +107,13 @@
             </form>
         </div>
     </div>
-</div>
-{% endblock content%}
+    
+    <div class="section-video">
+        <!--- jouer la video ici --->
+        <video autoplay muted loop>
+            <source src="{{ url_for('static', filename='img/sel.mp4') }}" type="video/mp4">
+        </video>
+    </div>
+
+   </div>
+{% endblock content %}

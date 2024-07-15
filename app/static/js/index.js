@@ -388,16 +388,18 @@ function ecrireTexteConteneur(texte, container, vitesse, callback) {
     type();
 }
 
-const texte1 = "Des recettes personnalisées,";
-const texte2 = "des courses optimisées";
-const conteneur1 = document.querySelector('.phrase1'); 
-const conteneur2 = document.querySelector('.phrase2'); 
+document.addEventListener('DOMContentLoaded', () => {
+    const texte1 = "Des recettes personnalisées,";
+    const texte2 = "des courses optimisées";
+    const conteneur1 = document.querySelector('.phrase1'); 
+    const conteneur2 = document.querySelector('.phrase2'); 
 
-if (conteneur1 && conteneur2) {
-    ecrireTexteConteneur(texte1, conteneur1, 50, () => {
-        ecrireTexteConteneur(texte2, conteneur2, 50);
-    });
-}
+    if (conteneur1 && conteneur2) {
+        ecrireTexteConteneur(texte1, conteneur1, 50, () => {
+            ecrireTexteConteneur(texte2, conteneur2, 50);
+        });
+    }
+});
   
 majNombreEpicerie();
 

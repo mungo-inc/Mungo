@@ -42,7 +42,20 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: #F5F5F5;
+    overflow-x: hidden;
+}
+
+.menu {
+    height: 100%;
+    overflow-y: auto;
+    width: 220px !important;
+    z-index: 2;
+}
+
+.content {
+    width 100%;
+    height: 100%;
+    overflow-y: auto;
 }
 
 div.row {
@@ -58,12 +71,7 @@ div.row {
 .row {
     flex: 1;
     display: flex;
-}
-
-.col-2 {
-    display: flex;
     flex-direction: column;
-    z-index: 2;
 }
 
 .section-form h2 {
@@ -93,13 +101,6 @@ div.row {
     .Titre h1 {
         font-size: 10vw;    
     }
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow-x: hidden;
 }
 
 .logo {
@@ -186,6 +187,7 @@ div .col-2 {
 }
 
 div .col-10 {
+    height: 100%;
     padding: 0%; 
     background-color: #F5F5F5;
 }

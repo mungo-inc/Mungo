@@ -17,11 +17,11 @@
             <div class="row">
                 <div class="col-2">
                     <ul class="nav flex-column">
-                        <div class="titre">
+                        <li class="titre nav-item">
                             <a class="nav-link" href="{{ url_for('accueil')}}">
                                 <img src="{{ url_for('static', filename='img/logo-mungo-vert.png') }}" alt="logo-mungo" class="logo">
                             </a>
-                        </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ url_for('panier')}}">Panier</a>
                         </li>
@@ -40,7 +40,7 @@
                             <a class="nav-link" href="{{ url_for('compagnie')}}">À propos</a>
                         </li>
                     </ul>
-                    <span>
+                    <div>
                         <br>
                         <div class="accordion" id="accordionList">
                             <div class="accordion-item">
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <ul id="liste-epicerie"></ul>
-                    </span>
+                    </div>
                     {% if current_user.is_authenticated %}
                     <a href="{{ url_for('logout')}}" type="submit" class="btn logout-btn">Se déconnecter</a>
                     {% else %}
@@ -78,10 +78,10 @@
                     {% endif %}
                 </div>
                 {% block content %}{% endblock %}
-                <span>
+                <div>
                     <div role="alert"  id="notif-succes" hidden>
                     </div>
-                </span>
+                </div>
             </div>
             <div class="flou"></div>
             <div class="formulaire-popup">

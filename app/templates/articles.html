@@ -6,6 +6,9 @@
     {% if articles %}
         <ul>
         {% for article in articles %}
+            <div>
+            <img class="photo-recette" src="{{ url_for('static', filename='img/' ~ article[0]|string ~ 'b.jpg') }}" alt="image recette">
+        </div>
             <li> {{ article[1] }}</li>
         {% endfor %}
         </ul>

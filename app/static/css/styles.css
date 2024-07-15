@@ -142,7 +142,6 @@ a.nav-link.active {
 .nav-flex-column, nav-item {
     padding-bottom: 15px !important;
     display: flex;
-    align-items: left;
 }
 
 h3 {
@@ -244,7 +243,6 @@ p.phrase1, p.phrase2 {
     margin: 0 auto;
     color: #fff; 
     text-align: center;
-    font-family: ;
 }
 
 .conteneur-parent {

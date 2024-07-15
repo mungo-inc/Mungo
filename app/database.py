@@ -556,6 +556,7 @@ class Database:
                 self.get_connection().commit()
 
     def sauvegarder_panier(self, id_client, data):
+        curseur = self.get_connection().cursor()
         id_panier = self.generer_panier_id(id_client)
         nom_panier = self.generer_nom_panier(id_client)
         for recette in data:

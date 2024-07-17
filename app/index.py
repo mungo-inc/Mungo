@@ -120,7 +120,7 @@ def modifier_preference():
     db.creation_requete_epicerie(courriel, epiceries)
     db.creation_requete_allergie(courriel, allergies)
 
-    flash("Les préférences ont bien été modifié.")
+    flash("Les préférences ont bien été modifiées.")
     return redirect('/profil')
 
 

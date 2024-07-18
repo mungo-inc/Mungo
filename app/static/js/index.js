@@ -33,6 +33,10 @@ document.addEventListener("DOMContentLoaded", function() {
     majNombreEpicerie();
 });
 
+document.getElementById('toggle-menu').addEventListener('change', function() {
+        document.querySelector('.col-2').classList.toggle('nav', this.checked);
+});
+
 if (defilement != null && defilementOut != null) {
     defilementOut.innerHTML = defilement.value;
     defilement.oninput = function(){defilementOut.innerHTML = this.value;}

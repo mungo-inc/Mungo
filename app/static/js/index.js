@@ -8,8 +8,8 @@ const afficherEcranConnexionBtn = document.querySelector(".login-btn");
 const connecterEnregistrerLien = document.querySelectorAll(".form-box .lien-creation-compte a");
 const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
 const sauvegarderButton = document.getElementById("save-list-btn");
-
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
+const allRanges = document.querySelectorAll(".range-wrap");
 let compteur = 0;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
@@ -37,9 +37,25 @@ document.getElementById('toggle-menu').addEventListener('change', function() {
         document.querySelector('.col-2').classList.toggle('nav', this.checked);
 });
 
-if (defilement != null && defilementOut != null) {
-    defilementOut.innerHTML = defilement.value;
-    defilement.oninput = function(){defilementOut.innerHTML = this.value;}
+allRanges.forEach(wrap => {
+  const range = wrap.querySelector(".range");
+  const bubble = wrap.querySelector(".bubble");
+
+  range.addEventListener("input", () => {
+    setBubble(range, bubble);
+  });
+  setBubble(range, bubble);
+});
+
+function setBubble(range, bubble) {
+  const val = range.value;
+  const min = range.min ? range.min : 0;
+  const max = range.max ? range.max : 100;
+  const newVal = Number(((val - min) * 100) / (max - min));
+  bubble.innerHTML = val;
+
+  // Sorta magic numbers based on size of the native UI thumb
+  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
 }
 
 if (afficherEcranConnexionBtn) {

@@ -14,8 +14,12 @@
 
     <body>
         <div class="container-fluid">
+            <input type="checkbox" id="toggle-menu">
+            <div class="hamburger"></div>
             <div class="row">
-                <div class="col-2">
+                <div class="col-2 grid">
+                    
+                    
                     <ul class="nav flex-column">
                         <li class="titre nav-item">
                             <a class="nav-link" href="{{ url_for('accueil')}}">
@@ -40,7 +44,7 @@
                             <a class="nav-link" href="{{ url_for('compagnie')}}">À propos</a>
                         </li>
                     </ul>
-                    <div>
+                    <div class="panier-deroulant" >
                         <br>
                         <div class="accordion" id="accordionList">
                             <div class="accordion-item">

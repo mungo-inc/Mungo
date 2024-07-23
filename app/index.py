@@ -80,6 +80,10 @@ def profil():
 def compagnie():
     return render_template('compagnie.html')
 
+@app.route('/ajouter-recette')
+def ajouter_recette():
+    return render_template('ajout-recette.html')
+
 
 @app.route('/recettes')
 def recettes():

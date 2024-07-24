@@ -29,7 +29,7 @@ connecterEnregistrerLien.forEach(link => {
         }
     });
 });
-
+if (selectIngredient) {
 selectIngredient.addEventListener("change", function() {
     let mesure = this.options[this.selectedIndex];
     if (mesure.getAttribute('data-mesure') == "u") {
@@ -54,6 +54,7 @@ selectIngredient.addEventListener("change", function() {
     div.appendChild(input);
     console.log("OK")
 });
+}
 
 if (boutonAjouterIngredient) {
 boutonAjouterIngredient.addEventListener("click", function() {

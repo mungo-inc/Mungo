@@ -80,10 +80,17 @@ def profil():
 def compagnie():
     return render_template('compagnie.html')
 
-@app.route('/ajouter-recette')
+@app.route('/ajout-recette')
 def ajouter_recette():
-    return render_template('ajout-recette.html')
+    db = Database(app.config['DATABASE_PATH'])
+    ingredients = db.get_articles()
+    return render_template('ajout-recette.html', ingredients=ingredients)
 
+@app.route('/get_ingredients')
+def get_ingredients():
+    db = Database(app.config['DATABASE_PATH'])
+    ingredients = db.get_articles()
+    return jsonify(ingredients)
 
 @app.route('/recettes')
 def recettes():

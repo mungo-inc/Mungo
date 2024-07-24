@@ -10,7 +10,10 @@ const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
 const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
+const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
+const selectIngredient = document.getElementById("liste-ingredients");
 let compteur = 0;
+let compteurListeIngredient = 0
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
 
@@ -27,6 +30,53 @@ connecterEnregistrerLien.forEach(link => {
     });
 });
 
+selectIngredient.addEventListener("change", function() {
+    let mesure = this.options[this.selectedIndex];
+    if (mesure.getAttribute('data-mesure') == "u") {
+        var label = document.createElement("label");
+        label.setAttribute('for', mesure.id + "-quantite");
+        label.textContent = "Entrez le nombre d'unité pour la recette:";
+
+    } else if (mesure.getAttribute('data-mesure') == "g" || mesure.getAttribute('date-mesure') == "p") {
+        var label = document.createElement("label");
+        label.setAttribute('for', mesure.id + "-quantite");
+        label.textContent = "Entrez le nombre de grammes pour la recette:";
+    } else if (mesure.getAttribute('data-mesure') == "l") {
+        var label = document.createElement("label");
+        label.setAttribute('for', mesure.id + "-quantite");
+        label.textContent = "Entrez le nombre de mililitres pour la recette:";
+    } 
+    var input = document.createElement("input");
+    input.classList.add("form-control");
+    input.setAttribute('id', mesure.id+"-quantite");
+    var div = document.getElementById("quantite");
+    div.appendChild(label);
+    div.appendChild(input);
+    console.log("OK")
+});
+
+if (boutonAjouterIngredient) {
+boutonAjouterIngredient.addEventListener("click", function() {
+    $.ajax({
+        url: '/get_ingredients',
+        method: 'GET',
+        success: function(data) {
+                var selectHtml = '<label class="form-check-label" for="liste-ingredients'+ compteurListeIngredient +'">Choisir un ingrédient : </label>';
+                selectHtml += '<select name="ingredients" id="liste-ingredients'+ compteurListeIngredient + '">';
+                compteurListeIngredient++;
+                selectHtml += '<option value="">Choisissez un ingrédient</option>';
+                data.forEach(function(ingredient) {
+                    selectHtml += '<option value="' + ingredient[0] + '">' + ingredient[1] + '</option>';
+                });
+                selectHtml += '</select>';
+                document.getElementById("ingredients").innerHTML += selectHtml;
+                },
+            error: function(error) {
+                console.log('Error:', error);
+            }
+        });
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
@@ -582,3 +632,5 @@ majNombreEpicerie();
 function allerBasPage() {
     document.getElementById('bottom').scrollIntoView();
 }
+
+

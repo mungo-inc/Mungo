@@ -57,7 +57,7 @@ class Database:
         les aliments dans la base de données.
         """
         cursor = self.get_connection().cursor()
-        query = 'SELECT * FROM Aliment'
+        query = 'SELECT * FROM Aliment ORDER BY nom ASC'
         cursor.execute(query)
         articles = cursor.fetchall()
         return articles

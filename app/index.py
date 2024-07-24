@@ -135,6 +135,11 @@ def modifier_preference():
     return redirect('/profil')
 
 
+@app.route('/envoyer-recette', methods=['GET', 'POST'])
+def envoyer_recette():
+    db = Database(app.config['DATABASE_PATH'])
+    return redirect('/ajout-recette')
+
 def get_query_params():
     epiceries = request.args.getlist('epicerie')
     allergies = request.args.getlist('allergie')

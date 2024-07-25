@@ -120,7 +120,7 @@ def modifier_preference():
     db.creation_requete_epicerie(courriel, epiceries)
     db.creation_requete_allergie(courriel, allergies)
 
-    flash("Les préférences ont bien été modifié.")
+    flash("Les préférences ont bien été modifiées.")
     return redirect('/profil')
 
 
@@ -221,6 +221,15 @@ def save_list():
     data = request.get_json()
     db.sauvegarder_panier(current_user.id_client, data)
     return jsonify({"message": "Liste sauvegardée avec succès."})
+
+
+@app.route('/supprimer-liste', methods=['POST'])
+def delete_list():
+    print("allo")
+    db = Database('app/db/epicerie.db')
+    data = request.get_json()
+    db.supprimer_panier(data['idClient'], data['idPanier'])
+    return jsonify({"message": "Liste supprimée avec succès."})
 
 
 def construire_recette(donnees):

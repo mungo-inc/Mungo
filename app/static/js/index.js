@@ -9,8 +9,9 @@ const afficherEcranConnexionBtn = document.querySelector(".login-btn");
 const connecterEnregistrerLien = document.querySelectorAll(".form-box .lien-creation-compte a");
 const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
 const sauvegarderButton = document.getElementById("save-list-btn");
-
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
+const allRanges = document.querySelectorAll(".range-wrap");
+const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
 let compteur = 0;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
@@ -34,9 +35,29 @@ document.addEventListener("DOMContentLoaded", function() {
     majNombreEpicerie();
 });
 
-if (defilement != null && defilementOut != null) {
-    defilementOut.innerHTML = defilement.value;
-    defilement.oninput = function(){defilementOut.innerHTML = this.value;}
+document.getElementById('toggle-menu').addEventListener('change', function() {
+        document.querySelector('.col-2').classList.toggle('nav', this.checked);
+});
+
+allRanges.forEach(wrap => {
+  const range = wrap.querySelector(".range");
+  const bubble = wrap.querySelector(".bubble");
+
+  range.addEventListener("input", () => {
+    setBubble(range, bubble);
+  });
+  setBubble(range, bubble);
+});
+
+function setBubble(range, bubble) {
+  const val = range.value;
+  const min = range.min ? range.min : 0;
+  const max = range.max ? range.max : 100;
+  const newVal = Number(((val - min) * 100) / (max - min));
+  bubble.innerHTML = val;
+
+  // Sorta magic numbers based on size of the native UI thumb
+  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
 }
 
 if (afficherEcranConnexionBtn) {
@@ -241,45 +262,77 @@ viderPanierButton.addEventListener("click", function() {
 });
 
 if (sauvegarderButton) {
-sauvegarderButton.addEventListener("click", function() {
-    let accordionBodies = document.querySelectorAll('.accordion-body');
-    let listeASauvegarder = [];
-    accordionBodies.forEach(body => {
-        let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
-        let nomRecette = body.querySelector('strong').textContent;
-        let lis = body.querySelectorAll('li');
-        aliments = [];
-        lis.forEach(li => {
-            aliments.push({
-                id: li.getAttribute('data-id-aliment'), 
-                nom: li.textContent.trim() 
+    sauvegarderButton.addEventListener("click", function() {
+        let accordionBodies = document.querySelectorAll('.accordion-body');
+        let listeASauvegarder = [];
+        accordionBodies.forEach(body => {
+            let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
+            let nomRecette = body.querySelector('strong').textContent;
+            let lis = body.querySelectorAll('li');
+            aliments = [];
+            lis.forEach(li => {
+                aliments.push({
+                    id: li.getAttribute('data-id-aliment'), 
+                    nom: li.textContent.trim() 
+                });
+            });
+            listeASauvegarder.push({
+                id: idRecette, 
+                nom: nomRecette, 
+                aliments: aliments
             });
         });
-        listeASauvegarder.push({
-            id: idRecette, 
-            nom: nomRecette, 
-            aliments: aliments
-        });
+        fetch('/sauvegarder-liste', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(listeASauvegarder)
+        })
+            .then(response => response.json())
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
+            })
     });
-    fetch('/sauvegarder-liste', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(listeASauvegarder)
-    })
-    .then(response => response.json())
-    .then(response => {
-        let child = afficherSucces(response.message);
-        setTimeout(function() {
-            enleverSucces(child);
-            setTimeout(function() {
-                suppressionMessageAlerte(child);
-            }, 1500);
-        }, 5000);
-    })
-});
 }
+
+supprimerListeButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        console.log("allo")
+        let div = this.parentElement.parentElement;
+        let idClient = parseInt(div.getAttribute("data-id-client"));
+        let idPanier = parseInt(div.getAttribute("data-id-panier"));
+        //afficherConfirmation?
+        fetch('/supprimer-liste', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({idClient: idClient, idPanier: idPanier})
+        })
+            .then(response => response.json())
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
+            })
+        div.remove();
+        if (document.querySelectorAll(".panier-contenur").length === 0) {
+            let message = "Vous n'avez aucun panier sauvegardé";
+            document.getElementById('titre-liste-epicerie-sauvegardee').textContent = message;
+        }
+    });
+});
 
 function estCloseButtonRecette(target) {
     return target.classList.contains('btn-close-recette');

@@ -674,5 +674,13 @@ class Database:
         return nom[0]
 
 
-    def supprimer_panier(self, id_client):
-        pass
+    def supprimer_panier(self, id_client, id_panier):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            DELETE FROM Client_Panier_Aliment_Recette
+            WHERE id_client = (?) AND id_panier = (?)  
+            """
+        )
+        curseur.execute(query, (id_client, id_panier, ))
+        self.get_connection().commit()

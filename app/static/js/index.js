@@ -10,7 +10,7 @@ const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
 const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
-const supprimerListeButton = document.getElementById("delete-list-btn");
+const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
 let compteur = 0;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
@@ -301,8 +301,9 @@ if (sauvegarderButton) {
     });
 }
 
-if (supprimerListeButton) {
-    supprimerListeButton.addEventListener("click", function() {
+supprimerListeButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        console.log("allo")
         let div = this.parentElement.parentElement;
         let idClient = parseInt(div.getAttribute("data-id-client"));
         let idPanier = parseInt(div.getAttribute("data-id-panier"));
@@ -324,8 +325,13 @@ if (supprimerListeButton) {
                     }, 1500);
                 }, 5000);
             })
+        div.remove();
+        if (document.querySelectorAll(".panier-contenur").length === 0) {
+            let message = "Vous n'avez aucun panier sauvegardé";
+            document.getElementById('titre-liste-epicerie-sauvegardee').textContent = message;
+        }
     });
-}
+});
 
 function estCloseButtonRecette(target) {
     return target.classList.contains('btn-close-recette');

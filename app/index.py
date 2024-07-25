@@ -225,6 +225,7 @@ def save_list():
 
 @app.route('/supprimer-liste', methods=['POST'])
 def delete_list():
+    print("allo")
     db = Database('app/db/epicerie.db')
     data = request.get_json()
     db.supprimer_panier(data['idClient'], data['idPanier'])

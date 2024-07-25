@@ -41,6 +41,12 @@
                             <a class="nav-link" href="{{ url_for('profil')}}">Profil</a>
                         </li>
                         {% endif %}
+			{% if current_user.id == 1 %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('profil')}}">Produit vedette</a>
+                        </li>
+                        {% endif %}
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('compagnie')}}">À propos</a>
                         </li>

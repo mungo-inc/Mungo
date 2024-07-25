@@ -676,3 +676,16 @@ class Database:
 
     def supprimer_panier(self, id_client):
         pass
+
+    def sauvegarder_avis(self, id_recette, note, opinion):
+        curseur = self.get_connection().cursor()
+        query = (
+                f"""
+                INSERT INTO Avis (ID_recette, Note, Opinion) VALUES ({id_recette}, {note}, '{opinion}');
+                """ 
+        )
+        print("***sauvegarder_avis***")
+        print(f"{id_recette},       {note},     {opinion}")
+        curseur.execute(query)
+        self.get_connection().commit()
+        return 0

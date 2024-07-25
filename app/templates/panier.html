@@ -10,7 +10,7 @@
     {% else %}
     <div class="paniers-grid">
         {% for panier in paniers %}
-        <div class="panier-conteneur">
+        <div class="panier-conteneur" data-id-panier="{{ panier.id }}" data-id-client="{{ panier.id_client }}">
             <h3 id="panier-nom">{{ panier.nom }}</h3>
             {% if not panier.recettes %}
             <p> Aucune recette dans le panier </p>
@@ -24,7 +24,7 @@
             {% endif %}
             <div class="btn-liste-epicerie-container">
                 <button class="btn btn-liste-epicerie">Modifier</button>
-                <button class="btn btn-liste-epicerie">Supprimer</button>
+                <button class="btn btn-liste-epicerie" id="delete-list-btn">Supprimer</button>
             </div>
         </div>
         {% endfor %}

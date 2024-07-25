@@ -10,6 +10,7 @@ const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
 const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
+const supprimerListeButton = document.getElementById("delete-list-btn");
 let compteur = 0;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
@@ -260,44 +261,70 @@ viderPanierButton.addEventListener("click", function() {
 });
 
 if (sauvegarderButton) {
-sauvegarderButton.addEventListener("click", function() {
-    let accordionBodies = document.querySelectorAll('.accordion-body');
-    let listeASauvegarder = [];
-    accordionBodies.forEach(body => {
-        let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
-        let nomRecette = body.querySelector('strong').textContent;
-        let lis = body.querySelectorAll('li');
-        aliments = [];
-        lis.forEach(li => {
-            aliments.push({
-                id: li.getAttribute('data-id-aliment'), 
-                nom: li.textContent.trim() 
+    sauvegarderButton.addEventListener("click", function() {
+        let accordionBodies = document.querySelectorAll('.accordion-body');
+        let listeASauvegarder = [];
+        accordionBodies.forEach(body => {
+            let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
+            let nomRecette = body.querySelector('strong').textContent;
+            let lis = body.querySelectorAll('li');
+            aliments = [];
+            lis.forEach(li => {
+                aliments.push({
+                    id: li.getAttribute('data-id-aliment'), 
+                    nom: li.textContent.trim() 
+                });
+            });
+            listeASauvegarder.push({
+                id: idRecette, 
+                nom: nomRecette, 
+                aliments: aliments
             });
         });
-        listeASauvegarder.push({
-            id: idRecette, 
-            nom: nomRecette, 
-            aliments: aliments
-        });
+        fetch('/sauvegarder-liste', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(listeASauvegarder)
+        })
+            .then(response => response.json())
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
+            })
     });
-    fetch('/sauvegarder-liste', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(listeASauvegarder)
-    })
-    .then(response => response.json())
-    .then(response => {
-        let child = afficherSucces(response.message);
-        setTimeout(function() {
-            enleverSucces(child);
-            setTimeout(function() {
-                suppressionMessageAlerte(child);
-            }, 1500);
-        }, 5000);
-    })
-});
+}
+
+if (supprimerListeButton) {
+    supprimerListeButton.addEventListener("click", function() {
+        let div = this.parentElement.parentElement;
+        let idClient = parseInt(div.getAttribute("data-id-client"));
+        let idPanier = parseInt(div.getAttribute("data-id-panier"));
+        //afficherConfirmation?
+        fetch('/supprimer-liste', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({idClient: idClient, idPanier: idPanier})
+        })
+            .then(response => response.json())
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
+            })
+    });
 }
 
 function estCloseButtonRecette(target) {

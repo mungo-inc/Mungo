@@ -1,19 +1,28 @@
 document.getElementById("courriel").addEventListener("change" , () => {
-    verifierCourriel("courriel", "err-courriel");
+    verifierChamp("courriel", "err-courriel", "Veuillez entrer une adresse courriel valide.");
 
 });
 
 document.getElementById("password").addEventListener("change", () => {
-verifierMotDePasse("password", "err-password");
+    verifierChamp("password", "err-password", "Le mot de passe ne peut pas être vide.");
 });
 
 document.getElementById("courriel-r").addEventListener("change" , () => {
-verifierCourriel("courriel-r", "err-courriel-r");
+    verifierChamp("courriel-r", "err-courriel-r", "Veuillez entrer une adresse courriel valide.");
 });
 
 document.getElementById("password-r").addEventListener("change", () => {
-verifierMotDePasse("password-r", "err-password-r");
+    verifierChamp("password-r", "err-password-r", "Le mot de passe ne peut pas être vide.");
 });
+
+document.getElementById("nom-recette").addEventListener("change", () => {
+    verifierChamp("nom-recette", "err-titre", "Le titre ne peut pas être vide.");
+});
+
+document.getElementsByClassName("liste-ingredients")[0].addEventListener("change", () => {
+    verifierNombreIngredient();
+});
+console.log(document.getElementsByClassName("liste-ingredients")[0]);
 
 document.getElementById("form-inscription").addEventListener("submit", function(event) {
     if(verifierSpanInscription()) {
@@ -27,6 +36,34 @@ document.getElementById("form-connexion").addEventListener("submit", function(ev
     }
 });
 
+document.getElementById("form-recette").addEventListener("submit", function(event) {
+    if(verifierTitreExiste()) {
+        event.preventDefault();
+    }
+});
+
+function verifierChamp(id, erreur, message) {
+    let titre = document.getElementById(id).value;
+    if (titre == "") {
+        ecrireErreur(erreur, message);
+    } else {
+        let span = document.getElementById(erreur);
+        span.textContent = "";
+    }
+}
+
+function verifierNombreIngredient() {
+    console.log("----------------------")
+    let nbrIngredient = document.getElementsByClassName("liste-ingredients").length;
+    console.log(nbrIngredient);
+    for (let i = 0; i < nbrIngredient; i++) {
+        console.log("----------------------")
+        if (nbrIngredient[i].value == "") {
+            console.log("err-item-selectionne-" + i);
+            ecrireErreur("err-item-selectionne-" + i, "Vous devez sélectionner un ingrédient");
+        }
+    }
+}
 
 //Retourne vrai s'il y a un message d'erreur non-vide
 function verifierSpanConnexion(){
@@ -45,27 +82,6 @@ function verifierSpanInscription(){
     let motDePasse = document.getElementById("password-r").value;
 
     return(span0 != "" || span1 != "" || motDePasse == "" || courriel == "")
-}
-
-function verifierMotDePasse(id, erreur){
-    let motDePasse = document.getElementById(id).value;
-
-    if (motDePasse == ""){
-        ecrireErreur(erreur, "Le mot de passe ne peut être vide")
-    } else {
-        let span = document.getElementById(erreur);
-        span.textContent = "";
-    }
-}
-
-function verifierCourriel(id, erreur){
-    let courriel = document.getElementById(id).value;
-    if(!(estUneAdresseCourriel(courriel))){
-        ecrireErreur(erreur,"Veuillez entrer une adresse courriel valide")
-    }else {
-        let span = document.getElementById(erreur);
-        span.textContent = "";
-    }
 }
 
 //Valide une adresse courriel avec un regex

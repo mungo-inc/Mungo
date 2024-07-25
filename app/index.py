@@ -235,7 +235,8 @@ def delete_list():
 def save_modification_list():
     db = Database('app/db/epicerie.db')
     data = request.get_json()
-    db.modifier_panier()
+    print(data)
+    db.modifier_panier(data['idClient'], data['idPanier'], data['nouveauNom'])
     return jsonify({"message": "Liste modifiée avec succès."})
 
 def construire_recette(donnees):

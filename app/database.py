@@ -684,3 +684,21 @@ class Database:
         )
         curseur.execute(query, (id_client, id_panier, ))
         self.get_connection().commit()
+
+    def modifier_panier(self, 
+                        id_client, 
+                        id_panier,
+                        nouveau_nom,
+                        recettes_a_supprimer=[], 
+                        aliments_a_supprimer=[]):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            UPDATE Client_Panier_Aliment_Recette
+            SET nom = (?)
+            WHERE id_client = (?) AND id_panier = (?)
+            """
+        )
+        curseur.execute(query, (nouveau_nom, id_client, id_panier, ))
+        self.get_connection().commit()
+

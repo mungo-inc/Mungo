@@ -357,14 +357,16 @@ modifierListeButtons.forEach(function(button) {
         // Afficher le bouton "Sauvegarder"
         let sauverModifButton = liste.querySelector('.save-modif-list-btn');
         sauverModifButton.hidden = false;
+        liste.querySelector('.delete-list-btn').hidden = true;
+        liste.querySelector('.modifier-list-btn').hidden = true;
         
         // Fonction pour gérer la validation de la modification
         const validerModif = () => {
             // Récupérer la nouvelle valeur du champ de texte
-            const nouveauNom = input.value;
+            let nouveauNom = input.value;
             
             // Créer un nouvel élément <h3> pour afficher le nouveau nom
-            const listeElemNouveauNom = document.createElement('h3');
+            let listeElemNouveauNom = document.createElement('h3');
             listeElemNouveauNom.id = 'panier-nom';
             listeElemNouveauNom.textContent = nouveauNom;
             
@@ -372,26 +374,34 @@ modifierListeButtons.forEach(function(button) {
             liste.replaceChild(listeElemNouveauNom, input);
 
             // Masquer le bouton "Sauvegarder"
-            saveButton.hidden = true;
+            sauverModifButton.hidden = true;
+            liste.querySelector('.delete-list-btn').hidden = false;
+            liste.querySelector('.modifier-list-btn').hidden = false;
             
             // Envoyer la requête POST au serveur pour sauvegarder les modifications
-            const panierId = listItem.getAttribute('data-id-panier');
-            const clientId = listItem.getAttribute('data-id-client');
+            let idPanier = liste.getAttribute('data-id-panier');
+            let idClient = liste.getAttribute('data-id-client');
             
-            fetch('/sauvegarder-panier', {
+            fetch('/sauvegarder-modif-liste', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    idPanier: panierId,
-                    idClient: clientId,
-                    nouveauNom: newName
+                    idPanier: idPanier,
+                    idClient: idClient,
+                    nouveauNom: nouveauNom 
                 }),
             })
             .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -399,7 +409,7 @@ modifierListeButtons.forEach(function(button) {
         };
         
         // Écouter la perte de focus pour valider la modification
-        input.addEventListener('blur', validerModif);
+        sauverModifButton.addEventListener('click', validerModif);
         
         // Donner le focus au champ de texte pour que l'utilisateur puisse commencer à éditer
         input.focus();

@@ -1,4 +1,6 @@
 import sqlite3
+
+from sqlalchemy.orm import query
 from .recette import Recette
 from .aliment import Aliment
 from .diete import Diete
@@ -672,6 +674,41 @@ class Database:
         curseur.execute(query, (id_recette, ))
         nom = curseur.fetchone()
         return nom[0]
+
+    def ajouter_recette_db(self, id, nom, ingredients_quantite, dietes):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+                INSERT INTO Recette (nom) VALUES (?);
+            """
+        )
+        curseur.execute(query, (nom, ))
+        self.get_connection().commit()
+        query = (
+                """
+                    SELECT id_recette
+                    FROM Recette
+                    WHERE nom = ?
+                """
+        )
+        curseur.execute(query, (nom, ))
+        id_recette = curseur.fetchone()
+        for ingredient in ingredients_quantite:
+            query = (
+                """
+                    INSERT INTO aliment_recette VALUES (?, ?, ?)
+                """
+            )
+            curseur.execute(query, (ingredient[0], id_recette[0], float(ingredient[1]), ))
+            self.get_connection().commit()
+        if dietes:
+            query = (
+                """
+                    INSERT INTO recette_diete VALUES (?, ?, ?)
+                """
+            )
+            curseur.execute(query, (dietes[0], ))
+            self.get_connection().commit()
 
 
     def supprimer_panier(self, id_client):

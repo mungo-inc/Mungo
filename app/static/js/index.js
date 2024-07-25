@@ -40,7 +40,7 @@ boutonAjouterIngredient.addEventListener("click", function() {
         method: "GET",
         success: function(data) {
                 var selectHtml = '<label class="form-check-label" for="'+compteurListeIngredient+'">Choisir un ingrédient : </label>';
-                selectHtml += '<select name="liste-ingredients'+compteurListeIngredient+'" class="liste-ingredients" id='+ compteurListeIngredient+ '>';
+                selectHtml += '<select name="ingredients" class="liste-ingredients" id='+ compteurListeIngredient+ '>';
                 selectHtml += '<option value="">Choisissez un ingrédient</option>';
                 data.forEach(function(ingredient) {
                     selectHtml += '<option id="'+ingredient[0]+'" data-mesure="'+ingredient[2]+'" value="' + ingredient[0] + '">' + ingredient[1] + '</option>';

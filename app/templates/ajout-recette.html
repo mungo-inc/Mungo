@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
     {% block content %}
     <div class="col-10">
-        <form id="form-accueil" method="get" action="/envoyer-recette">
+        <form id="form-accueil" method="post" action="/envoyer-recette" enctype="multipart/form-data">
             <div class="col-sm-8">
                 <div class="section-form">
                     <h2 class="form-ajout-recette">Formulaire pour ajouter une recette</h2>
                     <div class="form-group">
                         <label class="form-check-label" for="nomRecette">Nom de la recette : </label>
-                        <input class="form-control" type="text" id="nomRecette" name="epicerie" placeholder="Entrez le nom de la recette">
+                        <input class="form-control" type="text" id="nomRecette" name="nom-recette" placeholder="Entrez le nom de la recette">
                     </div>
                     <div class="form-group" id="ingredients-conteneur">
                         <label class="form-check-label" for="liste-ingredients">Choisir un ingrédient :</label>
@@ -25,42 +25,6 @@
                          <button type="button" class="btn btn-outline-secondary" id="ajouter-ingredient">Ajouter un ingrédient</button>
 
                     </div>
-                </div>
-                <div class="section-form">
-                    <h2>Cochez les allergies</h2>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="0" name="allergie" {% if 0 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox5">Arachide</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="1" name="allergie" {% if 1 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox6">Lactose</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="2" name="allergie" {% if 2 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox7">Gluten</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox8" value="3" name="allergie" {% if 3 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox8">Poisson</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox16" value="4" name="allergie" {% if 4 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox16">Fruit de mer</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox17" value="5" name="allergie" {% if 5 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox17">Oeuf</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox18" value="6" name="allergie" {% if 6 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox18">Soja</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox19" value="7" name="allergie" {% if 7 in liste_allergie %} checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox19">Sésame</label>
-                    </div>
-
                 </div>
                 <div class="section-form">
                     <h2>Cochez la diète</h2>
@@ -94,11 +58,11 @@
                     </div>
                 </div>
                 <div class="section-form">
-                    <h2>Ajouter une photo</h2>
-                    <input type="file" id="image">
+                    <h2>Ajouter une image pour la recette</h2>
+                    <input name="image-recette" type="file" id="image">
                 </div>
                 <div class="section-form" id="form-button-container">
-                    <input type="submit" class="btn btn-outline-success" id="button-recette-envoyer" value="Envoyer la recette">
+                    <input type="submit" class="btn btn-outline-success" id="button-recette-envoyer" value="Envoyer la recette" >
                 </div>
             </div>
         </form>

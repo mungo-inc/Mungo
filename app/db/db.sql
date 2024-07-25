@@ -7,7 +7,7 @@ CREATE TABLE Aliment (
 );
 
 CREATE TABLE Recette (
-    ID_recette INTEGER PRIMARY KEY,
+    ID_recette INTEGER PRIMARY KEY AUTOINCREMENT,
     Nom TEXT NOT NULL,
     Moyenne_note REAL
 );

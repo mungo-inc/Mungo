@@ -83,6 +83,7 @@ def compagnie():
     return render_template('compagnie.html')
 
 @app.route('/ajout-recette')
+@login_required
 def ajouter_recette():
     db = Database(app.config['DATABASE_PATH'])
     ingredients = db.get_articles()
@@ -147,34 +148,35 @@ def envoyer_recette():
         quantite = request.form[ingredient+"-quantite"]
         ingredients_quantite.append([ingredient,quantite])
     dietes = request.form.getlist('diete')
-    upload_file()
-    print(ingredients_quantite)
+    dernier_id_recette = db.chercher_dernier_id_recette()
+    upload_file(dernier_id_recette)
+    id = current_user.get_id()
     db.ajouter_recette_db(id, nom, ingredients_quantite, dietes)
     return redirect('/ajout-recette')
 
-def upload_file():
+def upload_file(dernier_id_recette):
     print(request.files)
     if 'image-recette' not in request.files:
-        return print('No file part')
-    
+        return print('Pas de fichier')
+
     file = request.files['image-recette']
-    
+
     if file.filename == '':
-        return print('No selected file')
-    
+        return print('Pas de fichier sélectionné')
+
     if file:
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
             os.makedirs(app.config['UPLOAD_FOLDER'])
-
-        filename = file.filename
+    
+        filename = str(dernier_id_recette) + ".jpg"
         if isinstance(filename, str) and filename:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            return print('File successfully uploaded')
+            return print('Le fichier a bien été téléchargé')
         else:
-            return print('Invalid file name')
-    
-    return print('File not uploaded')
+            return print('Le nom du fichier est invalide')
+
+    return print('Fichier non téléchargé')
 
 def get_query_params():
     epiceries = request.args.getlist('epicerie')

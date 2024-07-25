@@ -679,37 +679,66 @@ class Database:
         curseur = self.get_connection().cursor()
         query = (
             """
-                INSERT INTO Recette (nom) VALUES (?);
+                INSERT INTO Recette (nom, moyenne_note) VALUES (?, ?);
             """
         )
-        curseur.execute(query, (nom, ))
+        curseur.execute(query, (nom, 0.0, ))
         self.get_connection().commit()
-        query = (
-                """
-                    SELECT id_recette
-                    FROM Recette
-                    WHERE nom = ?
-                """
-        )
-        curseur.execute(query, (nom, ))
-        id_recette = curseur.fetchone()
+        id_recette = self.chercher_dernier_id_recette()
         for ingredient in ingredients_quantite:
             query = (
                 """
                     INSERT INTO aliment_recette VALUES (?, ?, ?)
                 """
             )
-            curseur.execute(query, (ingredient[0], id_recette[0], float(ingredient[1]), ))
+            curseur.execute(query, (ingredient[0], id_recette, float(ingredient[1]), ))
             self.get_connection().commit()
         if dietes:
-            query = (
-                """
-                    INSERT INTO recette_diete VALUES (?, ?, ?)
-                """
-            )
-            curseur.execute(query, (dietes[0], ))
-            self.get_connection().commit()
+            dietes = englober_diete(dietes)
+            for diete in dietes:
+                query = (
+                    """
+                        INSERT INTO recette_diete VALUES (?, ?)
+                    """
+                )
+                curseur.execute(query, (id_recette, diete, ))
+                self.get_connection().commit()
 
+        query = (
+            """
+                INSERT INTO client_recette VALUES (?, ?)
+            """
+        )
+        curseur.execute(query, (id, id_recette, ))
+        self.get_connection().commit()
+
+    def chercher_dernier_id_recette(self):
+        curseur = self.get_connection().cursor()
+        query = (
+                """
+                    SELECT MAX(id_recette)
+                    FROM Recette
+                """
+        )
+        curseur.execute(query)
+        return curseur.fetchone()[0]+1
 
     def supprimer_panier(self, id_client):
         pass
+
+
+def englober_diete(dietes):
+    if '0' in dietes:
+            dietes.append('4')
+            dietes.append('3')
+    if '4' in dietes:
+            dietes.append('5')
+    if '5' in dietes:
+            dietes.append('6')
+    if '6' in dietes:
+            dietes.append('1')
+    if '1' in dietes:
+            dietes.append('2')
+    print("CECI SONT LES DIETES")
+    print(dietes)
+    return dietes

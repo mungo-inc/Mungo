@@ -34,11 +34,11 @@ connecterEnregistrerLien.forEach(link => {
 
 
 if (boutonAjouterIngredient) {
-boutonAjouterIngredient.addEventListener("click", function() {
-    $.ajax({
-        url: "/get_ingredients",
-        method: "GET",
-        success: function(data) {
+    boutonAjouterIngredient.addEventListener("click", function() {
+        $.ajax({
+            url: "/get_ingredients",
+            method: "GET",
+            success: function(data) {
                 var selectHtml = '<label class="form-check-label" for="'+compteurListeIngredient+'">Choisir un ingrédient : </label>';
                 selectHtml += '<select name="ingredients" class="liste-ingredients" id='+ compteurListeIngredient+ '>';
                 selectHtml += '<option value="">Choisissez un ingrédient</option>';
@@ -51,7 +51,7 @@ boutonAjouterIngredient.addEventListener("click", function() {
                 let div  = document.createElement("div");
                 div.innerHTML = selectHtml;
                 document.getElementById("ingredients").appendChild(div);
-                },
+            },
             error: function(error) {
                 console.log("Error:", error);
             }
@@ -59,71 +59,71 @@ boutonAjouterIngredient.addEventListener("click", function() {
     });
 }
 
+if (ingredientsContainer) {
+    ingredientsContainer.addEventListener("change", function(e) {
+        if (e.target.classList.contains("liste-ingredients")) {
+            e.preventDefault();
+            let mesure = e.target.options[e.target.selectedIndex];
+            console.log(mesure);
+            let labelText;
+            if (mesure.getAttribute('data-mesure') == "u") {
+                labelText = "Entrez le nombre d'unité pour la recette:";
+            } else if (mesure.getAttribute('data-mesure') == "g" || mesure.getAttribute('data-mesure') == "p") {
+                labelText = "Entrez le nombre de grammes pour la recette:";
+            } else if (mesure.getAttribute('data-mesure') == "l") {
+                labelText = "Entrez le nombre de millilitres pour la recette:";
+            }
 
-ingredientsContainer.addEventListener("change", function(e) {
-    if (e.target.classList.contains("liste-ingredients")) {
-        e.preventDefault();
-        let mesure = e.target.options[e.target.selectedIndex];
-        console.log(mesure);
-        let labelText;
-        if (mesure.getAttribute('data-mesure') == "u") {
-            labelText = "Entrez le nombre d'unité pour la recette:";
-        } else if (mesure.getAttribute('data-mesure') == "g" || mesure.getAttribute('data-mesure') == "p") {
-            labelText = "Entrez le nombre de grammes pour la recette:";
-        } else if (mesure.getAttribute('data-mesure') == "l") {
-            labelText = "Entrez le nombre de millilitres pour la recette:";
+            let label = document.createElement("label");
+            label.setAttribute('for', mesure.id + "-quantite");
+            label.textContent = labelText;
+
+            let input = document.createElement("input");
+            input.classList.add("form-control");
+            input.setAttribute("id", mesure.id + "-quantite");
+            input.setAttribute("type", "text");
+            input.setAttribute("name", mesure.id+"-quantite");
+            let divRange = document.createElement("div");
+            let div = document.getElementById("selected-ingredient-" + e.target.id);
+            divRange.appendChild(label);
+            divRange.appendChild(input);
+            div.appendChild(divRange);
         }
-
-        let label = document.createElement("label");
-        label.setAttribute('for', mesure.id + "-quantite");
-        label.textContent = labelText;
-
-        let input = document.createElement("input");
-        input.classList.add("form-control");
-        input.setAttribute("id", mesure.id + "-quantite");
-        input.setAttribute("type", "text");
-        input.setAttribute("name", mesure.id+"-quantite");
-        let divRange = document.createElement("div");
-        let div = document.getElementById("selected-ingredient-" + e.target.id);
-        divRange.appendChild(label);
-        divRange.appendChild(input);
-        div.appendChild(divRange);
-    }
-});
-
+    });
+}
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
     majNombreEpicerie();
 });
 
 document.getElementById('toggle-menu').addEventListener('change', function() {
-        document.querySelector('.col-2').classList.toggle('nav', this.checked);
+    document.querySelector('.col-2').classList.toggle('nav', this.checked);
 });
 
 allRanges.forEach(wrap => {
-  const range = wrap.querySelector(".range");
-  const bubble = wrap.querySelector(".bubble");
+    const range = wrap.querySelector(".range");
+    const bubble = wrap.querySelector(".bubble");
 
-  range.addEventListener("input", () => {
+    range.addEventListener("input", () => {
+        setBubble(range, bubble);
+    });
     setBubble(range, bubble);
-  });
-  setBubble(range, bubble);
 });
 
 function setBubble(range, bubble) {
-  const val = range.value;
-  const min = range.min ? range.min : 0;
-  const max = range.max ? range.max : 100;
-  const newVal = Number(((val - min) * 100) / (max - min));
-  bubble.innerHTML = val;
-  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+    const val = range.value;
+    const min = range.min ? range.min : 0;
+    const max = range.max ? range.max : 100;
+    const newVal = Number(((val - min) * 100) / (max - min));
+    bubble.innerHTML = val;
+    bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
 }
 
 if (afficherEcranConnexionBtn) {
     afficherEcranConnexionBtn.addEventListener("click", () => {
         setTimeout(function() {
-                document.getElementById("courriel").focus();
-            }, 250);
+            document.getElementById("courriel").focus();
+        }, 250);
         document.body.classList.toggle("afficher-popup");
     });
 } else {
@@ -150,12 +150,12 @@ ajouterButtons.forEach(function(button) {
         } else {
             let div = document.getElementById('accordion-content');
             div.innerHTML += `
-                <div class="accordion-body">
-                    <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-                    <strong></strong>
-                        <ul>
-                        </ul>
-                </div>`
+<div class="accordion-body">
+<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+<strong></strong>
+<ul>
+</ul>
+</div>`
             let strongs = document.querySelectorAll('.accordion-body strong');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
         }
@@ -203,10 +203,10 @@ function updaterRestants(restants) {
 }
 
 function modifierQteRestante(restants, 
-                             idAliment, 
-                             nouvelleQte, 
-                             qteAliment,  
-                             idRecette) {
+    idAliment, 
+    nouvelleQte, 
+    qteAliment,  
+    idRecette) {
     let aliment = restants.find(aliment => aliment.idAliment === idAliment);
     let alimentTagged = taggedAliments.find(aliment => aliment.idAliment === idAliment);
     alimentExisteDansTagged = taggedAliments.some(elem =>  
@@ -259,11 +259,11 @@ function updaterPrixPage(restants) {
                         //console.log(qteRecette)
                         //console.log(restant.qteRestante)
                         //console.log(!alimentExiste)
-                       // console.log("=============")
+                        // console.log("=============")
                     }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
-			prix -= parseFloat(p.getAttribute('data-prix-aliment'));
+                        prix -= parseFloat(p.getAttribute('data-prix-aliment'));
                         childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2); 
                         taggedAliments.push({idAliment, idRecette, qteRecette});
                     } 
@@ -321,44 +321,44 @@ viderPanierButton.addEventListener("click", function() {
 });
 
 if (sauvegarderButton) {
-sauvegarderButton.addEventListener("click", function() {
-    let accordionBodies = document.querySelectorAll('.accordion-body');
-    let listeASauvegarder = [];
-    accordionBodies.forEach(body => {
-        let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
-        let nomRecette = body.querySelector('strong').textContent;
-        let lis = body.querySelectorAll('li');
-        aliments = [];
-        lis.forEach(li => {
-            aliments.push({
-                id: li.getAttribute('data-id-aliment'), 
-                nom: li.textContent.trim() 
+    sauvegarderButton.addEventListener("click", function() {
+        let accordionBodies = document.querySelectorAll('.accordion-body');
+        let listeASauvegarder = [];
+        accordionBodies.forEach(body => {
+            let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
+            let nomRecette = body.querySelector('strong').textContent;
+            let lis = body.querySelectorAll('li');
+            aliments = [];
+            lis.forEach(li => {
+                aliments.push({
+                    id: li.getAttribute('data-id-aliment'), 
+                    nom: li.textContent.trim() 
+                });
+            });
+            listeASauvegarder.push({
+                id: idRecette, 
+                nom: nomRecette, 
+                aliments: aliments
             });
         });
-        listeASauvegarder.push({
-            id: idRecette, 
-            nom: nomRecette, 
-            aliments: aliments
-        });
+        fetch('/sauvegarder-liste', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(listeASauvegarder)
+        })
+            .then(response => response.json())
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
+            })
     });
-    fetch('/sauvegarder-liste', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(listeASauvegarder)
-    })
-    .then(response => response.json())
-    .then(response => {
-        let child = afficherSucces(response.message);
-        setTimeout(function() {
-            enleverSucces(child);
-            setTimeout(function() {
-                suppressionMessageAlerte(child);
-            }, 1500);
-        }, 5000);
-    })
-});
 }
 
 function estCloseButtonRecette(target) {
@@ -366,7 +366,7 @@ function estCloseButtonRecette(target) {
 }
 
 function estCloseButtonAliment(target) {
-   return target.classList.contains('btn-close-aliment');
+    return target.classList.contains('btn-close-aliment');
 }
 
 function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
@@ -428,7 +428,7 @@ function ajouterNombrePanier(message) {
     setTimeout(function() {
         enleverSucces(child);
         setTimeout(function(){
-             suppressionMessageAlerte(child);
+            suppressionMessageAlerte(child);
             compteur--;
         }, 1500);
     }, 5000);
@@ -440,9 +440,9 @@ function creationMessageAlerte(messageSucces) {
     message.classList.add("alert-success", "alert");
     let topValue;
     if (++compteur == 1) {
-         topValue = 15;
+        topValue = 15;
     } else {
-         topValue = ((compteur - 1) * 60) + 15;
+        topValue = ((compteur - 1) * 60) + 15;
     }
     message.style.top = topValue + "px";
     let divAlerte = document.getElementById('notif-succes').appendChild(message);
@@ -519,8 +519,8 @@ function extraireListeEpicerie(accordions) {
     for (let i = 0; i < accordions.length; i++) {
         let nomRecette = accordions[i].querySelector('strong').textContent;
         let idRecette = accordions[i]
-            .querySelector('strong')
-            .getAttribute('data-id-recette');
+        .querySelector('strong')
+        .getAttribute('data-id-recette');
         let items = extraireItems(accordions[i]);
         listeEpicerie.push(
             { idRecette: idRecette, nomRecette: nomRecette, items: items }
@@ -569,7 +569,7 @@ function afficherListeEpicerie(listeEpicerie) {
 
 function calculerTotalPanier() {
     restants = []; // { idAliment, qteRestante }
-    
+
 }
 
 function updatePrixResultat() {
@@ -578,11 +578,11 @@ function updatePrixResultat() {
 
 function afficherAucunItem(div) {
     div.innerHTML = `
-        <div class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
-            <strong>Aucun item</strong>
-            <ul></ul>
-        </div>`;
+<div class="accordion-body">
+    <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+    <strong>Aucun item</strong>
+    <ul></ul>
+</div>`;
     let button = document.getElementsByClassName('btn-vider');
     let saveButton = document.getElementById('save-list-btn');
     if (saveButton != null) {
@@ -595,12 +595,12 @@ function afficherAucunItem(div) {
 
 function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
-        <div class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-            <strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
-            <ul></ul>
-        </div>`;
-    
+<div class="accordion-body">
+<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+<strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
+<ul></ul>
+</div>`;
+
     const ul = div.querySelectorAll('.accordion-body ul')[index];
     for (let j = 0; j < entree.items.length; j++) {
         let li = document.createElement('li');
@@ -637,11 +637,9 @@ if (conteneur1 && conteneur2) {
         ecrireTexteConteneur(texte2, conteneur2, 50);
     });
 }
-  
+
 majNombreEpicerie();
 
 function allerBasPage() {
     document.getElementById('bottom').scrollIntoView();
 }
-
-

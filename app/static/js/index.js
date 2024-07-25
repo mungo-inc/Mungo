@@ -11,6 +11,9 @@ const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
+const modifierListeButtons = document.querySelectorAll(".modifier-list-btn");
+const sauvegarderModificationsListeButtons = document.querySelectorAll(".save-modif-list-btn");
+
 let compteur = 0;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
@@ -332,6 +335,77 @@ supprimerListeButtons.forEach(function(button) {
         }
     });
 });
+
+
+modifierListeButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        // Récupérer l'élément parent de la liste d'épicerie
+        const liste = this.closest('.panier-conteneur');
+        
+        // Récupérer l'élément qui affiche le nom de la liste
+        const nomListe = liste.querySelector('#panier-nom');
+        
+        // Créer un champ de texte pour l'édition
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = nomListe.textContent;
+        input.className = 'input-nom-liste';
+        
+        // Remplacer l'élément affichant le nom par le champ de texte
+        liste.replaceChild(input, nomListe);
+
+        // Afficher le bouton "Sauvegarder"
+        let sauverModifButton = liste.querySelector('.save-modif-list-btn');
+        sauverModifButton.hidden = false;
+        
+        // Fonction pour gérer la validation de la modification
+        const validerModif = () => {
+            // Récupérer la nouvelle valeur du champ de texte
+            const nouveauNom = input.value;
+            
+            // Créer un nouvel élément <h3> pour afficher le nouveau nom
+            const listeElemNouveauNom = document.createElement('h3');
+            listeElemNouveauNom.id = 'panier-nom';
+            listeElemNouveauNom.textContent = nouveauNom;
+            
+            // Remplacer le champ de texte par le nouvel élément affichant le nom
+            liste.replaceChild(listeElemNouveauNom, input);
+
+            // Masquer le bouton "Sauvegarder"
+            saveButton.hidden = true;
+            
+            // Envoyer la requête POST au serveur pour sauvegarder les modifications
+            const panierId = listItem.getAttribute('data-id-panier');
+            const clientId = listItem.getAttribute('data-id-client');
+            
+            fetch('/sauvegarder-panier', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    idPanier: panierId,
+                    idClient: clientId,
+                    nouveauNom: newName
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        };
+        
+        // Écouter la perte de focus pour valider la modification
+        input.addEventListener('blur', validerModif);
+        
+        // Donner le focus au champ de texte pour que l'utilisateur puisse commencer à éditer
+        input.focus();
+    });
+});
+
 
 function estCloseButtonRecette(target) {
     return target.classList.contains('btn-close-recette');

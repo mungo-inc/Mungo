@@ -225,12 +225,18 @@ def save_list():
 
 @app.route('/supprimer-liste', methods=['POST'])
 def delete_list():
-    print("allo")
     db = Database('app/db/epicerie.db')
     data = request.get_json()
     db.supprimer_panier(data['idClient'], data['idPanier'])
     return jsonify({"message": "Liste supprimée avec succès."})
 
+
+@app.route('/sauvegarder-modif-liste', methods=['POST'])
+def save_modification_list():
+    db = Database('app/db/epicerie.db')
+    data = request.get_json()
+    db.modifier_panier()
+    return jsonify({"message": "Liste modifiée avec succès."})
 
 def construire_recette(donnees):
     recettes = {}

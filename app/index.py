@@ -269,3 +269,19 @@ class Client(db.Model, UserMixin):
 
     def get_courriel(self):
         return str(self.courriel)
+
+# formulaire d'avis
+@app.route('/avis-recette', methods=['POST'])
+def post_avis():
+    if request.method == "POST":
+        id_recette = request.form.get("id_recette")
+        note = request.form.get("note")
+        opinion = request.form.get("opinion")
+        db = Database(app.config['DATABASE_PATH'])
+        db.get_connection()
+        db.sauvegarder_avis(id_recette, note, opinion)
+        return redirect("/")
+
+
+
+

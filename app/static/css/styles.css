@@ -638,7 +638,41 @@ a.mot-passe-oublie, #lien-inscription, #lien-connexion{
 }
 
 
-/* evalutation etoiles */
+/* avis etoiles */
+.avis {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stars {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+stars i {
+    color: #F5F5F5;
+    cursor: pointer;
+    transition: color 0.2 ease;
+}
+.fa-star {
+    color: #E0E0E0
+}
+
+.stars i.active {
+    color: #9DC28B !important;
+}
+
+form > h3 {
+    margin-bottom: 15px;
+}
+
+.avis-texte {
+    margin-bottom: 15px;
+}
+
 .form-control {
     margin-bottom: 25px !important;
 }
@@ -649,10 +683,6 @@ output#__BVID__3.b-rating.form-control.align-items-center.d-flex {
 p.mt-2 {
     margin-bottom: 5px !important;
     font-family: FlinkBold !important;
-}
-
-div.evaluation {
-    background-color: #F5F5F5 !important;
 }
 
 .evaluation form {
@@ -671,7 +701,6 @@ div.evaluation {
     box-shadow: none;
     padding: 0 0 25px 0 !important;
 }
-
 
 #panier-erreur {
     display: block;

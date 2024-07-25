@@ -1,4 +1,5 @@
 const ajouterButtons = document.querySelectorAll(".btn-recettes");
+const envoyerAvis = document.querySelectorAll(".btn-avis");
 const retirerPanierButtons = document.getElementById("collapseOne");
 const viderPanierButton = document.getElementsByClassName("btn-vider")[0];
 const defilement  = document.getElementById("customRange1");
@@ -615,3 +616,19 @@ majNombreEpicerie();
 function allerBasPage() {
     document.getElementById('bottom').scrollIntoView();
 }
+
+// avis etoiles
+const etoiles = document.querySelectorAll(".stars i");
+const note = document.getElementById("note");
+
+etoiles.forEach((etoile, index1) => {
+    etoile.addEventListener("click", () => {
+        console.log(index1);
+        note.value = index1 + 1;
+        etoiles.forEach((etoile, index2) => {
+            index1 >= index2 ? etoile.classList.add("active") : etoile.classList.remove("active");
+        });
+    });
+});
+
+// avis id_recette

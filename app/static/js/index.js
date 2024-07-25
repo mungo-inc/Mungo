@@ -46,6 +46,7 @@ if (boutonAjouterIngredient) {
                     selectHtml += '<option id="'+ingredient[0]+'" data-mesure="'+ingredient[2]+'" value="' + ingredient[0] + '">' + ingredient[1] + '</option>';
                 });
                 selectHtml += '</select>';
+                selectHtml += '<span id=err-item-selectionne-'+compteurListeIngredient+'></span>';
                 selectHtml += '<div id="selected-ingredient-'+ compteurListeIngredient+'"></div>';
                 compteurListeIngredient++;
                 let div  = document.createElement("div");
@@ -64,7 +65,6 @@ if (ingredientsContainer) {
         if (e.target.classList.contains("liste-ingredients")) {
             e.preventDefault();
             let mesure = e.target.options[e.target.selectedIndex];
-            console.log(mesure);
             let labelText;
             if (mesure.getAttribute('data-mesure') == "u") {
                 labelText = "Entrez le nombre d'unité pour la recette:";
@@ -73,21 +73,24 @@ if (ingredientsContainer) {
             } else if (mesure.getAttribute('data-mesure') == "l") {
                 labelText = "Entrez le nombre de millilitres pour la recette:";
             }
-
+            let divRange = document.createElement("div");
+            if (mesure.value != "") {
             let label = document.createElement("label");
             label.setAttribute('for', mesure.id + "-quantite");
             label.textContent = labelText;
-
             let input = document.createElement("input");
             input.classList.add("form-control");
             input.setAttribute("id", mesure.id + "-quantite");
             input.setAttribute("type", "text");
             input.setAttribute("name", mesure.id+"-quantite");
-            let divRange = document.createElement("div");
-            let div = document.getElementById("selected-ingredient-" + e.target.id);
             divRange.appendChild(label);
             divRange.appendChild(input);
-            div.appendChild(divRange);
+            let span = document.createElement("span");
+            span.setAttribute("id", "err-selected-ingredient-" + e.target.id);
+            divRange.appendChild(span);
+            }
+            let div = document.getElementById("selected-ingredient-" + e.target.id);
+            div.innerHTML = divRange.innerHTML;
         }
     });
 }
@@ -296,6 +299,8 @@ function montrerTotalPanier() {
     let total = document.getElementById('total-panier');
     total.hidden = false;
 }
+
+
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;

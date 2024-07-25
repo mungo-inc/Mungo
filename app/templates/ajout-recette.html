@@ -11,6 +11,7 @@
                         <span id="err-titre"></span>
                     </div>
                     <div class="form-group" id="ingredients-conteneur">
+                        <div id="ingredients">
                         <label class="form-check-label" for="liste-ingredients">Choisir un ingrédient :</label>
                         <select name="ingredients" class="liste-ingredients" id="0">
                             <option value=""> Choisissez un ingrédient </option>
@@ -18,9 +19,10 @@
                             <option id="{{ingredient[0]}}" data-mesure="{{ingredient[2]}}" value="{{ingredient[0]}}">{{ingredient[1]}}</option>
                             {% endfor %}
                         </select>
+                        <span id="err-item-selectionne-0"></span>
                         <div id="selected-ingredient-0">
                         </div>
-                        <div id="ingredients">
+                        
 
                         </div>
                         <button type="button" class="btn btn-outline-secondary" id="ajouter-ingredient">Ajouter un ingrédient</button>

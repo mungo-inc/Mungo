@@ -203,7 +203,7 @@ function updaterPrixPage(restants) {
                     }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
-			prix -= parseFloat(p.getAttribute('data-prix-aliment'));
+			            prix -= parseFloat(p.getAttribute('data-prix-aliment'));
                         childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2); 
                         taggedAliments.push({idAliment, idRecette, qteRecette});
                     } 
@@ -239,7 +239,7 @@ function montrerTotalPanier() {
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
-    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
+    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'))
     let parentElem = target.closest('.accordion-body');
     if (parentElem) {
         let nomRecette = parentElem.querySelector('strong').textContent;
@@ -272,7 +272,7 @@ if (sauvegarderButton) {
             lis.forEach(li => {
                 aliments.push({
                     id: li.getAttribute('data-id-aliment'), 
-                    nom: li.textContent.trim() 
+                    nom: li.textContent.trim()
                 });
             });
             listeASauvegarder.push({
@@ -364,11 +364,19 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
     if (index > -1) {
         listeEpicerie[index].items.splice(indexAliment, 1);
     }
+    console.log(li.getAttribute("data-id-aliment"));
+    let idAliment = li.getAttribute("data-id-aliment")
     li.remove();
     sauvegarderListeEpicerie();
     if (listeEpicerie[index].items.length === 0) {
         retirerRecettes(parentElem, listeEpicerie, nomRecette);
     }
+    // let restants = []; // {idAliment, qteRestante}
+    let estPresent = restants.find(id => id.idAliment === idAliment);
+    if (estPresent) {
+
+    }
+    taggedAliments;
 }
 
 function ajouterElementPanier(strongs, index) {
@@ -450,7 +458,10 @@ function listerAliment(ul, aliments, index) {
         li.innerHTML += aliments[i].textContent;
         let idAliment = document.createAttribute('data-id-aliment');
         idAliment.value = aliments[i].getAttribute('data-id-aliment');
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = aliments[i].getAttribute('data-quantite-aliment');
         li.setAttributeNode(idAliment);
+        li.setAttributeNode(qteAliment);
         ul[index].append(li);
     }
 }
@@ -506,7 +517,12 @@ function extraireItems(accordion) {
     const items = [];
     let lis = ul.querySelectorAll('li');
     for (let j = 0; j < lis.length; j++) {
-        items.push({ id: lis[j].getAttribute('data-id-aliment'), nom: lis[j].textContent });
+        console.log(lis[j].getAttribute('data-quantite-aliment'))
+        items.push({ 
+            id: lis[j].getAttribute('data-id-aliment'), 
+            nom: lis[j].textContent,
+            qte: lis[j].getAttribute('data-quantite-aliment')
+        });
     }
     return items;
 }
@@ -581,6 +597,9 @@ function ajouterRecetteAuDiv(div, entree, index) {
         let idAliment = document.createAttribute('data-id-aliment');
         idAliment.value = entree.items[j].id;
         li.setAttributeNode(idAliment);
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = entree.items[j].qte;
+        li.setAttributeNode(qteAliment);
         li.innerHTML += entree.items[j].nom;
         ul.append(li);
     }

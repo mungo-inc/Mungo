@@ -65,6 +65,7 @@ if (ingredientsContainer) {
         if (e.target.classList.contains("liste-ingredients")) {
             e.preventDefault();
             let mesure = e.target.options[e.target.selectedIndex];
+            console.log(mesure);
             let labelText;
             if (mesure.getAttribute('data-mesure') == "u") {
                 labelText = "Entrez le nombre d'unité pour la recette:";

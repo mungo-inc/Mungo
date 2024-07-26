@@ -94,7 +94,8 @@ function verifierQuantiteIngredient() {
             let variable = "selected-ingredient-"+i; 
             let ingredientQuantite = document.getElementById(variable).querySelector("input");
             erreur = "err-selected-ingredient-"+i;
-            if (ingredientQuantite.value == "") {
+            if (ingredientQuantite == null) {
+            } else if (ingredientQuantite.value == "") {
                 ecrireErreur(erreur, "Le champ ne peut pas être vite");
             } else if (isNaN(ingredientQuantite.value))  {
                 ecrireErreur(erreur, "Le champ doit être un nombre");

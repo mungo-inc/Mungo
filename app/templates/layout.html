@@ -41,9 +41,9 @@
                             <a class="nav-link" href="{{ url_for('profil')}}">Profil</a>
                         </li>
                         {% endif %}
-			{% if current_user.id == 1 %}
+			{% if current_user.courriel == 'admin@gmail.com' %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('profil')}}">Produit vedette</a>
+                            <a class="nav-link" href="{{ url_for('produit_vedette')}}">Produit vedette</a>
                         </li>
                         {% endif %}
 

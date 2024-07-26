@@ -3,7 +3,8 @@ CREATE TABLE Aliment (
     Nom TEXT NOT NULL,
     Type TEXT NOT NULL,
     Quantite REAL NULL,
-    Prix REAL NOT NULL
+    Prix REAL NOT NULL,
+    Vedette Boolean
 );
 
 CREATE TABLE Recette (

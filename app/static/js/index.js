@@ -12,6 +12,7 @@ const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
+const produit_vedette = document.getElementById("vedette");
 let compteur = 0;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
@@ -238,6 +239,9 @@ function montrerTotalPanier() {
     total.hidden = false;
 }
 
+produit_vedette.addEventListener("click", function(event) {
+
+});
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
     let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));

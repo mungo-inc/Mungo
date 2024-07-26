@@ -781,9 +781,20 @@ p.mt-2 {
 
 a#bouton-deconnexion {
     color: #000 !important;
+    padding-bottom: 8px !important;
 }
 
 a#bouton-deconnexion:hover {
+    color: #fff !important;
+}
+
+#bouton-partager-recette {
+    color: #000 !important;
+    padding-bottom: 8px !important;
+
+}
+
+#bouton-partager-recette:hover {
     color: #fff !important;
 }
 

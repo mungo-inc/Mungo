@@ -40,6 +40,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('profil')}}">Profil</a>
                         </li>
+                        <li>
+                            <a class="nav-link" href="{{ url_for('ajouter_recette')}}">Partager une recette</a>
+                        </li>
                         {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('compagnie')}}">À propos</a>
@@ -77,9 +80,9 @@
                         <ul id="liste-epicerie"></ul>
                     </div>
                     {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('logout')}}" type="submit" class="btn logout-btn" id="bouton-deconnexion">Se déconnecter</a>
+                    <a href="{{ url_for('logout')}}" type="submit" class="btn logout-btn btn-connexion" id="bouton-deconnexion">Se déconnecter</a>
                     {% else %}
-                    <button type="submit" class="btn login-btn">Se connecter</button>
+                    <button type="submit" class="btn login-btn btn-connexion">Se connecter</button>
                     {% endif %}
                 </div>
                 {% block content %}{% endblock %}

@@ -13,7 +13,7 @@ const allRanges = document.querySelectorAll(".range-wrap");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
 let compteur = 0;
 let restants = []; // {idAliment, qteRestante}
-let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
+let taggedAliments = []; // [{idAliment, idRecette, qteRecette}]; 
 
 
 connecterEnregistrerLien.forEach(link => {
@@ -214,7 +214,6 @@ function updaterPrixPage(restants) {
 }
 
 function augmenterPrixPage(idAliment, idsRecette) {
-    console.log(idsRecette);
     let div = document.querySelector('div.liste-recettes.conteneur-recettes');
     let prix = 0;
     idsRecette.forEach(i => {
@@ -384,8 +383,11 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
             restant.qteRestante = 0;
         }
         console.log(restant.qteRestante);
+        let idsRecettes = taggedAliments.filter(elem => elem.idAliment == idAliment);
+        console.log("idsRecettes", idsRecettes);
+        taggedAliments = taggedAliments.filter(elem => elem.idAliment != idAliment);
+        augmenterPrixPage(parseInt(idAliment), idsRecettes);
     }
-    taggedAliments;
 }
 
 function ajouterElementPanier(strongs, index) {

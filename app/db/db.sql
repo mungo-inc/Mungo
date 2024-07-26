@@ -7,7 +7,7 @@ CREATE TABLE Aliment (
 );
 
 CREATE TABLE Recette (
-    ID_recette INTEGER PRIMARY KEY,
+    ID_recette INTEGER PRIMARY KEY AUTOINCREMENT,
     Nom TEXT NOT NULL,
     Moyenne_note REAL
 );
@@ -77,14 +77,6 @@ CREATE TABLE Recette_diete (
     FOREIGN KEY (ID_diete) REFERENCES Diete(ID_diete)
 );
 
-CREATE TABLE Recette_Allergie (
-    ID_recette INTEGER,
-    ID_allergie INTEGER,
-    PRIMARY KEY (ID_recette, ID_allergie),
-    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette),
-    FOREIGN KEY (ID_allergie) REFERENCES Allergie(ID_allergie)
-);
-
 CREATE TABLE Client_diete (
     ID_client INTEGER,
     ID_diete INTEGER,
@@ -129,4 +121,12 @@ CREATE TABLE Client_Panier_Aliment_Recette (
     FOREIGN KEY (ID_panier) REFERENCES Panier(ID_panier),
     FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),
     FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
+);
+
+CREATE TABLE Client_Recette (
+  ID_client INTEGER,
+  ID_recette INTEGER,
+  PRIMARY KEY (ID_client, ID_recette),
+  FOREIGN KEY (ID_Client) REFERENCES Client(ID_client),
+  FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
 );

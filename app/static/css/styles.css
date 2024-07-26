@@ -787,6 +787,10 @@ a#bouton-deconnexion:hover {
     color: #fff !important;
 }
 
+#enlever-ingredient:hover {
+    background-color: #C28B8B  !important;
+    border-color: #C28B8B !important;
+}
 
 .grid {
     display: block !important;

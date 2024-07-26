@@ -67,7 +67,9 @@ function confirmationEnvoieRecette() {
     let ingredientQuantiteErreur = [];
     for (let i = 0; i < nbrIngredient; i++) {
         let variable2 = ("err-item-selectionne-" + i);
-        let ingredientQuantite = document.getElementById(variable2).querySelector("input");
+        let ingredientQuantite = document.getElementById("selected-ingredient-"+i).querySelector("input");
+        console.log(ingredientQuantite);
+        console.log("Regarde en haut");
         if (ingredientQuantite != null){
             ingredientQuantiteListe.push(ingredientQuantite.value);
         } else {
@@ -75,7 +77,21 @@ function confirmationEnvoieRecette() {
         }
         ingredientQuantiteErreur.push(document.getElementById(variable2).innerHTML);
     }
-    return (titre == "" || span != "" || ingredientListe.some(str => str === '') || ingredientErreur.some(str => str != '') || ingredientQuantiteListe.some(valeur => valeur === '' || isNaN(value)) || ingredientQuantiteErreur.some(str => str != ''));
+
+    console.log("Condition titre");
+    console.log(titre == "" );
+    console.log("Condition titre erreur");
+    console.log(span != "" );
+    console.log("Condition ingredientListe");
+    console.log(ingredientListe.some(str => str === "" ));
+    console.log("Condition ingredientErreurListe");
+    console.log(ingredientErreur.some(str => str != ""));
+    console.log("Condition ingredientQuantiteListe");
+    console.log(ingredientQuantiteListe.some(valeur => valeur === ""));
+    console.log(ingredientQuantiteListe.some(valeur => isNaN(valeur)));
+    console.log("Condition ingredientQuantiteListeErreur");
+    console.log(ingredientQuantiteErreur.some(str => str  != ''));
+    return (titre == "" || span != "" || ingredientListe.some(str => str === '') || ingredientErreur.some(str => str != '') || ingredientQuantiteListe.some(valeur => valeur === '' || isNaN(valeur)) || ingredientQuantiteErreur.some(str => str != ''));
 }
 
 function verifierChamp(id, erreur, message) {

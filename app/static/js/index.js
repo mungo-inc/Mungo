@@ -11,6 +11,7 @@ const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
 const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
+const boutonEnleverIngredient = document.getElementById("enlever-ingredient");
 const ingredientsContainer = document.getElementById("ingredients-conteneur");
 
 let compteur = 0;
@@ -48,15 +49,24 @@ if (boutonAjouterIngredient) {
                 selectHtml += '</select>';
                 selectHtml += '<span id=err-item-selectionne-'+compteurListeIngredient+'></span>';
                 selectHtml += '<div id="selected-ingredient-'+ compteurListeIngredient+'"></div>';
-                compteurListeIngredient++;
                 let div  = document.createElement("div");
                 div.innerHTML = selectHtml;
+                div.setAttribute("id", "option-"+compteurListeIngredient);
+                compteurListeIngredient++;
                 document.getElementById("ingredients").appendChild(div);
             },
             error: function(error) {
                 console.log("Error:", error);
             }
         });
+    });
+}
+
+if (boutonEnleverIngredient) {
+    boutonEnleverIngredient.addEventListener("click", function() {
+        if (compteurListeIngredient >= 1) {
+            document.getElementById("option-" + --compteurListeIngredient).remove();
+        }
     });
 }
 

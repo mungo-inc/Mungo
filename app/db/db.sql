@@ -77,14 +77,6 @@ CREATE TABLE Recette_diete (
     FOREIGN KEY (ID_diete) REFERENCES Diete(ID_diete)
 );
 
-CREATE TABLE Recette_Allergie (
-    ID_recette INTEGER,
-    ID_allergie INTEGER,
-    PRIMARY KEY (ID_recette, ID_allergie),
-    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette),
-    FOREIGN KEY (ID_allergie) REFERENCES Allergie(ID_allergie)
-);
-
 CREATE TABLE Client_diete (
     ID_client INTEGER,
     ID_diete INTEGER,

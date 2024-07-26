@@ -685,7 +685,7 @@ class Database:
         )
         curseur.execute(query, (nom, 0.0, ))
         self.get_connection().commit()
-        id_recette = self.chercher_dernier_id_recette()
+        id_recette = self.chercher_dernier_id_recette() - 1
         for ingredient in ingredients_quantite:
             query = (
                 """
@@ -724,9 +724,6 @@ class Database:
         curseur.execute(query)
         return curseur.fetchone()[0]+1
 
-    def supprimer_panier(self, id_client):
-        pass
-      
     def sauvegarder_avis(self, id_recette, note, opinion):
         curseur = self.get_connection().cursor()
         query = (

@@ -364,7 +364,6 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
     if (index > -1) {
         listeEpicerie[index].items.splice(indexAliment, 1);
     }
-    console.log(li.getAttribute("data-id-aliment"));
     let idAliment = li.getAttribute("data-id-aliment")
     li.remove();
     sauvegarderListeEpicerie();
@@ -372,9 +371,19 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
         retirerRecettes(parentElem, listeEpicerie, nomRecette);
     }
     // let restants = []; // {idAliment, qteRestante}
-    let estPresent = restants.find(id => id.idAliment === idAliment);
-    if (estPresent) {
-
+    let restant = restants.find(id => id.idAliment == idAliment);
+    console.log(idAliment);
+    console.log(restants);
+    console.log(restant.qteRestante);
+    if (restant) {
+        let qteRecette = parseFloat(li.getAttribute("data-quantite-recette"));
+        let qteAliment = parseFloat(li.getAttribute("data-quantite-aliment"));
+        if (restant.qteRestante - qteAliment + qteRecette >= 0) {
+            restant.qteRestante = restant.qteRestante - qteAliment + qteRecette;
+        } else {
+            restant.qteRestante = 0;
+        }
+        console.log(restant.qteRestante);
     }
     taggedAliments;
 }
@@ -460,8 +469,11 @@ function listerAliment(ul, aliments, index) {
         idAliment.value = aliments[i].getAttribute('data-id-aliment');
         let qteAliment = document.createAttribute('data-quantite-aliment');
         qteAliment.value = aliments[i].getAttribute('data-quantite-aliment');
+        let qteRecette = document.createAttribute("data-quantite-recette");
+        qteRecette.value = aliments[i].getAttribute('data-quantite-recette');
         li.setAttributeNode(idAliment);
         li.setAttributeNode(qteAliment);
+        li.setAttributeNode(qteRecette);
         ul[index].append(li);
     }
 }
@@ -517,11 +529,11 @@ function extraireItems(accordion) {
     const items = [];
     let lis = ul.querySelectorAll('li');
     for (let j = 0; j < lis.length; j++) {
-        console.log(lis[j].getAttribute('data-quantite-aliment'))
         items.push({ 
             id: lis[j].getAttribute('data-id-aliment'), 
             nom: lis[j].textContent,
-            qte: lis[j].getAttribute('data-quantite-aliment')
+            qte: lis[j].getAttribute('data-quantite-aliment'),
+            qteRecette: lis[j].getAttribute('data-quantite-recette')
         });
     }
     return items;
@@ -600,6 +612,9 @@ function ajouterRecetteAuDiv(div, entree, index) {
         let qteAliment = document.createAttribute('data-quantite-aliment');
         qteAliment.value = entree.items[j].qte;
         li.setAttributeNode(qteAliment);
+        let qteRecette = document.createAttribute('data-quantite-recette');
+        qteRecette.value = entree.items[j].qteRecette;
+        li.setAttributeNode(qteRecette);
         li.innerHTML += entree.items[j].nom;
         ul.append(li);
     }

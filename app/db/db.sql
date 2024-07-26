@@ -7,7 +7,7 @@ CREATE TABLE Aliment (
 );
 
 CREATE TABLE Recette (
-    ID_recette INTEGER PRIMARY KEY,
+    ID_recette INTEGER PRIMARY KEY AUTOINCREMENT,
     Nom TEXT NOT NULL,
     Moyenne_note REAL
 );
@@ -129,4 +129,12 @@ CREATE TABLE Client_Panier_Aliment_Recette (
     FOREIGN KEY (ID_panier) REFERENCES Panier(ID_panier),
     FOREIGN KEY (ID_aliment) REFERENCES Aliment(ID_aliment),
     FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
+);
+
+CREATE TABLE Client_Recette (
+  ID_client INTEGER,
+  ID_recette INTEGER,
+  PRIMARY KEY (ID_client, ID_recette),
+  FOREIGN KEY (ID_Client) REFERENCES Client(ID_client),
+  FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
 );

@@ -17,7 +17,9 @@ db_path = os.path.join(basedir, 'app', 'db', 'epicerie.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///../app/db/epicerie.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DATABASE_PATH'] = 'app/db/epicerie.db'
-
+UPLOAD_FOLDER = 'app/static/img'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
@@ -80,6 +82,18 @@ def profil():
 def compagnie():
     return render_template('compagnie.html')
 
+@app.route('/ajout-recette')
+@login_required
+def ajouter_recette():
+    db = Database(app.config['DATABASE_PATH'])
+    ingredients = db.get_articles()
+    return render_template('ajout-recette.html', ingredients=ingredients)
+
+@app.route('/get_ingredients')
+def get_ingredients():
+    db = Database(app.config['DATABASE_PATH'])
+    ingredients = db.get_articles()
+    return jsonify(ingredients)
 
 @app.route('/recettes')
 def recettes():
@@ -123,6 +137,46 @@ def modifier_preference():
     flash("Les préférences ont bien été modifiées.")
     return redirect('/profil')
 
+
+@app.route('/envoyer-recette', methods=['GET', 'POST'])
+def envoyer_recette():
+    db = Database(app.config['DATABASE_PATH'])
+    nom = request.form["nom-recette"]
+    ingredients = request.form.getlist("ingredients")
+    ingredients_quantite = []
+    for ingredient in ingredients:
+        quantite = request.form[ingredient+"-quantite"]
+        ingredients_quantite.append([ingredient,quantite])
+    dietes = request.form.getlist('diete')
+    dernier_id_recette = db.chercher_dernier_id_recette()
+    upload_file(dernier_id_recette)
+    id = current_user.get_id()
+    db.ajouter_recette_db(id, nom, ingredients_quantite, dietes)
+    return redirect('/ajout-recette')
+
+def upload_file(dernier_id_recette):
+    print(request.files)
+    if 'image-recette' not in request.files:
+        return print('Pas de fichier')
+
+    file = request.files['image-recette']
+
+    if file.filename == '':
+        return print('Pas de fichier sélectionné')
+
+    if file:
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+    
+        filename = str(dernier_id_recette) + ".jpg"
+        if isinstance(filename, str) and filename:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            return print('Le fichier a bien été téléchargé')
+        else:
+            return print('Le nom du fichier est invalide')
+
+    return print('Fichier non téléchargé')
 
 def get_query_params():
     epiceries = request.args.getlist('epicerie')

@@ -30,9 +30,31 @@
             </div>
             <input type="hidden" name="note" id="note">
             <input type="hidden" name="id_recette" id="id_recette" value="{{ recette.id }}">
-            <textarea class="avis-texte" name="opinion" cols ="30" rows="5" placerholder="laissez-nous savoir vos commentaires!"></textarea>
+            <p class="incitatif">Entrez votre nom :</p>
+            <textarea class="avis-texte" name="nom" cols="30" rows="1" placeholder="Entrez votre nom :"></textarea>
+            <p class="incitatif">Entrez votre avis :</p>
+            <textarea class="avis-texte" name="opinion" cols="30" rows="5" placeholder="laissez-nous savoir vos commentaires!"></textarea>
             <button type="submit" class="btn btn-avis" data-id-recette="{{ recette.id }}">envoyer</button>
         </form>
     </div>
+
+    {% for avis1 in avis %}
+    <div>
+        <div class="gauche">
+            <p class="incitatif">{{ avis1.nom }}</p>
+            <div class="stars avis-etoiles">
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+            </div>
+            <p class="incitatif">{{ avis1.date }}</p>
+        </div>
+
+        <div class="incitatif">{{ avis1.opinion }}</div>
+    </div>
+    {% endfor %}
+
 </div>
 {% endblock content %}

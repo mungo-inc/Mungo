@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
-    {% block content %}
-    <div class="col-10">
+{% block content %}
+<div class="col-10">
+    <div class="conteneur-parent">
         <form id="form-recette" method="post" action="/envoyer-recette" enctype="multipart/form-data">
             <div class="col-sm-8">
                 <div class="section-form">
@@ -12,16 +13,16 @@
                     </div>
                     <div class="form-group" id="ingredients-conteneur">
                         <div id="ingredients">
-                        <label class="form-check-label" for="liste-ingredients">Choisir un ingrédient :</label>
-                        <select name="ingredients" class="liste-ingredients" id="0">
-                            <option value=""> Choisissez un ingrédient </option>
-                            {% for ingredient in ingredients %}
-                            <option id="{{ingredient[0]}}" data-mesure="{{ingredient[2]}}" value="{{ingredient[0]}}">{{ingredient[1]}}</option>
-                            {% endfor %}
-                        </select>
-                        <span id="err-item-selectionne-0"></span>
-                        <div id="selected-ingredient-0">
-                        </div>
+                            <label class="form-check-label" for="liste-ingredients">Choisir un ingrédient :</label>
+                            <select name="ingredients" class="liste-ingredients" id="0">
+                                <option value=""> Choisissez un ingrédient </option>
+                                {% for ingredient in ingredients %}
+                                <option id="{{ingredient[0]}}" data-mesure="{{ingredient[2]}}" value="{{ingredient[0]}}">{{ingredient[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <span id="err-item-selectionne-0"></span>
+                            <div id="selected-ingredient-0">
+                            </div>
                         </div>
                         <button type="button" class="btn btn-outline-secondary" id="ajouter-ingredient">Ajouter un ingrédient</button>
                         <button type="button" class="btn btn-outline-secondary" id="enlever-ingredient">Enlever un ingrédient</button>
@@ -68,6 +69,6 @@
                 </div>
             </div>
         </form>
-
     </div>
-    {% endblock content%}
+</div>
+{% endblock content%}

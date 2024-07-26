@@ -21,11 +21,11 @@ CREATE TABLE Aliment_Recette (
     FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
 );
 
-CREATE TABLE Critique (
+CREATE TABLE Avis (
+    ID_avis INTEGER PRIMARY KEY AUTOINCREMENT,
     ID_recette INTEGER,
-    ID_critique INTEGER PRIMARY KEY,
     Note INTEGER NOT NULL,
-    Commentaires TEXT,
+    Opinion TEXT,
     FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
 );
 

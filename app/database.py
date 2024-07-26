@@ -675,6 +675,7 @@ class Database:
         nom = curseur.fetchone()
         return nom[0]
 
+
     def ajouter_recette_db(self, id, nom, ingredients_quantite, dietes):
         curseur = self.get_connection().cursor()
         query = (
@@ -725,7 +726,29 @@ class Database:
 
     def supprimer_panier(self, id_client):
         pass
+      
+    def sauvegarder_avis(self, id_recette, note, opinion):
+        curseur = self.get_connection().cursor()
+        query = (
+                f"""
+                INSERT INTO Avis (ID_recette, Note, Opinion) VALUES ({id_recette}, {note}, '{opinion}');
+                """ 
+        )
+        print(f"{id_recette},       {note},     {opinion}")
+        curseur.execute(query)
+        self.get_connection().commit()
+        return 0
 
+    def supprimer_panier(self, id_client, id_panier):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            DELETE FROM Client_Panier_Aliment_Recette
+            WHERE id_client = (?) AND id_panier = (?)  
+            """
+        )
+        curseur.execute(query, (id_client, id_panier, ))
+        self.get_connection().commit()
 
 def englober_diete(dietes):
     if '0' in dietes:
@@ -742,3 +765,5 @@ def englober_diete(dietes):
     print("CECI SONT LES DIETES")
     print(dietes)
     return dietes
+
+    

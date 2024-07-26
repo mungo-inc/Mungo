@@ -1,4 +1,5 @@
 const ajouterButtons = document.querySelectorAll(".btn-recettes");
+const envoyerAvis = document.querySelectorAll(".btn-avis");
 const retirerPanierButtons = document.getElementById("collapseOne");
 const viderPanierButton = document.getElementsByClassName("btn-vider")[0];
 const defilement  = document.getElementById("customRange1");
@@ -13,7 +14,7 @@ const allRanges = document.querySelectorAll(".range-wrap");
 const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
 const boutonEnleverIngredient = document.getElementById("enlever-ingredient");
 const ingredientsContainer = document.getElementById("ingredients-conteneur");
-
+const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
 let compteur = 0;
 let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
@@ -377,6 +378,38 @@ if (sauvegarderButton) {
     });
 }
 
+supprimerListeButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        console.log("allo")
+        let div = this.parentElement.parentElement;
+        let idClient = parseInt(div.getAttribute("data-id-client"));
+        let idPanier = parseInt(div.getAttribute("data-id-panier"));
+        //afficherConfirmation?
+        fetch('/supprimer-liste', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({idClient: idClient, idPanier: idPanier})
+        })
+            .then(response => response.json())
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
+            })
+        div.remove();
+        if (document.querySelectorAll(".panier-contenur").length === 0) {
+            let message = "Vous n'avez aucun panier sauvegardé";
+            document.getElementById('titre-liste-epicerie-sauvegardee').textContent = message;
+        }
+    });
+});
+
 function estCloseButtonRecette(target) {
     return target.classList.contains('btn-close-recette');
 }
@@ -659,3 +692,19 @@ majNombreEpicerie();
 function allerBasPage() {
     document.getElementById('bottom').scrollIntoView();
 }
+
+// avis etoiles
+const etoiles = document.querySelectorAll(".stars i");
+const note = document.getElementById("note");
+
+etoiles.forEach((etoile, index1) => {
+    etoile.addEventListener("click", () => {
+        console.log(index1);
+        note.value = index1 + 1;
+        etoiles.forEach((etoile, index2) => {
+            index1 >= index2 ? etoile.classList.add("active") : etoile.classList.remove("active");
+        });
+    });
+});
+
+// avis id_recette

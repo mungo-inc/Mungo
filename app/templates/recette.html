@@ -3,70 +3,36 @@
 {% block content %}
 <div class="col-10">
     <div class="recette">
-
         <div>
             <img class="photo-recette" src="{{ url_for('static', filename='img/' ~ recette.id|string ~ '.jpg') }}" alt="image recette">
         </div>
 
         <div class="details-recette">
             <h2 class="titre-recette" data-id-recette="{{ recette.id }}"> {{ recette.nom }}</h2>
-            <div id="rating-app-1">
-                <b-form-rating
-                    v-model="value1"
-                    show-value-max
-                    precision="2"
-                    ></b-form-rating>
-            </div>
-            <p class="mt-2">Note: {{ value1 }}/5</p>
-            <button type="button" class="evaluer-bouton" onClick="allerBasPage()">Évaluer cette recette</button>
+            <button type="button" class="evaluer-bouton" onclick="allerbaspage()">évaluer cette recette</button>
             <div class="aliments">
                 {% for aliment in aliments %}
                 <p class="r{{ recette.id }}" data-id-aliment="{{ aliment.id }}"> {{ aliment.nom }}</p>
                 {% endfor %}
             </div>
-            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">Ajouter</button>
+            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">ajouter</button>
         </div>
     </div>
-
-    <div class="evaluation">
-    <form>
-        <div id="rating-app-2">
-            <b-form-rating
-                v-model="value2"
-                show-value-max
-                precision="2"
-                ></b-form-rating>
-        </div>
-        <div id="bottom" class="form-group">
-            <label for="exampleFormControlTextarea1">Laissez-nous savoir vos commentaires!</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">Envoyer</button>
-    </form>
+    <div class="avis">
+        <form action="/avis-recette" method="post">
+            <h3>votre opinion compte pour nous.</h3>
+            <div class="stars">
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+                <i class='fa-solid fa-star'></i>
+            </div>
+            <input type="hidden" name="note" id="note">
+            <input type="hidden" name="id_recette" id="id_recette" value="{{ recette.id }}">
+            <textarea class="avis-texte" name="opinion" cols ="30" rows="5" placerholder="laissez-nous savoir vos commentaires!"></textarea>
+            <button type="submit" class="btn btn-avis" data-id-recette="{{ recette.id }}">envoyer</button>
+        </form>
     </div>
 </div>
-
-<!-- scripts Vue.js + BootstrapVue -->
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.21.2/dist/bootstrap-vue.js"></script>
-
-<script>
-    new Vue({
-        el: '#rating-app-1',
-        data() {
-            return {
-                value1: null
-            }
-        }
-    });
-
-    new Vue({
-        el: '#rating-app-2',
-        data() {
-            return {
-                value2: null
-            }
-        }
-    });
-</script>
 {% endblock content %}

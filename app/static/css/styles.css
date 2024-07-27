@@ -464,6 +464,16 @@ input[type="range" i] {
     min-width: 400px;
 }
 
+.btn-form-connexion {
+    background-color: whitesmoke !important;
+}
+
+
+.btn-form-connexion:hover {
+    background-color: #738F65 !important;
+    color: #000 !important;
+}
+
 .formulaire-popup .btn-close {
     position: absolute;
     top: 12px;

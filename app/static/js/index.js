@@ -707,4 +707,14 @@ etoiles.forEach((etoile, index1) => {
     });
 });
 
-// avis id_recette
+const affichageAvisElements = document.querySelectorAll(".affichage-avis");
+
+affichageAvisElements.forEach(affichageAvis => {
+    const rating = affichageAvis.getAttribute("data-note");
+    const stars = affichageAvis.querySelectorAll(".stars i");
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add("active");
+        }
+    });
+});

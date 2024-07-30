@@ -18,8 +18,10 @@
             <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ recette.nom }}" data-id-recette="{{ recette.id }}">ajouter</button>
         </div>
     </div>
+    <div class="conteneur-parent">
+        <div class="section-avis">
     <div class="avis">
-        <form action="/avis-recette" method="post">
+        <form class="formulaire-avis" action="/avis-recette" method="post">
             <h3>votre opinion compte pour nous.</h3>
             <div class="stars">
                 <i class='fa-solid fa-star'></i>
@@ -30,18 +32,18 @@
             </div>
             <input type="hidden" name="note" id="note">
             <input type="hidden" name="id_recette" id="id_recette" value="{{ recette.id }}">
-            <p class="incitatif">Entrez votre nom :</p>
-            <textarea class="avis-texte" name="nom" cols="30" rows="1" placeholder="Entrez votre nom :"></textarea>
-            <p class="incitatif">Entrez votre avis :</p>
+            <p class="texte-avis">Entrez votre nom :</p>
+            <textarea class="avis-texte" name="nom" cols="30" rows="1" placeholder=""></textarea>
+            <p class="texte-avis">Entrez votre avis :</p>
             <textarea class="avis-texte" name="opinion" cols="30" rows="5" placeholder="laissez-nous savoir vos commentaires!"></textarea>
             <button type="submit" class="btn btn-avis" data-id-recette="{{ recette.id }}">envoyer</button>
         </form>
     </div>
 
     {% for avis1 in avis %}
-    <div>
+    <div class="affichage-avis" data-note="{{ avis1.note }}">
         <div class="gauche">
-            <p class="incitatif">{{ avis1.nom }}</p>
+            <p class="texte-avis">{{ avis1.nom }}</p>
             <div class="stars avis-etoiles">
                 <i class='fa-solid fa-star'></i>
                 <i class='fa-solid fa-star'></i>
@@ -49,12 +51,14 @@
                 <i class='fa-solid fa-star'></i>
                 <i class='fa-solid fa-star'></i>
             </div>
-            <p class="incitatif">{{ avis1.date }}</p>
+            <p class="texte-avis">{{ avis1.date }}</p>
         </div>
 
-        <div class="incitatif">{{ avis1.opinion }}</div>
+        <div class="texte-avis">{{ avis1.opinion }}</div>
     </div>
     {% endfor %}
+        </div>
+    </div>
 
 </div>
 {% endblock content %}

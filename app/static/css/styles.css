@@ -464,6 +464,16 @@ input[type="range" i] {
     min-width: 400px;
 }
 
+.btn-form-connexion {
+    background-color: whitesmoke !important;
+}
+
+
+.btn-form-connexion:hover {
+    background-color: #738F65 !important;
+    color: #000 !important;
+}
+
 .formulaire-popup .btn-close {
     position: absolute;
     top: 12px;
@@ -557,7 +567,7 @@ form .input-field {
   padding: 1em;
   border-radius: 5px;
   margin: 1em;
-  width: 100%;
+  width: 70%;
 }
 
 /* ***RECETTES*** */
@@ -825,9 +835,20 @@ p.mt-2 {
 
 a#bouton-deconnexion {
     color: #000 !important;
+    padding-bottom: 8px !important;
 }
 
 a#bouton-deconnexion:hover {
+    color: #fff !important;
+}
+
+#bouton-partager-recette {
+    color: #000 !important;
+    padding-bottom: 8px !important;
+
+}
+
+#bouton-partager-recette:hover {
     color: #fff !important;
 }
 
@@ -885,6 +906,9 @@ a#bouton-deconnexion:hover {
     .col-sm-8 {
         width: 66.666667%;
     }
+    .titre-page {
+    font-size: 2rem;
+}
 }
 
 @media only screen and (min-width: 601px) {
@@ -928,6 +952,9 @@ a#bouton-deconnexion:hover {
     .message-form {
         width: 100%;
     }
+    .titre-page {
+    font-size: 2rem;
+}
 }
 
 @media only screen and  (min-width: 768px) {
@@ -973,6 +1000,9 @@ a#bouton-deconnexion:hover {
      .message-form {
         width: 100%;
     }
+    .titre-page {
+        font-size: 3rem;
+}
 }
 
 @media only screen and (min-width: 992px) {
@@ -1015,6 +1045,9 @@ a#bouton-deconnexion:hover {
     .message-form {
         width: 25%;
     }
+    .titre-page {
+        font-size: 4rem;
+}
 }
 
 @media only screen and (min-width: 1200px) {
@@ -1058,6 +1091,10 @@ a#bouton-deconnexion:hover {
     .message-form {
         width: 20%;
     }
+
+    .titre-page {
+    font-size: 5rem;
+}
 }
 
 .hamburger {

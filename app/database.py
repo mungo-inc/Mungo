@@ -767,21 +767,17 @@ class Database:
 
 
 def englober_diete(dietes):
-    if '0' in dietes:
-            dietes.append('4')
-            dietes.append('3')
-    if '4' in dietes:
-            dietes.append('5')
-    if '5' in dietes:
-            dietes.append('6')
-    if '6' in dietes:
-            dietes.append('1')
+    if '3' in dietes:
+        dietes.append('0')
+    if '2' in dietes:
+        dietes.append('1')
     if '1' in dietes:
-            dietes.append('2')
-    print("CECI SONT LES DIETES")
-    print(dietes)
+        dietes.append('4')
+    if '4' in dietes:
+        dietes.append('5')
+    if '5' in dietes:
+        dietes.append('6')
+    if '6' in dietes:
+        dietes.append('0')
     return dietes
-
-
-
-
+  

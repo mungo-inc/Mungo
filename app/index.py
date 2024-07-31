@@ -8,6 +8,7 @@ from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 from .database import Database
 import hashlib
+import imghdr
 import sqlite3
 
 app = Flask(__name__, static_url_path="", static_folder="static")
@@ -141,42 +142,78 @@ def modifier_preference():
 @app.route('/envoyer-recette', methods=['GET', 'POST'])
 def envoyer_recette():
     db = Database(app.config['DATABASE_PATH'])
+    dernier_id_recette = db.chercher_dernier_id_recette()
+    if validation_partager_recette() and upload_file(dernier_id_recette): 
+        nom = request.form["nom-recette"]
+        ingredients = request.form.getlist("ingredients")
+        ingredients_quantite = []
+        for ingredient in ingredients:
+            quantite = request.form[ingredient+"-quantite"]
+            ingredients_quantite.append([ingredient,quantite])
+        dietes = request.form.getlist('diete')
+        id = current_user.get_id()
+        db.ajouter_recette_db(id, nom, ingredients_quantite, dietes)
+        return redirect('/ajout-recette')
+    else: 
+        return redirect('/incorrect')
+def est_chiffre(chiffre):
+    try:
+        float(chiffre)
+        return True
+    except ValueError:
+        return False
+
+def validation_partager_recette():
     nom = request.form["nom-recette"]
     ingredients = request.form.getlist("ingredients")
     ingredients_quantite = []
+    if  nom is "":
+        return False
+    elif len(ingredients) == 0:
+        return False
     for ingredient in ingredients:
         quantite = request.form[ingredient+"-quantite"]
         ingredients_quantite.append([ingredient,quantite])
+        if not est_chiffre(ingredient) or not est_chiffre(quantite):
+            return False
     dietes = request.form.getlist('diete')
-    dernier_id_recette = db.chercher_dernier_id_recette()
-    upload_file(dernier_id_recette)
-    id = current_user.get_id()
-    db.ajouter_recette_db(id, nom, ingredients_quantite, dietes)
-    return redirect('/ajout-recette')
+    if len(dietes) == 0:
+        return False
+    return True
 
 def upload_file(dernier_id_recette):
-    print(request.files)
     if 'image-recette' not in request.files:
-        return print('Pas de fichier')
+        print('Pas de fichier')
+        return True
 
     file = request.files['image-recette']
 
     if file.filename == '':
-        return print('Pas de fichier sélectionné')
+        return True
 
     if file:
+        file_content = file.read()
+        file_type = imghdr.what(None, file_content)
+        print(file_type)
+        file.seek(0)
+
+        if file_type != 'jpeg':
+            print('Le fichier n\'est pas un fichier JPG')
+            return False
+
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
             os.makedirs(app.config['UPLOAD_FOLDER'])
-    
+
+
         filename = str(dernier_id_recette) + ".jpg"
         if isinstance(filename, str) and filename:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            return print('Le fichier a bien été téléchargé')
+            return True
         else:
-            return print('Le nom du fichier est invalide')
+            return False
 
-    return print('Fichier non téléchargé')
+    return False
 
 def get_query_params():
     epiceries = request.args.getlist('epicerie')
@@ -340,4 +377,3 @@ def post_avis():
         db.get_connection()
         db.sauvegarder_avis(id_recette, nom, note, opinion)
         return redirect(url_for('page_recette', identifiant=id_recette))
-

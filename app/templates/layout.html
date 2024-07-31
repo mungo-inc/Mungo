@@ -40,6 +40,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('profil')}}">Profil</a>
                         </li>
+                        <li>
+                            <a class="nav-link" href="{{ url_for('ajouter_recette')}}">Partager une recette</a>
+                        </li>
                         {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('compagnie')}}">À propos</a>
@@ -77,9 +80,9 @@
                         <ul id="liste-epicerie"></ul>
                     </div>
                     {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('logout')}}" type="submit" class="btn logout-btn" id="bouton-deconnexion">Se déconnecter</a>
+                    <a href="{{ url_for('logout')}}" type="submit" class="btn logout-btn btn-connexion" id="bouton-deconnexion">Se déconnecter</a>
                     {% else %}
-                    <button type="submit" class="btn login-btn">Se connecter</button>
+                    <button type="submit" class="btn login-btn btn-connexion">Se connecter</button>
                     {% endif %}
                 </div>
                 {% block content %}{% endblock %}
@@ -104,7 +107,7 @@
                                 <span id="err-password"></span>
                             </div>
                             <a href="#" class="mot-passe-oublie">Mot de passe oublié?</a>
-                            <input type="submit" class="btn btn-primary btn-sm" value="Se connecter">
+                            <input type="submit" class="btn login-btn btn-connexion btn-form-connexion" value="Se connecter">
                         </form>
                         <div class="lien-creation-compte">
                             Pas de compte?
@@ -124,11 +127,11 @@
                                 <input id="password-r" name="password" type="password" placeholder="Entrez votre mot de passe">
                                 <span  id="err-password-r"></span>
                             </div>
-                            <input type="submit" class="btn btn-primary btn-sm" value="Créer un compte">
+                            <input type="submit" class="btn btn-connexion login-btn btn-sm btn-form-connexion" value="Créer un compte">
                         </form>
                         <div class="lien-creation-compte">
                             Vous avez déjà un compte?
-                            <a href="#" id="lien-connexion" >Se connecter</a>
+                            <a href="#" id="lien-connexion">Se connecter</a>
                         </div>
                     </div>
                 </div>

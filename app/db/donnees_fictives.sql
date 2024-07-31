@@ -32,6 +32,7 @@ INSERT INTO recette VALUES (31, 'Keftas de boeufs sur pain naan', 0);
 INSERT INTO recette VALUES (32, 'Ragoût d''aubergine à la viande', 0);
 
 --Ajout des ingrédients dans la BD
+
 INSERT INTO aliment VALUES (0, 'Pomme de terre', 'u', '1', 1.69,0);
 INSERT INTO aliment VALUES (1, 'Beurre', 'g', '454 ', 6.49,0);
 INSERT INTO aliment VALUES (2, 'Lait', 'l', '1000', 2.26,0);
@@ -190,6 +191,7 @@ INSERT INTO aliment VALUES (161, 'Miel', 'g','375',6.5,0);
 INSERT INTO aliment VALUES (162, 'Poivre Sichuan', 'g','50',11,0);
 INSERT INTO aliment VALUES (163, 'Mais en grain', 'l','540',1.7,0);
 INSERT INTO aliment VALUES (164, 'Sauce tomate', 'l','680',2,0);
+
 
 
 --Ajout des recettes avec les aliments

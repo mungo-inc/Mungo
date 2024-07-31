@@ -11,12 +11,78 @@ const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
 const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
+const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
+const boutonEnleverIngredient = document.getElementById("enlever-ingredient");
+const ingredientsContainer = document.getElementById("ingredients-conteneur");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
 const produit_vedette = document.getElementById("vedette");
 let compteur = 0;
+let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
-let taggedAliments = []; // {idAliment, idRecette, qteRecette}; 
+let taggedAliments = []; // {idAliment, idRecette, qteRecette};
+const barreRecherche = document.getElementById("recherche");
+const ordreRecette = document.getElementById("ordre-recette");
 
+if (ordreRecette) {
+ordreRecette.addEventListener("change", function() {
+    let valeur = ordreRecette.value;
+    console.log(ordreRecette.value);
+    if (valeur == "alphabetique") {
+        changerOrdre(valeur);
+    } else if (valeur == "alphabetique-reverse") {
+        changerOrdre(valeur);
+    } else if (valeur == "prix") {
+        changerOrdre(valeur);
+    } else if (valeur == "prix-reverse") {
+        changerOrdre(valeur);
+    }
+});
+}
+
+function changerOrdre(ordre){
+    let recettes = document.querySelectorAll(".recettes-js");
+    let recettesListe = Array.prototype.slice.call(recettes);
+    if (ordre == "alphabetique") {
+            recettesListe.sort(function(a, b) {
+            let recetteA = a.innerText;
+            let recetteB = b.innerText;
+            if (recetteA > recetteB) return 1;
+            if (recetteA < recetteB) return -1;
+            return 0;
+    });
+    } else if (ordre == "alphabetique-reverse") {
+        recettesListe.sort(function(a, b) {
+            let recetteA = a.innerText;
+            let recetteB = b.innerText;
+            if (recetteA > recetteB) return -1;
+            if (recetteA < recetteB) return 1;
+            return 0;
+    });
+
+    } else if (ordre == "prix") {
+        recettesListe.sort(function(a, b) {
+            let recetteA = parseFloat(a.querySelector('span').textContent);
+            let recetteB = parseFloat(b.querySelector('span').textContent);
+            if (recetteA > recetteB) return 1;
+            if (recetteA < recetteB) return -1;
+            return 0;
+    });
+    } else if (ordre == "prix-reverse") {
+        recettesListe.sort(function(a, b) {
+            let recetteA = parseFloat(a.querySelector('span').textContent);
+            let recetteB = parseFloat(b.querySelector('span').textContent);
+            if (recetteA > recetteB) return -1;
+            if (recetteA < recetteB) return 1;
+            return 0;
+        });
+    }
+    let recetteDiv = document.querySelector("#changer-ordre");
+    recetteDiv.innerHTML = "";
+    recettesListe.forEach(div => {
+        recetteDiv.appendChild(div);
+    });
+    console.log(recettesListe);
+}
 
 connecterEnregistrerLien.forEach(link => {
     link.addEventListener("click", (e) => {
@@ -31,41 +97,111 @@ connecterEnregistrerLien.forEach(link => {
 });
 
 
+
+if (boutonAjouterIngredient) {
+    boutonAjouterIngredient.addEventListener("click", function() {
+        $.ajax({
+            url: "/get_ingredients",
+            method: "GET",
+            success: function(data) {
+                var selectHtml = '<label class="form-check-label" for="'+compteurListeIngredient+'">Choisir un ingrédient : </label>';
+                selectHtml += '<select name="ingredients" class="liste-ingredients" id='+ compteurListeIngredient+ '>';
+                selectHtml += '<option value="">Choisissez un ingrédient</option>';
+                data.forEach(function(ingredient) {
+                    selectHtml += '<option id="'+ingredient[0]+'" data-mesure="'+ingredient[2]+'" value="' + ingredient[0] + '">' + ingredient[1] + '</option>';
+                });
+                selectHtml += '</select>';
+                selectHtml += '<span id=err-item-selectionne-'+compteurListeIngredient+'></span>';
+                selectHtml += '<div id="selected-ingredient-'+ compteurListeIngredient+'"></div>';
+                let div  = document.createElement("div");
+                div.innerHTML = selectHtml;
+                div.setAttribute("id", "option-"+compteurListeIngredient);
+                compteurListeIngredient++;
+                document.getElementById("ingredients").appendChild(div);
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    });
+}
+
+if (boutonEnleverIngredient) {
+    boutonEnleverIngredient.addEventListener("click", function() {
+        if (compteurListeIngredient >= 1) {
+            document.getElementById("option-" + --compteurListeIngredient).remove();
+        }
+    });
+}
+
+if (ingredientsContainer) {
+    ingredientsContainer.addEventListener("change", function(e) {
+        if (e.target.classList.contains("liste-ingredients")) {
+            e.preventDefault();
+            let mesure = e.target.options[e.target.selectedIndex];
+            console.log(mesure);
+            let labelText;
+            if (mesure.getAttribute('data-mesure') == "u") {
+                labelText = "Entrez le nombre d'unité pour la recette:";
+            } else if (mesure.getAttribute('data-mesure') == "g" || mesure.getAttribute('data-mesure') == "p") {
+                labelText = "Entrez le nombre de grammes pour la recette:";
+            } else if (mesure.getAttribute('data-mesure') == "l") {
+                labelText = "Entrez le nombre de millilitres pour la recette:";
+            }
+            let divRange = document.createElement("div");
+            if (mesure.value != "") {
+            let label = document.createElement("label");
+            label.setAttribute('for', mesure.id + "-quantite");
+            label.textContent = labelText;
+            let input = document.createElement("input");
+            input.classList.add("form-control");
+            input.setAttribute("id", mesure.id + "-quantite");
+            input.setAttribute("type", "text");
+            input.setAttribute("name", mesure.id+"-quantite");
+            divRange.appendChild(label);
+            divRange.appendChild(input);
+            let span = document.createElement("span");
+            span.setAttribute("id", "err-selected-ingredient-" + e.target.id);
+            divRange.appendChild(span);
+            }
+            let div = document.getElementById("selected-ingredient-" + e.target.id);
+            div.innerHTML = divRange.innerHTML;
+        }
+    });
+}
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
     majNombreEpicerie();
 });
 
 document.getElementById('toggle-menu').addEventListener('change', function() {
-        document.querySelector('.col-2').classList.toggle('nav', this.checked);
+    document.querySelector('.col-2').classList.toggle('nav', this.checked);
 });
 
 allRanges.forEach(wrap => {
-  const range = wrap.querySelector(".range");
-  const bubble = wrap.querySelector(".bubble");
+    const range = wrap.querySelector(".range");
+    const bubble = wrap.querySelector(".bubble");
 
-  range.addEventListener("input", () => {
+    range.addEventListener("input", () => {
+        setBubble(range, bubble);
+    });
     setBubble(range, bubble);
-  });
-  setBubble(range, bubble);
 });
 
 function setBubble(range, bubble) {
-  const val = range.value;
-  const min = range.min ? range.min : 0;
-  const max = range.max ? range.max : 100;
-  const newVal = Number(((val - min) * 100) / (max - min));
-  bubble.innerHTML = val;
-
-  // Sorta magic numbers based on size of the native UI thumb
-  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+    const val = range.value;
+    const min = range.min ? range.min : 0;
+    const max = range.max ? range.max : 100;
+    const newVal = Number(((val - min) * 100) / (max - min));
+    bubble.innerHTML = val;
+    bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
 }
 
 if (afficherEcranConnexionBtn) {
     afficherEcranConnexionBtn.addEventListener("click", () => {
         setTimeout(function() {
-                document.getElementById("courriel").focus();
-            }, 250);
+            document.getElementById("courriel").focus();
+        }, 250);
         document.body.classList.toggle("afficher-popup");
     });
 } else {
@@ -92,12 +228,12 @@ ajouterButtons.forEach(function(button) {
         } else {
             let div = document.getElementById('accordion-content');
             div.innerHTML += `
-                <div class="accordion-body">
-                    <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-                    <strong></strong>
-                        <ul>
-                        </ul>
-                </div>`
+<div class="accordion-body">
+<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+<strong></strong>
+<ul>
+</ul>
+</div>`
             let strongs = document.querySelectorAll('.accordion-body strong');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
         }
@@ -145,10 +281,10 @@ function updaterRestants(restants) {
 }
 
 function modifierQteRestante(restants, 
-                             idAliment, 
-                             nouvelleQte, 
-                             qteAliment,  
-                             idRecette) {
+    idAliment, 
+    nouvelleQte, 
+    qteAliment,  
+    idRecette) {
     let aliment = restants.find(aliment => aliment.idAliment === idAliment);
     let alimentTagged = taggedAliments.find(aliment => aliment.idAliment === idAliment);
     alimentExisteDansTagged = taggedAliments.some(elem =>  
@@ -201,11 +337,11 @@ function updaterPrixPage(restants) {
                         //console.log(qteRecette)
                         //console.log(restant.qteRestante)
                         //console.log(!alimentExiste)
-                       // console.log("=============")
+                        // console.log("=============")
                     }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
-			prix -= parseFloat(p.getAttribute('data-prix-aliment'));
+			                  prix -= parseFloat(p.getAttribute('data-prix-aliment'));
                         childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2); 
                         taggedAliments.push({idAliment, idRecette, qteRecette});
                     } 
@@ -216,7 +352,6 @@ function updaterPrixPage(restants) {
 }
 
 function augmenterPrixPage(idAliment, idsRecette) {
-    console.log(idsRecette);
     let div = document.querySelector('div.liste-recettes.conteneur-recettes');
     let prix = 0;
     idsRecette.forEach(i => {
@@ -239,12 +374,14 @@ function montrerTotalPanier() {
     total.hidden = false;
 }
 
+
 produit_vedette.addEventListener("click", function(event) {
 
 });
+
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
-    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
+    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'))
     let parentElem = target.closest('.accordion-body');
     if (parentElem) {
         let nomRecette = parentElem.querySelector('strong').textContent;
@@ -277,7 +414,7 @@ if (sauvegarderButton) {
             lis.forEach(li => {
                 aliments.push({
                     id: li.getAttribute('data-id-aliment'), 
-                    nom: li.textContent.trim() 
+                    nom: li.textContent.trim()
                 });
             });
             listeASauvegarder.push({
@@ -308,7 +445,6 @@ if (sauvegarderButton) {
 
 supprimerListeButtons.forEach(function(button) {
     button.addEventListener("click", function() {
-        console.log("allo")
         let div = this.parentElement.parentElement;
         let idClient = parseInt(div.getAttribute("data-id-client"));
         let idPanier = parseInt(div.getAttribute("data-id-panier"));
@@ -343,7 +479,7 @@ function estCloseButtonRecette(target) {
 }
 
 function estCloseButtonAliment(target) {
-   return target.classList.contains('btn-close-aliment');
+    return target.classList.contains('btn-close-aliment');
 }
 
 function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
@@ -369,10 +505,30 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
     if (index > -1) {
         listeEpicerie[index].items.splice(indexAliment, 1);
     }
+    let idAliment = li.getAttribute("data-id-aliment")
     li.remove();
     sauvegarderListeEpicerie();
     if (listeEpicerie[index].items.length === 0) {
         retirerRecettes(parentElem, listeEpicerie, nomRecette);
+    }
+    // let restants = []; // {idAliment, qteRestante}
+    let restant = restants.find(id => id.idAliment == idAliment);
+    console.log(idAliment);
+    console.log(restants);
+    console.log(restant.qteRestante);
+    if (restant) {
+        let qteRecette = parseFloat(li.getAttribute("data-quantite-recette"));
+        let qteAliment = parseFloat(li.getAttribute("data-quantite-aliment"));
+        if (restant.qteRestante - qteAliment + qteRecette >= 0) {
+            restant.qteRestante = restant.qteRestante - qteAliment + qteRecette;
+        } else {
+            restant.qteRestante = 0;
+        }
+        console.log(restant.qteRestante);
+        let idsRecettes = taggedAliments.filter(elem => elem.idAliment == idAliment);
+        console.log("idsRecettes", idsRecettes);
+        taggedAliments = taggedAliments.filter(elem => elem.idAliment != idAliment);
+        augmenterPrixPage(parseInt(idAliment), idsRecettes);
     }
 }
 
@@ -405,7 +561,7 @@ function ajouterNombrePanier(message) {
     setTimeout(function() {
         enleverSucces(child);
         setTimeout(function(){
-             suppressionMessageAlerte(child);
+            suppressionMessageAlerte(child);
             compteur--;
         }, 1500);
     }, 5000);
@@ -417,9 +573,9 @@ function creationMessageAlerte(messageSucces) {
     message.classList.add("alert-success", "alert");
     let topValue;
     if (++compteur == 1) {
-         topValue = 15;
+        topValue = 15;
     } else {
-         topValue = ((compteur - 1) * 60) + 15;
+        topValue = ((compteur - 1) * 60) + 15;
     }
     message.style.top = topValue + "px";
     let divAlerte = document.getElementById('notif-succes').appendChild(message);
@@ -455,7 +611,13 @@ function listerAliment(ul, aliments, index) {
         li.innerHTML += aliments[i].textContent;
         let idAliment = document.createAttribute('data-id-aliment');
         idAliment.value = aliments[i].getAttribute('data-id-aliment');
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = aliments[i].getAttribute('data-quantite-aliment');
+        let qteRecette = document.createAttribute("data-quantite-recette");
+        qteRecette.value = aliments[i].getAttribute('data-quantite-recette');
         li.setAttributeNode(idAliment);
+        li.setAttributeNode(qteAliment);
+        li.setAttributeNode(qteRecette);
         ul[index].append(li);
     }
 }
@@ -496,8 +658,8 @@ function extraireListeEpicerie(accordions) {
     for (let i = 0; i < accordions.length; i++) {
         let nomRecette = accordions[i].querySelector('strong').textContent;
         let idRecette = accordions[i]
-            .querySelector('strong')
-            .getAttribute('data-id-recette');
+        .querySelector('strong')
+        .getAttribute('data-id-recette');
         let items = extraireItems(accordions[i]);
         listeEpicerie.push(
             { idRecette: idRecette, nomRecette: nomRecette, items: items }
@@ -511,7 +673,12 @@ function extraireItems(accordion) {
     const items = [];
     let lis = ul.querySelectorAll('li');
     for (let j = 0; j < lis.length; j++) {
-        items.push({ id: lis[j].getAttribute('data-id-aliment'), nom: lis[j].textContent });
+        items.push({ 
+            id: lis[j].getAttribute('data-id-aliment'), 
+            nom: lis[j].textContent,
+            qte: lis[j].getAttribute('data-quantite-aliment'),
+            qteRecette: lis[j].getAttribute('data-quantite-recette')
+        });
     }
     return items;
 }
@@ -546,7 +713,7 @@ function afficherListeEpicerie(listeEpicerie) {
 
 function calculerTotalPanier() {
     restants = []; // { idAliment, qteRestante }
-    
+
 }
 
 function updatePrixResultat() {
@@ -555,11 +722,11 @@ function updatePrixResultat() {
 
 function afficherAucunItem(div) {
     div.innerHTML = `
-        <div class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
-            <strong>Aucun item</strong>
-            <ul></ul>
-        </div>`;
+<div class="accordion-body">
+    <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+    <strong>Aucun item</strong>
+    <ul></ul>
+</div>`;
     let button = document.getElementsByClassName('btn-vider');
     let saveButton = document.getElementById('save-list-btn');
     if (saveButton != null) {
@@ -572,12 +739,12 @@ function afficherAucunItem(div) {
 
 function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
-        <div class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-            <strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
-            <ul></ul>
-        </div>`;
-    
+<div class="accordion-body">
+<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+<strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
+<ul></ul>
+</div>`;
+
     const ul = div.querySelectorAll('.accordion-body ul')[index];
     for (let j = 0; j < entree.items.length; j++) {
         let li = document.createElement('li');
@@ -586,6 +753,12 @@ function ajouterRecetteAuDiv(div, entree, index) {
         let idAliment = document.createAttribute('data-id-aliment');
         idAliment.value = entree.items[j].id;
         li.setAttributeNode(idAliment);
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = entree.items[j].qte;
+        li.setAttributeNode(qteAliment);
+        let qteRecette = document.createAttribute('data-quantite-recette');
+        qteRecette.value = entree.items[j].qteRecette;
+        li.setAttributeNode(qteRecette);
         li.innerHTML += entree.items[j].nom;
         ul.append(li);
     }
@@ -614,7 +787,7 @@ if (conteneur1 && conteneur2) {
         ecrireTexteConteneur(texte2, conteneur2, 50);
     });
 }
-  
+
 majNombreEpicerie();
 
 function allerBasPage() {
@@ -622,7 +795,7 @@ function allerBasPage() {
 }
 
 // avis etoiles
-const etoiles = document.querySelectorAll(".stars i");
+const etoiles = document.querySelectorAll(".avis .stars i");
 const note = document.getElementById("note");
 
 etoiles.forEach((etoile, index1) => {
@@ -635,4 +808,32 @@ etoiles.forEach((etoile, index1) => {
     });
 });
 
+if (barreRecherche) {
+barreRecherche.addEventListener("input", e => {
+    let valeur = e.target.value;
+    let divRecette = document.querySelectorAll(".recettes-js");
+
+    for (i = 0; i < divRecette.length; i++){
+        let uneRecette = divRecette[i].innerHTML.toUpperCase();
+        if (!(uneRecette.includes(valeur.toUpperCase()))){
+            divRecette[i].setAttribute("hidden", "true"); 
+        } else {
+            divRecette[i].removeAttribute("hidden"); 
+        }
+    }
+});
+}
+
+
 // avis id_recette
+const affichageAvisElements = document.querySelectorAll(".affichage-avis");
+
+affichageAvisElements.forEach(affichageAvis => {
+    const rating = affichageAvis.getAttribute("data-note");
+    const stars = affichageAvis.querySelectorAll(".stars i");
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add("active");
+        }
+    });
+});

@@ -12,9 +12,16 @@
                 <h2 class="titre-page">Recettes</h2>
                 <div class="barre-recherche">
                     <input type="search" id="recherche" placeholder="Rechercher une recette">
+                    <select id="ordre-recette">
+                        <option value="">Choisissez un ordre</option>
+                        <option value="alphabetique">Ordre alphabétique de A - Z</option>
+                        <option value="alphabetique-reverse">Ordre alphabétique de Z - A</option>
+                        <option value="prix">Ordre en prix croissant</option>
+                        <option value="prix-reverse">Ordre en prix décroissant</option>
+                    </select>
                 </div>
             </div>
-            <div class="liste-recettes conteneur-recettes">
+            <div id="changer-ordre" class="liste-recettes conteneur-recettes">
                 {% for resultat in resultats %}
                 <div id={{ resultat.id }} class="text-container list-recettes recettes-js">
                     <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">

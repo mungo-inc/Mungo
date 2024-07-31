@@ -213,7 +213,7 @@ label {
         justify-content: center;
 }
 
-div.message-acceuil {
+div.message-accueil {
     position: absolute;
     top: 10%;
 }
@@ -1196,3 +1196,15 @@ a#bouton-deconnexion:hover {
   top: -1px;
   left: 50%;
 }
+
+.barre-recherche {
+    display:  flex;
+    flex-direction: column;
+    gap: -25rem;
+}
+
+input {
+    font-size: 1rem;
+}
+
+

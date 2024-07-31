@@ -3,10 +3,13 @@
     <div class="col-10">
         <div class="text-container">
             <h2 class="titre-page">Aliments</h2>
+            <div class="barre-recherche">
+                <input type="search" id="recherche" placeholder="Rechercher un ingrédient">
+            </div>
         </div>
         <div class="liste-recette  conteneur-recettes">
             {% for article in articles %}
-            <div id={{ article[0]}} class="text-container list-recette" >
+            <div id={{ article[0]}} class="text-container list-recette recettes-js" >
                 <img src="{{ url_for('static', filename='img/' ~ article[0]|string ~ 'b.jpg') }}" alt="image recette">
                 <p class="titre-recette" data-id-recette="{{ article[0] }}"> {{ article[1] }}</p>
                 <div id="rating-app-1">

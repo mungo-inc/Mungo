@@ -18,7 +18,8 @@ const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
 let compteur = 0;
 let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
-let taggedAliments = []; // [{idAliment, idRecette, qteRecette}]; 
+let taggedAliments = []; // {idAliment, idRecette, qteRecette};
+const barreRecherche = document.getElementById("recherche");
 
 
 connecterEnregistrerLien.forEach(link => {
@@ -743,6 +744,22 @@ etoiles.forEach((etoile, index1) => {
     });
 });
 
+if (barreRecherche) {
+barreRecherche.addEventListener("input", e => {
+    let valeur = e.target.value;
+    let divRecette = document.querySelectorAll(".recettes-js");
+
+    for (i = 0; i < divRecette.length; i++){
+        let uneRecette = divRecette[i].innerHTML.toUpperCase();
+        if (!(uneRecette.includes(valeur.toUpperCase()))){
+            divRecette[i].setAttribute("hidden", "true"); 
+        } else {
+            divRecette[i].removeAttribute("hidden"); 
+        }
+    }
+});
+}
+// avis id_recette
 const affichageAvisElements = document.querySelectorAll(".affichage-avis");
 
 affichageAvisElements.forEach(affichageAvis => {

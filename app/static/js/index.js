@@ -239,9 +239,6 @@ function montrerTotalPanier() {
     total.hidden = false;
 }
 
-produit_vedette.addEventListener("click", function(event) {
-
-});
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
     let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));

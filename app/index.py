@@ -137,13 +137,23 @@ def produit_vedette():
     articles = db.get_articles()
     return render_template('/produit_vedette.html', articles=articles)
 
+@app.route('/faire_produit_vedette', methods=["POST"])
+def faire_produit_vedette():
+    db = Database(app.config['DATABASE_PATH'])
+    id_vedette = request.form["dropdown"]
+    db.ajouter_vedette(id_vedette)
+    print(id_vedette)
+    return redirect("/")
+
 @app.route('/search', methods=['GET'])
 def search():
     db = Database(app.config['DATABASE_PATH'])
     db.get_connection()
     epiceries, allergies, dietes, budget = get_query_params()
     resultats = db.avoir_recettes(allergies, dietes, epiceries, budget)
-
+    for recette in resultats:
+        print(f"Recette ID: {recette.id}, Prix: {recette.prix}, Contient Vedette: {recette.vedette}")
+    
     return render_template('resultats.html', resultats=resultats)
 
 
@@ -218,6 +228,7 @@ def not_found_404(e):
 def logout():
     logout_user()
     return redirect('/')
+
 
 
 @app.route('/sauvegarder-liste', methods=['POST'])

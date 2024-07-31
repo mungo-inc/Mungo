@@ -128,9 +128,18 @@ class Database:
             resultat.append(recette)
         return resultat
 
+    def ajouter_vedette(self,id_vedette):
+        connection = self.get_connection()
+        cursor = connection.cursor()
+        query = "UPDATE Aliment SET Vedette = 1 WHERE ID_aliment = ?"
+        cursor.execute(query, (id_vedette,))
+        connection.commit()
+        cursor.close()
+        connection.close()
+
     def get_aliments_par_recette(self, id_recette):
         cursor = self.get_connection().cursor()
-        query = f"""
+        query = """
                 SELECT DISTINCT aliment.id_aliment, aliment.nom, aliment_epicerie.id_epicerie
                 FROM aliment 
                 JOIN aliment_recette ON aliment.id_aliment = aliment_recette.id_aliment 
@@ -161,7 +170,12 @@ class Database:
         donnees = donnees_epicerie & donnees_allergie & donnees_diete
         donnees_budget = set(self.filtrer_par_budget(donnees, budget))
         donnees = donnees_epicerie & donnees_allergie & donnees_diete & donnees_budget
-        return self.get_aliments_par_recettes(sorted(donnees))  
+        donnees = self.organiser_par_vedette(donnees)
+        for recette in donnees:
+            print(f"Recette ID: {recette.id}, Prix: {recette.prix}, Contient Vedette: {recette.vedette}")
+
+
+        return self.get_aliments_par_recettes(donnees)  
 
     def filtrer_par_budget(self, donnees, budget):
         budget = int(budget)
@@ -173,7 +187,8 @@ class Database:
                 Aliment_Recette.Quantite AS Quantite_Recette,
                 Aliment.Quantite AS Quantite_Aliment,
                 Aliment.Prix,
-                Aliment.Type
+                Aliment.Type,
+                Aliment.vedette
             FROM
                 Aliment
             JOIN
@@ -184,6 +199,7 @@ class Database:
         nouvelle_donnees = []
         for recette in donnees:
             prix_total = 0  
+            vedette_trouve = False
             cursor.execute(query, (recette.id,))
             result = cursor.fetchall()
             ingredients_calculer = set()
@@ -193,6 +209,7 @@ class Database:
                 quantite_aliment = row[3]
                 prix = row[4]
                 Type = row[5]
+                vedette = row[6]
                 if aliment_id not in ingredients_calculer:
                     if quantite_aliment != 0 and (Type == 'u' or Type == 'l' or Type == 'g'):  
                         quantite = math.ceil(quantite_recette / quantite_aliment)
@@ -202,10 +219,20 @@ class Database:
                         quantite = (quantite_recette / quantite_aliment)
                         prix_total += quantite * prix
                         ingredients_calculer.add(aliment_id)
+                    if vedette:
+                        vedette_trouve = True
             if prix_total <= budget:
                 recette.prix =round(prix_total, 2 )
                 nouvelle_donnees.append(recette)
+                recette.vedette = vedette_trouve
+        
+        nouvelle_donnees = self.organiser_par_vedette(nouvelle_donnees)
+    
+
         return nouvelle_donnees
+
+    def organiser_par_vedette(self,recettes):
+        return sorted(recettes, key=lambda x: x.vedette, reverse=True)
 
     def get_recette_prix(self, donnees):
         cursor = self.get_connection().cursor()

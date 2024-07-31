@@ -694,7 +694,7 @@ function allerBasPage() {
 }
 
 // avis etoiles
-const etoiles = document.querySelectorAll(".stars i");
+const etoiles = document.querySelectorAll(".avis .stars i");
 const note = document.getElementById("note");
 
 etoiles.forEach((etoile, index1) => {

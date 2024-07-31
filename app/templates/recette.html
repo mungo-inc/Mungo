@@ -9,7 +9,7 @@
 
         <div class="details-recette">
             <h2 class="titre-recette" data-id-recette="{{ recette.id }}"> {{ recette.nom }}</h2>
-            <button type="button" class="evaluer-bouton" onclick="allerbaspage()">évaluer cette recette</button>
+            <button type="button" class="evaluer-bouton" onclick="allerBasPage()">évaluer cette recette</button>
             <div class="aliments">
                 {% for aliment in aliments %}
                 <p class="r{{ recette.id }}" data-id-aliment="{{ aliment.id }}"> {{ aliment.nom }}</p>
@@ -21,8 +21,8 @@
     <div class="conteneur-parent">
         <div class="section-avis">
     <div class="avis">
-        <form class="formulaire-avis" action="/avis-recette" method="post">
-            <h3>votre opinion compte pour nous.</h3>
+        <form class="formulaire-avis" id="bottom" action="/avis-recette" method="post">
+            <h3 class="incitatif">votre opinion compte pour nous.</h3>
             <div class="stars">
                 <i class='fa-solid fa-star'></i>
                 <i class='fa-solid fa-star'></i>

@@ -670,6 +670,10 @@ a.mot-passe-oublie, #lien-inscription, #lien-connexion{
     margin-bottom: 15px;
 }
 
+.incitatif {
+    margin: 0 35px 20px 35px !important;
+}
+
 .affichage-avis {
     display: flex;
     flex-direction: row;
@@ -680,6 +684,7 @@ a.mot-passe-oublie, #lien-inscription, #lien-connexion{
     width: 100% !important;
     font-family: FlinkBold; 
     font-size: 18px;
+    gap: 25px;
 }
 
 .affichage-avis .stars i {
@@ -698,6 +703,7 @@ stars i {
     cursor: pointer;
     transition: color 0.2 ease;
 }
+
 .fa-star {
     color: #E0E0E0
 }

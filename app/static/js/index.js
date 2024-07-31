@@ -15,6 +15,7 @@ const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
 const boutonEnleverIngredient = document.getElementById("enlever-ingredient");
 const ingredientsContainer = document.getElementById("ingredients-conteneur");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
+const produit_vedette = document.getElementById("vedette");
 let compteur = 0;
 let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
@@ -374,6 +375,9 @@ function montrerTotalPanier() {
 }
 
 
+produit_vedette.addEventListener("click", function(event) {
+
+});
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;

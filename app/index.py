@@ -222,6 +222,11 @@ def get_query_params():
     budget = request.args.get('budget') 
     return epiceries, allergies, dietes, budget
 
+@app.route('/produit_vedette')
+def produit_vedette():
+    db = Database(app.config['DATABASE_PATH'])
+    articles = db.get_articles()
+    return render_template('/produit_vedette.html', articles=articles)
 
 @app.route('/search', methods=['GET'])
 def search():

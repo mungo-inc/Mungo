@@ -112,9 +112,9 @@ def page_recette(identifiant):
     db = Database('app/db/epicerie.db')
     print(identifiant)
     recette = db.get_recette(identifiant)
-    aliments = []
     aliments = db.get_aliments_par_recette(identifiant)
-    return render_template('recette.html', recette=recette, aliments=aliments)
+    avis = db.get_avis_par_recette(identifiant)
+    return render_template('recette.html', recette=recette, aliments=aliments, avis=avis)
 
 @app.route('/articles')
 def articles():
@@ -361,19 +361,19 @@ class Client(db.Model, UserMixin):
     def get_courriel(self):
         return str(self.courriel)
 
-# formulaire d'avis
+
 @app.route('/avis-recette', methods=['POST'])
 def post_avis():
     if request.method == "POST":
         id_recette = request.form.get("id_recette")
+        nom = request.form.get("nom")
+        if nom is None or nom.strip() == "":
+            nom = "Anonyme"
         note = request.form.get("note")
+        if note is None or note.strip() == "":
+            note = 0
         opinion = request.form.get("opinion")
         db = Database(app.config['DATABASE_PATH'])
         db.get_connection()
-        db.sauvegarder_avis(id_recette, note, opinion)
-        return redirect("/")
-    return redirect("/")
-
-
-
-
+        db.sauvegarder_avis(id_recette, nom, note, opinion)
+        return redirect(url_for('page_recette', identifiant=id_recette))

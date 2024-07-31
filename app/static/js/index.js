@@ -279,7 +279,7 @@ function updaterPrixPage(restants) {
                     }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
-                        prix -= parseFloat(p.getAttribute('data-prix-aliment'));
+			                  prix -= parseFloat(p.getAttribute('data-prix-aliment'));
                         childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2); 
                         taggedAliments.push({idAliment, idRecette, qteRecette});
                     } 
@@ -290,7 +290,6 @@ function updaterPrixPage(restants) {
 }
 
 function augmenterPrixPage(idAliment, idsRecette) {
-    console.log(idsRecette);
     let div = document.querySelector('div.liste-recettes.conteneur-recettes');
     let prix = 0;
     idsRecette.forEach(i => {
@@ -317,7 +316,7 @@ function montrerTotalPanier() {
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
-    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
+    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'))
     let parentElem = target.closest('.accordion-body');
     if (parentElem) {
         let nomRecette = parentElem.querySelector('strong').textContent;
@@ -350,7 +349,7 @@ if (sauvegarderButton) {
             lis.forEach(li => {
                 aliments.push({
                     id: li.getAttribute('data-id-aliment'), 
-                    nom: li.textContent.trim() 
+                    nom: li.textContent.trim()
                 });
             });
             listeASauvegarder.push({
@@ -442,10 +441,30 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
     if (index > -1) {
         listeEpicerie[index].items.splice(indexAliment, 1);
     }
+    let idAliment = li.getAttribute("data-id-aliment")
     li.remove();
     sauvegarderListeEpicerie();
     if (listeEpicerie[index].items.length === 0) {
         retirerRecettes(parentElem, listeEpicerie, nomRecette);
+    }
+    // let restants = []; // {idAliment, qteRestante}
+    let restant = restants.find(id => id.idAliment == idAliment);
+    console.log(idAliment);
+    console.log(restants);
+    console.log(restant.qteRestante);
+    if (restant) {
+        let qteRecette = parseFloat(li.getAttribute("data-quantite-recette"));
+        let qteAliment = parseFloat(li.getAttribute("data-quantite-aliment"));
+        if (restant.qteRestante - qteAliment + qteRecette >= 0) {
+            restant.qteRestante = restant.qteRestante - qteAliment + qteRecette;
+        } else {
+            restant.qteRestante = 0;
+        }
+        console.log(restant.qteRestante);
+        let idsRecettes = taggedAliments.filter(elem => elem.idAliment == idAliment);
+        console.log("idsRecettes", idsRecettes);
+        taggedAliments = taggedAliments.filter(elem => elem.idAliment != idAliment);
+        augmenterPrixPage(parseInt(idAliment), idsRecettes);
     }
 }
 
@@ -528,7 +547,13 @@ function listerAliment(ul, aliments, index) {
         li.innerHTML += aliments[i].textContent;
         let idAliment = document.createAttribute('data-id-aliment');
         idAliment.value = aliments[i].getAttribute('data-id-aliment');
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = aliments[i].getAttribute('data-quantite-aliment');
+        let qteRecette = document.createAttribute("data-quantite-recette");
+        qteRecette.value = aliments[i].getAttribute('data-quantite-recette');
         li.setAttributeNode(idAliment);
+        li.setAttributeNode(qteAliment);
+        li.setAttributeNode(qteRecette);
         ul[index].append(li);
     }
 }
@@ -584,7 +609,12 @@ function extraireItems(accordion) {
     const items = [];
     let lis = ul.querySelectorAll('li');
     for (let j = 0; j < lis.length; j++) {
-        items.push({ id: lis[j].getAttribute('data-id-aliment'), nom: lis[j].textContent });
+        items.push({ 
+            id: lis[j].getAttribute('data-id-aliment'), 
+            nom: lis[j].textContent,
+            qte: lis[j].getAttribute('data-quantite-aliment'),
+            qteRecette: lis[j].getAttribute('data-quantite-recette')
+        });
     }
     return items;
 }
@@ -659,6 +689,12 @@ function ajouterRecetteAuDiv(div, entree, index) {
         let idAliment = document.createAttribute('data-id-aliment');
         idAliment.value = entree.items[j].id;
         li.setAttributeNode(idAliment);
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = entree.items[j].qte;
+        li.setAttributeNode(qteAliment);
+        let qteRecette = document.createAttribute('data-quantite-recette');
+        qteRecette.value = entree.items[j].qteRecette;
+        li.setAttributeNode(qteRecette);
         li.innerHTML += entree.items[j].nom;
         ul.append(li);
     }
@@ -695,7 +731,7 @@ function allerBasPage() {
 }
 
 // avis etoiles
-const etoiles = document.querySelectorAll(".stars i");
+const etoiles = document.querySelectorAll(".avis .stars i");
 const note = document.getElementById("note");
 
 etoiles.forEach((etoile, index1) => {
@@ -707,8 +743,6 @@ etoiles.forEach((etoile, index1) => {
         });
     });
 });
-
-// avis id_recette
 
 if (barreRecherche) {
 barreRecherche.addEventListener("input", e => {
@@ -725,3 +759,15 @@ barreRecherche.addEventListener("input", e => {
     }
 });
 }
+// avis id_recette
+const affichageAvisElements = document.querySelectorAll(".affichage-avis");
+
+affichageAvisElements.forEach(affichageAvis => {
+    const rating = affichageAvis.getAttribute("data-note");
+    const stars = affichageAvis.querySelectorAll(".stars i");
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add("active");
+        }
+    });
+});

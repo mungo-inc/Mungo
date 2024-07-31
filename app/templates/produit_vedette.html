@@ -13,13 +13,13 @@
 <body>
     <div class="container">
         <h1>Produit Vedette</h1>
-        <form>
+	<form id="form" method= "POST" action="/faire_produit_vedette">
             <div class="mb-3">
                 <label for="dropdown" class="form-label">Sélectionnez un produit vedette</label>
                 <select class="form-select" id="dropdown" name="dropdown">
                     <option selected>Choisir...</option>
                     {% for article in articles %}
-                        <option value="{{ article['id'] }}">{{ article[1] }}</option>
+                        <option value="{{ article[0] }}">{{ article[1] }}</option>
                     {% endfor %}
                 </select>
             </div>

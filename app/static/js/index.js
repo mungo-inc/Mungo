@@ -1,4 +1,5 @@
 const ajouterButtons = document.querySelectorAll(".btn-recettes");
+const envoyerAvis = document.querySelectorAll(".btn-avis");
 const retirerPanierButtons = document.getElementById("collapseOne");
 const viderPanierButton = document.getElementsByClassName("btn-vider")[0];
 const defilement  = document.getElementById("customRange1");
@@ -10,8 +11,12 @@ const afficherEcranEnregistrer = document.querySelector(".formulaire-popup");
 const sauvegarderButton = document.getElementById("save-list-btn");
 const fermerConnexionBtn = document.getElementById("fermer-connexion");
 const allRanges = document.querySelectorAll(".range-wrap");
+const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
+const boutonEnleverIngredient = document.getElementById("enlever-ingredient");
+const ingredientsContainer = document.getElementById("ingredients-conteneur");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
 let compteur = 0;
+let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // [{idAliment, idRecette, qteRecette}]; 
 
@@ -29,41 +34,111 @@ connecterEnregistrerLien.forEach(link => {
 });
 
 
+
+if (boutonAjouterIngredient) {
+    boutonAjouterIngredient.addEventListener("click", function() {
+        $.ajax({
+            url: "/get_ingredients",
+            method: "GET",
+            success: function(data) {
+                var selectHtml = '<label class="form-check-label" for="'+compteurListeIngredient+'">Choisir un ingrédient : </label>';
+                selectHtml += '<select name="ingredients" class="liste-ingredients" id='+ compteurListeIngredient+ '>';
+                selectHtml += '<option value="">Choisissez un ingrédient</option>';
+                data.forEach(function(ingredient) {
+                    selectHtml += '<option id="'+ingredient[0]+'" data-mesure="'+ingredient[2]+'" value="' + ingredient[0] + '">' + ingredient[1] + '</option>';
+                });
+                selectHtml += '</select>';
+                selectHtml += '<span id=err-item-selectionne-'+compteurListeIngredient+'></span>';
+                selectHtml += '<div id="selected-ingredient-'+ compteurListeIngredient+'"></div>';
+                let div  = document.createElement("div");
+                div.innerHTML = selectHtml;
+                div.setAttribute("id", "option-"+compteurListeIngredient);
+                compteurListeIngredient++;
+                document.getElementById("ingredients").appendChild(div);
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    });
+}
+
+if (boutonEnleverIngredient) {
+    boutonEnleverIngredient.addEventListener("click", function() {
+        if (compteurListeIngredient >= 1) {
+            document.getElementById("option-" + --compteurListeIngredient).remove();
+        }
+    });
+}
+
+if (ingredientsContainer) {
+    ingredientsContainer.addEventListener("change", function(e) {
+        if (e.target.classList.contains("liste-ingredients")) {
+            e.preventDefault();
+            let mesure = e.target.options[e.target.selectedIndex];
+            console.log(mesure);
+            let labelText;
+            if (mesure.getAttribute('data-mesure') == "u") {
+                labelText = "Entrez le nombre d'unité pour la recette:";
+            } else if (mesure.getAttribute('data-mesure') == "g" || mesure.getAttribute('data-mesure') == "p") {
+                labelText = "Entrez le nombre de grammes pour la recette:";
+            } else if (mesure.getAttribute('data-mesure') == "l") {
+                labelText = "Entrez le nombre de millilitres pour la recette:";
+            }
+            let divRange = document.createElement("div");
+            if (mesure.value != "") {
+            let label = document.createElement("label");
+            label.setAttribute('for', mesure.id + "-quantite");
+            label.textContent = labelText;
+            let input = document.createElement("input");
+            input.classList.add("form-control");
+            input.setAttribute("id", mesure.id + "-quantite");
+            input.setAttribute("type", "text");
+            input.setAttribute("name", mesure.id+"-quantite");
+            divRange.appendChild(label);
+            divRange.appendChild(input);
+            let span = document.createElement("span");
+            span.setAttribute("id", "err-selected-ingredient-" + e.target.id);
+            divRange.appendChild(span);
+            }
+            let div = document.getElementById("selected-ingredient-" + e.target.id);
+            div.innerHTML = divRange.innerHTML;
+        }
+    });
+}
 document.addEventListener("DOMContentLoaded", function() {
     chargerListeEpicerie();
     majNombreEpicerie();
 });
 
 document.getElementById('toggle-menu').addEventListener('change', function() {
-        document.querySelector('.col-2').classList.toggle('nav', this.checked);
+    document.querySelector('.col-2').classList.toggle('nav', this.checked);
 });
 
 allRanges.forEach(wrap => {
-  const range = wrap.querySelector(".range");
-  const bubble = wrap.querySelector(".bubble");
+    const range = wrap.querySelector(".range");
+    const bubble = wrap.querySelector(".bubble");
 
-  range.addEventListener("input", () => {
+    range.addEventListener("input", () => {
+        setBubble(range, bubble);
+    });
     setBubble(range, bubble);
-  });
-  setBubble(range, bubble);
 });
 
 function setBubble(range, bubble) {
-  const val = range.value;
-  const min = range.min ? range.min : 0;
-  const max = range.max ? range.max : 100;
-  const newVal = Number(((val - min) * 100) / (max - min));
-  bubble.innerHTML = val;
-
-  // Sorta magic numbers based on size of the native UI thumb
-  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+    const val = range.value;
+    const min = range.min ? range.min : 0;
+    const max = range.max ? range.max : 100;
+    const newVal = Number(((val - min) * 100) / (max - min));
+    bubble.innerHTML = val;
+    bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
 }
 
 if (afficherEcranConnexionBtn) {
     afficherEcranConnexionBtn.addEventListener("click", () => {
         setTimeout(function() {
-                document.getElementById("courriel").focus();
-            }, 250);
+            document.getElementById("courriel").focus();
+        }, 250);
         document.body.classList.toggle("afficher-popup");
     });
 } else {
@@ -90,12 +165,12 @@ ajouterButtons.forEach(function(button) {
         } else {
             let div = document.getElementById('accordion-content');
             div.innerHTML += `
-                <div class="accordion-body">
-                    <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-                    <strong></strong>
-                        <ul>
-                        </ul>
-                </div>`
+<div class="accordion-body">
+<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+<strong></strong>
+<ul>
+</ul>
+</div>`
             let strongs = document.querySelectorAll('.accordion-body strong');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
         }
@@ -143,10 +218,10 @@ function updaterRestants(restants) {
 }
 
 function modifierQteRestante(restants, 
-                             idAliment, 
-                             nouvelleQte, 
-                             qteAliment,  
-                             idRecette) {
+    idAliment, 
+    nouvelleQte, 
+    qteAliment,  
+    idRecette) {
     let aliment = restants.find(aliment => aliment.idAliment === idAliment);
     let alimentTagged = taggedAliments.find(aliment => aliment.idAliment === idAliment);
     alimentExisteDansTagged = taggedAliments.some(elem =>  
@@ -199,11 +274,11 @@ function updaterPrixPage(restants) {
                         //console.log(qteRecette)
                         //console.log(restant.qteRestante)
                         //console.log(!alimentExiste)
-                       // console.log("=============")
+                        // console.log("=============")
                     }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
-			            prix -= parseFloat(p.getAttribute('data-prix-aliment'));
+			                  prix -= parseFloat(p.getAttribute('data-prix-aliment'));
                         childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2); 
                         taggedAliments.push({idAliment, idRecette, qteRecette});
                     } 
@@ -235,6 +310,8 @@ function montrerTotalPanier() {
     let total = document.getElementById('total-panier');
     total.hidden = false;
 }
+
+
 
 retirerPanierButtons.addEventListener("click", function(event) {
     const target = event.target;
@@ -337,7 +414,7 @@ function estCloseButtonRecette(target) {
 }
 
 function estCloseButtonAliment(target) {
-   return target.classList.contains('btn-close-aliment');
+    return target.classList.contains('btn-close-aliment');
 }
 
 function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
@@ -419,7 +496,7 @@ function ajouterNombrePanier(message) {
     setTimeout(function() {
         enleverSucces(child);
         setTimeout(function(){
-             suppressionMessageAlerte(child);
+            suppressionMessageAlerte(child);
             compteur--;
         }, 1500);
     }, 5000);
@@ -431,9 +508,9 @@ function creationMessageAlerte(messageSucces) {
     message.classList.add("alert-success", "alert");
     let topValue;
     if (++compteur == 1) {
-         topValue = 15;
+        topValue = 15;
     } else {
-         topValue = ((compteur - 1) * 60) + 15;
+        topValue = ((compteur - 1) * 60) + 15;
     }
     message.style.top = topValue + "px";
     let divAlerte = document.getElementById('notif-succes').appendChild(message);
@@ -516,8 +593,8 @@ function extraireListeEpicerie(accordions) {
     for (let i = 0; i < accordions.length; i++) {
         let nomRecette = accordions[i].querySelector('strong').textContent;
         let idRecette = accordions[i]
-            .querySelector('strong')
-            .getAttribute('data-id-recette');
+        .querySelector('strong')
+        .getAttribute('data-id-recette');
         let items = extraireItems(accordions[i]);
         listeEpicerie.push(
             { idRecette: idRecette, nomRecette: nomRecette, items: items }
@@ -571,7 +648,7 @@ function afficherListeEpicerie(listeEpicerie) {
 
 function calculerTotalPanier() {
     restants = []; // { idAliment, qteRestante }
-    
+
 }
 
 function updatePrixResultat() {
@@ -580,11 +657,11 @@ function updatePrixResultat() {
 
 function afficherAucunItem(div) {
     div.innerHTML = `
-        <div class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
-            <strong>Aucun item</strong>
-            <ul></ul>
-        </div>`;
+<div class="accordion-body">
+    <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+    <strong>Aucun item</strong>
+    <ul></ul>
+</div>`;
     let button = document.getElementsByClassName('btn-vider');
     let saveButton = document.getElementById('save-list-btn');
     if (saveButton != null) {
@@ -597,12 +674,12 @@ function afficherAucunItem(div) {
 
 function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
-        <div class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-            <strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
-            <ul></ul>
-        </div>`;
-    
+<div class="accordion-body">
+<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+<strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
+<ul></ul>
+</div>`;
+
     const ul = div.querySelectorAll('.accordion-body ul')[index];
     for (let j = 0; j < entree.items.length; j++) {
         let li = document.createElement('li');
@@ -645,9 +722,35 @@ if (conteneur1 && conteneur2) {
         ecrireTexteConteneur(texte2, conteneur2, 50);
     });
 }
-  
+
 majNombreEpicerie();
 
 function allerBasPage() {
     document.getElementById('bottom').scrollIntoView();
 }
+
+// avis etoiles
+const etoiles = document.querySelectorAll(".avis .stars i");
+const note = document.getElementById("note");
+
+etoiles.forEach((etoile, index1) => {
+    etoile.addEventListener("click", () => {
+        console.log(index1);
+        note.value = index1 + 1;
+        etoiles.forEach((etoile, index2) => {
+            index1 >= index2 ? etoile.classList.add("active") : etoile.classList.remove("active");
+        });
+    });
+});
+
+const affichageAvisElements = document.querySelectorAll(".affichage-avis");
+
+affichageAvisElements.forEach(affichageAvis => {
+    const rating = affichageAvis.getAttribute("data-note");
+    const stars = affichageAvis.querySelectorAll(".stars i");
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add("active");
+        }
+    });
+});

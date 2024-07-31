@@ -20,7 +20,68 @@ let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
 let taggedAliments = []; // {idAliment, idRecette, qteRecette};
 const barreRecherche = document.getElementById("recherche");
+const ordreRecette = document.getElementById("ordre-recette");
 
+if (ordreRecette) {
+ordreRecette.addEventListener("change", function() {
+    let valeur = ordreRecette.value;
+    console.log(ordreRecette.value);
+    if (valeur == "alphabetique") {
+        changerOrdre(valeur);
+    } else if (valeur == "alphabetique-reverse") {
+        changerOrdre(valeur);
+    } else if (valeur == "prix") {
+        changerOrdre(valeur);
+    } else if (valeur == "prix-reverse") {
+        changerOrdre(valeur);
+    }
+});
+}
+
+function changerOrdre(ordre){
+    let recettes = document.querySelectorAll(".recettes-js");
+    let recettesListe = Array.prototype.slice.call(recettes);
+    if (ordre == "alphabetique") {
+            recettesListe.sort(function(a, b) {
+            let recetteA = a.innerText;
+            let recetteB = b.innerText;
+            if (recetteA > recetteB) return 1;
+            if (recetteA < recetteB) return -1;
+            return 0;
+    });
+    } else if (ordre == "alphabetique-reverse") {
+        recettesListe.sort(function(a, b) {
+            let recetteA = a.innerText;
+            let recetteB = b.innerText;
+            if (recetteA > recetteB) return -1;
+            if (recetteA < recetteB) return 1;
+            return 0;
+    });
+
+    } else if (ordre == "prix") {
+        recettesListe.sort(function(a, b) {
+            let recetteA = parseFloat(a.querySelector('span').textContent);
+            let recetteB = parseFloat(b.querySelector('span').textContent);
+            if (recetteA > recetteB) return 1;
+            if (recetteA < recetteB) return -1;
+            return 0;
+    });
+    } else if (ordre == "prix-reverse") {
+        recettesListe.sort(function(a, b) {
+            let recetteA = parseFloat(a.querySelector('span').textContent);
+            let recetteB = parseFloat(b.querySelector('span').textContent);
+            if (recetteA > recetteB) return -1;
+            if (recetteA < recetteB) return 1;
+            return 0;
+        });
+    }
+    let recetteDiv = document.querySelector("#changer-ordre");
+    recetteDiv.innerHTML = "";
+    recettesListe.forEach(div => {
+        recetteDiv.appendChild(div);
+    });
+    console.log(recettesListe);
+}
 
 connecterEnregistrerLien.forEach(link => {
     link.addEventListener("click", (e) => {
@@ -380,7 +441,6 @@ if (sauvegarderButton) {
 
 supprimerListeButtons.forEach(function(button) {
     button.addEventListener("click", function() {
-        console.log("allo")
         let div = this.parentElement.parentElement;
         let idClient = parseInt(div.getAttribute("data-id-client"));
         let idPanier = parseInt(div.getAttribute("data-id-panier"));
@@ -759,6 +819,8 @@ barreRecherche.addEventListener("input", e => {
     }
 });
 }
+
+
 // avis id_recette
 const affichageAvisElements = document.querySelectorAll(".affichage-avis");
 

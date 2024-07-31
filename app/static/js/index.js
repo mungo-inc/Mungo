@@ -23,19 +23,19 @@ const barreRecherche = document.getElementById("recherche");
 const ordreRecette = document.getElementById("ordre-recette");
 
 if (ordreRecette) {
-ordreRecette.addEventListener("change", function() {
-    let valeur = ordreRecette.value;
-    console.log(ordreRecette.value);
-    if (valeur == "alphabetique") {
-        changerOrdre(valeur);
-    } else if (valeur == "alphabetique-reverse") {
-        changerOrdre(valeur);
-    } else if (valeur == "prix") {
-        changerOrdre(valeur);
-    } else if (valeur == "prix-reverse") {
-        changerOrdre(valeur);
-    }
-});
+    ordreRecette.addEventListener("change", function() {
+        let valeur = ordreRecette.value;
+        console.log(ordreRecette.value);
+        if (valeur == "alphabetique") {
+            changerOrdre(valeur);
+        } else if (valeur == "alphabetique-reverse") {
+            changerOrdre(valeur);
+        } else if (valeur == "prix") {
+            changerOrdre(valeur);
+        } else if (valeur == "prix-reverse") {
+            changerOrdre(valeur);
+        }
+    });
 }
 
 function changerOrdre(ordre){
@@ -149,19 +149,19 @@ if (ingredientsContainer) {
             }
             let divRange = document.createElement("div");
             if (mesure.value != "") {
-            let label = document.createElement("label");
-            label.setAttribute('for', mesure.id + "-quantite");
-            label.textContent = labelText;
-            let input = document.createElement("input");
-            input.classList.add("form-control");
-            input.setAttribute("id", mesure.id + "-quantite");
-            input.setAttribute("type", "text");
-            input.setAttribute("name", mesure.id+"-quantite");
-            divRange.appendChild(label);
-            divRange.appendChild(input);
-            let span = document.createElement("span");
-            span.setAttribute("id", "err-selected-ingredient-" + e.target.id);
-            divRange.appendChild(span);
+                let label = document.createElement("label");
+                label.setAttribute('for', mesure.id + "-quantite");
+                label.textContent = labelText;
+                let input = document.createElement("input");
+                input.classList.add("form-control");
+                input.setAttribute("id", mesure.id + "-quantite");
+                input.setAttribute("type", "text");
+                input.setAttribute("name", mesure.id+"-quantite");
+                divRange.appendChild(label);
+                divRange.appendChild(input);
+                let span = document.createElement("span");
+                span.setAttribute("id", "err-selected-ingredient-" + e.target.id);
+                divRange.appendChild(span);
             }
             let div = document.getElementById("selected-ingredient-" + e.target.id);
             div.innerHTML = divRange.innerHTML;
@@ -227,10 +227,12 @@ ajouterButtons.forEach(function(button) {
         } else {
             let div = document.getElementById('div-section-recette');
             div.innerHTML += `
-                <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-                <strong class="strong-recette"></strong>
-                <ul>
-                </ul>`;
+                <div class="div-recette-panier">
+                    <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+                    <strong class="strong-recette"></strong>
+                    <ul>
+                    </ul>
+                </div>`;
             let strongs = document.querySelectorAll('.accordion-body .strong-recette');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
         }
@@ -374,11 +376,12 @@ function montrerTotalPanier() {
 
 
 retirerPanierButtons.addEventListener("click", function(event) {
+    console.log("ici");
     const target = event.target;
     let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'))
-    let parentElem = target.closest('.accordion-body');
+    let parentElem = target.closest('.div-recette-panier');
     if (parentElem) {
-        let nomRecette = parentElem.querySelector('strong').textContent;
+        let nomRecette = parentElem.querySelector('.strong-recette').textContent;
         if (estCloseButtonRecette(target)) {
             retirerRecettes(parentElem, listeEpicerie, nomRecette);
         } else if (estCloseButtonAliment(target)) {
@@ -486,8 +489,21 @@ function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     sauvegarderListeEpicerie();
     majNombreEpicerie();
     if (listeEpicerie.length === 0) {
-        afficherAucunItem(document.getElementById('accordion-content'));
+        // afficherAucunItem(document.getElementById('div-section-recette'));
+        afficherAuncuneRecette();
     }
+}
+
+function afficherAuncuneRecette() {
+    console.log("ici");
+    let div = document.getElementById('div-section-recette');
+    div.innerHTML += `
+            <div class="div-recette-panier">
+                <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+                <strong class="strong-recette">Aucun item</strong>
+                <ul>
+                </ul>
+            </div>`;
 }
 
 function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
@@ -591,7 +607,7 @@ function afficherSucces(message) {
 }
 
 
-function enleverSucces(child){
+function enleverSucces(child) {
     child.classList.add("alert-animation-enlever");
     child.classList.remove("alert-animation");
 }
@@ -624,9 +640,41 @@ function creerCloseButton() {
 }
 
 function sauvegarderListeEpicerie() {
-    let accordions = document.querySelectorAll('.accordion-body');
-    let listeEpicerie = extraireListeEpicerie(accordions);
-    localStorage.setItem('listeEpicerie', JSON.stringify(listeEpicerie));
+    let sectionRecettes = document.querySelectorAll('.div-section-recette');
+    let sectionAliment = document.querySelectorAll('.div-section-aliment');
+    // let listeEpicerie = extraireListeEpicerie(accordions);
+    let listeEpicerieRecettes = extraireListeRecettes();
+    let listeEpicerieAliments = extraireListeAliments();
+    localStorage.setItem('listeEpicerieRecettes', JSON.stringify(listeEpicerieRecettes));
+    localStorage.setItem('listeEpicerieAliments', JSON.stringify(listeEpicerieAliments));
+}
+
+function extraireListeRecettes() {
+    let listeEpicerieRecettes = [];
+    let div = document.getElementById('div-section-recette');
+    console.log(div.children);
+    for (divChild of div.children) {
+        let nomRecette = divChild.querySelector('.strong-recette').textContent;
+        let idRecette = divChild 
+            .querySelector('.strong-recette')
+            .getAttribute('data-id-recette');
+        let aliments = extraireAlimentFaisaitPatrieDuneRecette(divChild);
+        listeEpicerieRecettes.push(
+            { idRecette: idRecette, nomRecette: nomRecette, items: aliments}
+        );
+    }
+    return listeEpicerieRecettes;
+}
+
+function extraireListeAliments() {
+    let listeEpicerieAliments = [];
+    let div = document.getElementById('div-section-aliment');
+    for (divChild of div.children) {
+        let nomAliment = divChild.querySelector('.strong-aliment').textContent;
+        listeEpicerieAliments.push( 
+            {nomAliment: nomAliment}
+        );
+    }
 }
 
 function incrementerNumeroRecette(){
@@ -637,53 +685,57 @@ function incrementerNumeroRecette(){
 }
 
 function majNombreEpicerie() {
-    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'));
-    if (listeEpicerie.length) {
-        recipeCount = listeEpicerie.length;
-        document.getElementById('notification-cart').hidden = false;
-        document.getElementById('notification-cart').innerHTML = recipeCount;
-    } else {
-        document.getElementById('notification-cart').hidden = true;
+    let listeEpicerieRecettes = JSON.parse(localStorage.getItem('listeEpicerieRecettes'));
+    let listeEpicerieAliments = JSON.parse(localStorage.getItem('listeEpicerieAliments'));
+    if (listeEpicerieRecettes && listeEpicerieAliments) {
+        let nbItems = listeEpicerieRecettes.length + listeEpicerieAliments.length;
+        if (nbItems) {
+            document.getElementById('notification-cart').hidden = false;
+            document.getElementById('notification-cart').innerHTML = nbItems;
+        } else {
+            document.getElementById('notification-cart').hidden = true;
+        }
     }
 }
 
 function extraireListeEpicerie(accordions) {
-    let listeEpicerie = [];
     for (let i = 0; i < accordions.length; i++) {
         let nomRecette = accordions[i].querySelector('strong').textContent;
         let idRecette = accordions[i]
         .querySelector('strong')
         .getAttribute('data-id-recette');
         let items = extraireItems(accordions[i]);
-        listeEpicerie.push(
+        listeEpicerieRecette.push(
             { idRecette: idRecette, nomRecette: nomRecette, items: items }
         );
     }
     return listeEpicerie;
 }
 
-function extraireItems(accordion) {
-    let ul = accordion.querySelector('ul');
-    const items = [];
+function extraireAlimentFaisaitPatrieDuneRecette(div) {
+    let ul = div.querySelector('ul');
+    let aliments = [];
     let lis = ul.querySelectorAll('li');
     for (let j = 0; j < lis.length; j++) {
-        items.push({ 
+        aliments.push({ 
             id: lis[j].getAttribute('data-id-aliment'), 
             nom: lis[j].textContent,
             qte: lis[j].getAttribute('data-quantite-aliment'),
             qteRecette: lis[j].getAttribute('data-quantite-recette')
         });
     }
-    return items;
+    return aliments;
 }
 
 function chargerListeEpicerie() {
-    let listeEpicerie = chargerListeLocale();
-    afficherListeEpicerie(listeEpicerie);
+    let listeEpicerieRecettes = chargerListeLocale('listeEpicerieRecettes');
+    let listeEpicerieAliments = chargerListeLocale('listeEpicerieAliments');
+    afficherListeEpicerie(listeEpicerieRecettes);
+    afficherListeEpicerie(listeEpicerieAliments);
 }
 
-function chargerListeLocale() {
-    let listeEpicerie = localStorage.getItem('listeEpicerie');
+function chargerListesLocales(nomListe) {
+    let listeEpicerie = localStorage.getItem(nomListe)
     if (listeEpicerie) {
         return JSON.parse(listeEpicerie);
     } else {
@@ -694,6 +746,7 @@ function chargerListeLocale() {
 function afficherListeEpicerie(listeEpicerie) {
     let div = document.getElementById('accordion-content');
     div.innerHTML = '';
+    // Faire la distinction entre la sous-liste recettes et aliments
     if (listeEpicerie.length === 0) {
         afficherAucunItem(div);
     } else {
@@ -710,25 +763,25 @@ function calculerTotalPanier() {
 
 }
 
-function updatePrixResultat() {
-
-}
-
 function afficherAucunItem(div) {
     div.innerHTML = `
         <strong id="section-recette">Recettes</strong>
         <div id="div-section-recette" class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
-            <strong class="strong-recette">Aucun item</strong>
-            <ul>
-            </ul>
+            <div class="div-recette-panier">
+                <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+                <strong class="strong-recette">Aucun item</strong>
+                <ul>
+                </ul>
+            </div>
         </div>
         <strong id="section-aliment">Aliments individuels</strong>
         <div id="div-section-aliment" class="accordion-body">
-            <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
-            <strong class="strong-aliment">Aucun item</strong>
-            <ul>
-            </ul>
+        <div class="div-aliment-panier">
+                <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+                <strong class="strong-aliment">Aucun item</strong>
+                <ul>
+                </ul>
+            </div>
         </div>`;
 
     let button = document.getElementsByClassName('btn-vider');
@@ -743,11 +796,11 @@ function afficherAucunItem(div) {
 
 function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
-<div class="accordion-body">
-<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-<strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
-<ul></ul>
-</div>`;
+        <div class="accordion-body">
+        <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+        <strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
+        <ul></ul>
+        </div>`;
 
     const ul = div.querySelectorAll('.accordion-body ul')[index];
     for (let j = 0; j < entree.items.length; j++) {

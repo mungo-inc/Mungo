@@ -10,10 +10,13 @@
             {% else %}
             <div class="text-container">
                 <h2 class="titre-page">Recettes</h2>
+                <div class="barre-recherche">
+                    <input type="search" id="recherche" placeholder="Rechercher une recette">
+                </div>
             </div>
             <div class="liste-recettes conteneur-recettes">
                 {% for resultat in resultats %}
-                <div id={{ resultat.id }} class="text-container list-recettes">
+                <div id={{ resultat.id }} class="text-container list-recettes recettes-js">
                     <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">
                     <a class="nom-recette" href="{{ url_for('page_recette', identifiant=resultat.id) }}">{{ resultat.nom }}</a>
                     <p> Prix: <span class="prix-recette">{{ resultat.prix }} </span>

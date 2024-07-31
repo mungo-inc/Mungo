@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="col-10">
+    <div class="conteneur-parent">
+        <form id="form-recette" method="post" action="/envoyer-recette" enctype="multipart/form-data">
+            <div class="col-sm-8">
+                <div class="section-form">
+                    <h2 class="form-ajout-recette">Formulaire pour ajouter une recette</h2>
+                    <div class="form-group">
+                        <label class="form-check-label" for="nomRecette">Nom de la recette : </label>
+                        <input class="form-control" type="text" id="nom-recette" name="nom-recette" placeholder="Entrez le nom de la recette">
+                        <span id="err-titre"></span>
+                    </div>
+                    <div class="form-group" id="ingredients-conteneur">
+                        <div id="ingredients">
+                            <label class="form-check-label" for="liste-ingredients">Choisir un ingrédient :</label>
+                            <select name="ingredients" class="liste-ingredients" id="0">
+                                <option value=""> Choisissez un ingrédient </option>
+                                {% for ingredient in ingredients %}
+                                <option id="{{ingredient[0]}}" data-mesure="{{ingredient[2]}}" value="{{ingredient[0]}}">{{ingredient[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <span id="err-item-selectionne-0"></span>
+                            <div id="selected-ingredient-0">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary" id="ajouter-ingredient">Ajouter un ingrédient</button>
+                        <button type="button" class="btn btn-outline-secondary" id="enlever-ingredient">Enlever un ingrédient</button>
+
+                    </div>
+                </div>
+                <div class="section-form">
+                    <h2>Cochez la diète</h2>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox9" value="0" name="diete" checked>
+                        <label class="form-check-label" for="inlineCheckbox9">Omnivore</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox10" value="1" name="diete">
+                        <label class="form-check-label" for="inlineCheckbox10">Végétarienne</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox11" value="2" name="diete">
+                        <label class="form-check-label" for="inlineCheckbox11">Végétalienne</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox12" value="3" name="diete">
+                        <label class="form-check-label" for="inlineCheckbox12">Paléo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox13" value="4" name="diete">
+                        <label class="form-check-label" for="inlineCheckbox13">Pesco-végétarienne</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox14" value="5" name="diete">
+                        <label class="form-check-label" for="inlineCheckbox14">Ovo-lacto-végétarienne</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox15" value="6" name="diete">
+                        <label class="form-check-label" for="inlineCheckbox15">Lacto-végétarisme</label>
+                    </div>
+                </div>
+                <div class="section-form">
+                    <h2>Ajouter une image pour la recette</h2>
+                    <input name="image-recette" type="file" id="image">
+                </div>
+                <div class="section-form" id="form-button-container">
+                    <input type="submit" class="btn btn-outline-success" id="button-recette-envoyer" value="Envoyer la recette" >
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content%}

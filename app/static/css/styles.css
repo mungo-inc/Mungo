@@ -862,6 +862,9 @@ a#bouton-deconnexion:hover {
     .col-sm-8 {
         width: 66.666667%;
     }
+    .titre-page {
+    font-size: 2rem;
+}
 }
 
 @media only screen and (min-width: 601px) {
@@ -905,6 +908,9 @@ a#bouton-deconnexion:hover {
     .message-form {
         width: 100%;
     }
+    .titre-page {
+    font-size: 2rem;
+}
 }
 
 @media only screen and  (min-width: 768px) {
@@ -950,6 +956,9 @@ a#bouton-deconnexion:hover {
      .message-form {
         width: 100%;
     }
+    .titre-page {
+        font-size: 3rem;
+}
 }
 
 @media only screen and (min-width: 992px) {
@@ -992,6 +1001,9 @@ a#bouton-deconnexion:hover {
     .message-form {
         width: 25%;
     }
+    .titre-page {
+        font-size: 4rem;
+}
 }
 
 @media only screen and (min-width: 1200px) {
@@ -1035,6 +1047,10 @@ a#bouton-deconnexion:hover {
     .message-form {
         width: 20%;
     }
+
+    .titre-page {
+    font-size: 5rem;
+}
 }
 
 .hamburger {

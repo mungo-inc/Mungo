@@ -217,7 +217,7 @@ fermerConnexionBtn.addEventListener("click", () => {
  */
 ajouterButtons.forEach(function(button) {
     button.addEventListener("click", function() {
-        let strongs = document.querySelectorAll('.accordion-body strong');
+        let strongs = document.querySelectorAll('.accordion-body .strong-recette');
         if (strongs.length === 1 && strongs[0].textContent === 'Aucun item') {
             ajouterElementPanier.call(this, strongs, 0);
             montrerTotalPanier();
@@ -225,15 +225,13 @@ ajouterButtons.forEach(function(button) {
             montrerButton('btn-vider');
             montrerButton('save-list-btn');
         } else {
-            let div = document.getElementById('accordion-content');
+            let div = document.getElementById('div-section-recette');
             div.innerHTML += `
-<div class="accordion-body">
-<button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-<strong></strong>
-<ul>
-</ul>
-</div>`
-            let strongs = document.querySelectorAll('.accordion-body strong');
+                <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
+                <strong class="strong-recette"></strong>
+                <ul>
+                </ul>`;
+            let strongs = document.querySelectorAll('.accordion-body .strong-recette');
             ajouterElementPanier.call(this, strongs, strongs.length - 1);
         }
         updaterRestants.call(this, restants, taggedAliments);
@@ -718,11 +716,21 @@ function updatePrixResultat() {
 
 function afficherAucunItem(div) {
     div.innerHTML = `
-<div class="accordion-body">
-    <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
-    <strong>Aucun item</strong>
-    <ul></ul>
-</div>`;
+        <strong id="section-recette">Recettes</strong>
+        <div id="div-section-recette" class="accordion-body">
+            <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+            <strong class="strong-recette">Aucun item</strong>
+            <ul>
+            </ul>
+        </div>
+        <strong id="section-aliment">Aliments individuels</strong>
+        <div id="div-section-aliment" class="accordion-body">
+            <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+            <strong class="strong-aliment">Aucun item</strong>
+            <ul>
+            </ul>
+        </div>`;
+
     let button = document.getElementsByClassName('btn-vider');
     let saveButton = document.getElementById('save-list-btn');
     if (saveButton != null) {

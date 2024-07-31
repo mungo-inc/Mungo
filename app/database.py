@@ -5,6 +5,7 @@ from .recette import Recette
 from .aliment import Aliment
 from .diete import Diete
 from .panier import Panier
+from .avis import Avis
 import math
 
 class Database:
@@ -143,6 +144,7 @@ class Database:
             aliment = Aliment(id, nom, epicerie)
             aliments.append(aliment)
         return set(aliments)
+
 
     def avoir_recettes(self, allergies, dietes, epiceries, budget):
         """
@@ -724,16 +726,17 @@ class Database:
         curseur.execute(query)
         return curseur.fetchone()[0]+1
 
-    def sauvegarder_avis(self, id_recette, note, opinion):
-        curseur = self.get_connection().cursor()
-        query = (
-                f"""
-                INSERT INTO Avis (ID_recette, Note, Opinion) VALUES ({id_recette}, {note}, '{opinion}');
-                """ 
-        )
-        print(f"{id_recette},       {note},     {opinion}")
-        curseur.execute(query)
-        self.get_connection().commit()
+
+    def sauvegarder_avis(self, id_recette, nom, note, opinion):
+        connection = self.get_connection()
+        curseur = connection.cursor()
+        query = """
+                INSERT INTO Avis (ID_recette, Nom, Note, Opinion) 
+                VALUES (?, ?, ?, ?);
+                """
+        print(f"{nom}")
+        curseur.execute(query, (id_recette, nom, note, opinion))
+        connection.commit()
         return 0
 
     def supprimer_panier(self, id_client, id_panier):
@@ -746,6 +749,22 @@ class Database:
         )
         curseur.execute(query, (id_client, id_panier, ))
         self.get_connection().commit()
+
+    def get_avis_par_recette(self, id_recette):
+        cursor = self.get_connection().cursor()
+        query = f"""
+                SELECT DISTINCT a.nom, a.note, a.opinion, a.date
+                FROM Avis a 
+                WHERE a.id_recette = {id_recette}
+                """
+        cursor.execute(query)
+        resultat = cursor.fetchall()
+        avis = []
+        for nom, note, opinion, date in resultat:
+            avis1 = Avis(nom, note, opinion, date)
+            avis.append(avis1)
+        return set(avis)
+
 
 def englober_diete(dietes):
     if '3' in dietes:
@@ -761,3 +780,4 @@ def englober_diete(dietes):
     if '6' in dietes:
         dietes.append('0')
     return dietes
+  

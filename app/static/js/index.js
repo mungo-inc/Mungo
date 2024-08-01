@@ -376,24 +376,24 @@ function montrerTotalPanier() {
 
 
 retirerPanierButtons.addEventListener("click", function(event) {
-    console.log("ici");
     const target = event.target;
-    let listeEpicerie = JSON.parse(localStorage.getItem('listeEpicerie'))
+    let listeEpicerieRecettes = JSON.parse(localStorage.getItem('listeEpicerieRecettes'));
     let parentElem = target.closest('.div-recette-panier');
     if (parentElem) {
         let nomRecette = parentElem.querySelector('.strong-recette').textContent;
+        console.log(nomRecette);
         if (estCloseButtonRecette(target)) {
-            retirerRecettes(parentElem, listeEpicerie, nomRecette);
+            retirerRecettes(parentElem, listeEpicerieRecettes, nomRecette);
         } else if (estCloseButtonAliment(target)) {
             let li = target.closest('li');
-            retirerAliment(parentElem, listeEpicerie, nomRecette, li);
+            retirerAliment(parentElem, listeEpicerieRecettes, nomRecette, li);
         }
     }
 });
 
 viderPanierButton.addEventListener("click", function() {
-    let listeEpicerieRecettes = JSON.parse(localStorage.getItem('listeEpicerie'));
-    let listeEpicerieAliments = JSON.parse(localStorage.getItem('listeEpicerie'));
+    let listeEpicerieRecettes = JSON.parse(localStorage.getItem('listeEpicerieRecettes'));
+    let listeEpicerieAliments = JSON.parse(localStorage.getItem('listeEpicerieAliments'));
     while (listeEpicerieRecettes.length) {
         let parents = document.getElementsByClassName('accordion-body');
         retirerRecettes(parents[0], listeEpicerie, listeEpicerie[0].nomRecette);
@@ -809,11 +809,9 @@ function afficherAucunItem(div) {
 
 function ajouterRecetteAuDiv(div, entree, index) {
     div.innerHTML += `
-        <div class="accordion-body">
         <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
         <strong data-id-recette="${entree.idRecette}">${entree.nomRecette}</strong>
-        <ul></ul>
-        </div>`;
+        <ul></ul>`;
 
     const ul = div.querySelectorAll('.accordion-body ul')[index];
     for (let j = 0; j < entree.items.length; j++) {

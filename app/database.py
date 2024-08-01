@@ -144,9 +144,9 @@ class Database:
                 FROM aliment 
                 JOIN aliment_recette ON aliment.id_aliment = aliment_recette.id_aliment 
                 JOIN aliment_epicerie ON aliment.id_aliment = aliment_epicerie.id_aliment 
-                WHERE aliment_recette.id_recette = {id_recette}
+                WHERE aliment_recette.id_recette = ?
                 """
-        cursor.execute(query)
+        cursor.execute(query, (id_recette,) )
         resultat = cursor.fetchall()
         aliments = []
         for id, nom, epicerie in resultat:

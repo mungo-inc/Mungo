@@ -394,13 +394,17 @@ viderPanierButton.addEventListener("click", function() {
     let listeEpicerieRecettes = JSON.parse(localStorage.getItem('listeEpicerieRecettes'));
     let listeEpicerieAliments = JSON.parse(localStorage.getItem('listeEpicerieAliments'));
     while (listeEpicerieRecettes.length) {
-        let parents = document.getElementsByClassName('accordion-body');
-        retirerRecettes(parents[0], listeEpicerie, listeEpicerie[0].nomRecette);
+        let parents = document.getElementsByClassName('div-recette-panier');
+        retirerRecettes(
+            parents[0], 
+            listeEpicerieRecettes, 
+            listeEpicerieRecettes[0].nomRecette
+        );
     }
-    while (listeEpicerieAliments.length) {
-        let parents = document.getElementsByClassName('accordion-body');
-        retirerRecettes(parents[0], listeEpicerie, listeEpicerie[0].nomRecette);
-    }
+    // while (listeEpicerieAliments.length) {
+    //     let parents = document.getElementsByClassName('div-aliment-panier');
+    //     retirerRecettes(parents[0], listeEpicerie, listeEpicerieAliments[0].nomAliments);
+    // }
 });
 
 if (sauvegarderButton) {
@@ -507,6 +511,18 @@ function afficherAucuneRecette() {
                 <ul>
                 </ul>
             </div>`;
+    
+
+    let button = document.getElementsByClassName('btn-vider');
+    if (localStorage.getItem('listeEpicerieAliments') === "[]") {
+        button[0].hidden = true;
+    }
+    let saveButton = document.getElementById('save-list-btn');
+    if (saveButton != null) {
+        saveButton.hidden = true;
+    }
+    let total = document.getElementById('total-panier');
+    total.hidden = true;
 }
 
 function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
@@ -740,6 +756,9 @@ function chargerListeEpicerie() {
     let listeEpicerieAliments = chargerListeLocale('listeEpicerieAliments');
     afficherListeEpicerieRecettes(listeEpicerieRecettes);
     afficherListeEpicerieAliments(listeEpicerieAliments);
+    if (listeEpicerieRecettes.length || listeEpicerieAliments.length) {
+        document.getElementsByClassName('btn-vider')[0].hidden = false;
+    }
 }
 
 function chargerListeLocale(nomListe) {

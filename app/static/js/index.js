@@ -441,7 +441,6 @@ viderPanierButton.addEventListener("click", function() {
     }
     while (listeEpicerieAliments.length) {
         let parents = document.getElementsByClassName('div-aliment-panier');
-        //retirerRecettes(parents[0], listeEpicerie, listeEpicerieAliments[0].nomAliments);
         retirerAlimentIndividuel(parents[0], listeEpicerieAliments, listeEpicerieAliments[0].nomAliment);
     }                              
 });                                
@@ -780,7 +779,7 @@ function extraireListeAliments() {
     for (divChild of div.children) {
         let nomAliment = divChild.querySelector('.strong-aliment').textContent;
         if (nomAliment != "Aucun item") {
-            listeEpicerieAliments.push( 
+            listeEpicerieAliments.push(
                 {nomAliment: nomAliment}
             );
         }
@@ -955,7 +954,7 @@ function ajouterAlimentAuDiv(div, entree) {
     div.innerHTML +=`
         <div class="div-aliment-panier">
         <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-        <strong class="strong-aliment">${entree.nomAliment}</strong>
+        <strong class="strong-aliment" data-id-aliment="${entree.idAliment}">${entree.nomAliment}</strong>
         </div>`;
 }
 

@@ -16,7 +16,7 @@
             {% for article in articles %}
             <div id={{ article[0]}} class="text-container list-recette recettes-js" >
                 <img src="{{ url_for('static', filename='img/' ~ article[0]|string ~ 'b.jpg') }}" alt="image recette">
-                <p class="titre-recette" data-id-recette="{{ article[0] }}"> {{ article[1] }}</p>
+                <p class="titre-recette" data-id-recette="{{ article[0] }}" data-prix-aliment="{{ article[4] }}"> {{ article[1] }}</p>
                 <div id="rating-app-1">
                     <b-form-rating
                         v-model="value1"
@@ -24,7 +24,7 @@
                         precision="2"
                     ></b-form-rating>
                 </div>
-                <button type="button" class="btn-aliments btn btn-outline-success" data-nom-recette="{{ article[1] }}" data-id-recette="{{ article[0] }}">Ajouter</button>
+                <button type="button" class="btn-aliments btn btn-outline-success" data-nom-recette="{{ article[1] }}" data-id-recette="{{ article[0] }}" data-prix-aliment="{{ article[4]}}">Ajouter</button>
             </div>
             {% endfor %}
         </div>

@@ -110,7 +110,6 @@ def page_recette(identifiant):
     retourne la page d'une recette selon son identifiant
     """
     db = Database('app/db/epicerie.db')
-    print(identifiant)
     recette = db.get_recette(identifiant)
     aliments = db.get_aliments_par_recette(identifiant)
     avis = db.get_avis_par_recette(identifiant)
@@ -167,7 +166,7 @@ def validation_partager_recette():
     nom = request.form["nom-recette"]
     ingredients = request.form.getlist("ingredients")
     ingredients_quantite = []
-    if  nom is "":
+    if  nom == "":
         return False
     elif len(ingredients) == 0:
         return False
@@ -222,6 +221,19 @@ def get_query_params():
     budget = request.args.get('budget') 
     return epiceries, allergies, dietes, budget
 
+@app.route('/produit_vedette')
+def produit_vedette():
+    db = Database(app.config['DATABASE_PATH'])
+    articles = db.get_articles()
+    return render_template('/produit_vedette.html', articles=articles)
+
+@app.route('/faire_produit_vedette', methods=["POST"])
+def faire_produit_vedette():
+    db = Database(app.config['DATABASE_PATH'])
+    id_vedette = request.form["dropdown"]
+    db.ajouter_vedette(id_vedette)
+    print(id_vedette)
+    return redirect("/")
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -229,7 +241,9 @@ def search():
     db.get_connection()
     epiceries, allergies, dietes, budget = get_query_params()
     resultats = db.avoir_recettes(allergies, dietes, epiceries, budget)
-
+    for recette in resultats:
+        print(f"Recette ID: {recette.id}, Prix: {recette.prix}, Contient Vedette: {recette.vedette}")
+    
     return render_template('resultats.html', resultats=resultats)
 
 
@@ -306,6 +320,7 @@ def logout():
     return redirect('/')
 
 
+
 @app.route('/sauvegarder-liste', methods=['POST'])
 def save_list():
     db = Database('app/db/epicerie.db')
@@ -373,7 +388,14 @@ def post_avis():
         if note is None or note.strip() == "":
             note = 0
         opinion = request.form.get("opinion")
+        if current_user.is_authenticated:
+            id_client = current_user.id_client
+            nom = current_user.courriel
+        else:
+            id_client = 9999
         db = Database(app.config['DATABASE_PATH'])
         db.get_connection()
-        db.sauvegarder_avis(id_recette, nom, note, opinion)
+        db.sauvegarder_avis(id_recette, id_client, nom, note, opinion)
         return redirect(url_for('page_recette', identifiant=id_recette))
+
+    return redirect(url_for('incorrect'))

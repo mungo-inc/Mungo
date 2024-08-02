@@ -42,6 +42,12 @@
                             <a class="nav-link" href="{{ url_for('ajouter_recette')}}">Partager une recette</a>
                         </li>
                         {% endif %}
+			{% if current_user.courriel == 'admin@gmail.com' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('produit_vedette')}}">Produit vedette</a>
+                        </li>
+                        {% endif %}
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('compagnie')}}">À propos</a>
                         </li>

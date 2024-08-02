@@ -17,6 +17,7 @@ const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
 const boutonEnleverIngredient = document.getElementById("enlever-ingredient");
 const ingredientsContainer = document.getElementById("ingredients-conteneur");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
+const produit_vedette = document.getElementById("vedette");
 let compteur = 0;
 let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
@@ -402,7 +403,6 @@ function montrerTotalPanier() {
 }
 
 
-
 retirerRecetteButtons.addEventListener("click", function(event) {
     const target = event.target;
     let listeEpicerieRecettes = JSON.parse(localStorage.getItem('listeEpicerieRecettes'));
@@ -642,13 +642,57 @@ function ajouterRecetteAuPanier(strongs, index) {
     strongs[index].setAttributeNode(idRecette);
     idRecette = this.getAttribute('data-id-recette');
     let aliments = document.querySelectorAll('.r' + idRecette);
-    let ul = document.querySelectorAll('.accordion-body ul');
-    listerAliment(ul, aliments, index);
+    let ul = document.querySelectorAll('.accordion-body ul')[index]; // Ensure the correct ul element is selected
+
+    // Create a new list of ingredients excluding already tagged ones
+    let filteredAliments = Array.from(aliments).filter(aliment => {
+        let idAliment = aliment.getAttribute('data-id-aliment');
+        return !taggedAliments.some(item =>
+            item.idAliment == idAliment && item.idRecette == idRecette
+        );
+    });
+
+    // Clear the existing list
+    ul.innerHTML = '';
+
+    // Add the filtered ingredients to the list
+    /*filteredAliments.forEach(aliment => {
+        let li = document.createElement('li');
+        let button = creerCloseButton();
+        li.append(button);
+	li.textContent = aliment.textContent;
+        li.setAttribute('data-type-aliment', aliment.getAttribute('data-type-aliment'));
+        li.setAttribute('data-id-aliment', aliment.getAttribute('data-id-aliment'));
+        li.setAttribute('data-quantite-aliment', aliment.getAttribute('data-quantite-aliment'));
+        li.setAttribute('data-quantite-recette', aliment.getAttribute('data-quantite-recette'));
+        li.setAttribute('data-prix-aliment', aliment.getAttribute('data-prix-aliment'));
+        ul.appendChild(li);
+    });
+	    for (let i = 0; i < filteredAliments.length; i++) {
+        let li = document.createElement('li');
+        let button = creerCloseButton();
+        li.append(button);
+        li.innerHTML += aliments[i].textContent;
+        let idAliment = document.createAttribute('data-id-aliment');
+        idAliment.value = filteredAliments[i].getAttribute('data-id-aliment');
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = filteredAliments[i].getAttribute('data-quantite-aliment');
+        let qteRecette = document.createAttribute("data-quantite-recette");
+        qteRecette.value = filteredAliments[i].getAttribute('data-quantite-recette');
+        li.setAttributeNode(idAliment);
+        li.setAttributeNode(qteAliment);
+        li.setAttributeNode(qteRecette);
+        ul.append(li);
+    }
+*/
+    listerAliment(ul, filteredAliments, index)
     sauvegarderListeEpicerie();
     majNombreEpicerie();
     setTimeout(function() {
         enleverSucces();
     }, 5000);
+
+    calculerTotalPanier();
 }
 
 function ajouterAlimentAuPanier(strongs, index) {
@@ -731,10 +775,16 @@ function listerAliment(ul, aliments, index) {
         qteAliment.value = aliments[i].getAttribute('data-quantite-aliment');
         let qteRecette = document.createAttribute("data-quantite-recette");
         qteRecette.value = aliments[i].getAttribute('data-quantite-recette');
-        li.setAttributeNode(idAliment);
+        let prixAliment = document.createAttribute("data-prix-aliment");
+        prixAliment.value = aliments[i].getAttribute('data-prix-aliment');
+	let typeAliment = document.createAttribute("data-type-aliment");
+        typeAliment.value = aliments[i].getAttribute('data-type-aliment');
+	li.setAttributeNode(idAliment);
         li.setAttributeNode(qteAliment);
         li.setAttributeNode(qteRecette);
-        ul[index].append(li);
+	li.setAttributeNode(prixAliment);
+	li.setAttributeNode(typeAliment);
+        ul.append(li);
     }
 }
 
@@ -871,6 +921,7 @@ function afficherListeEpicerieRecettes(listeEpicerie) {
     }
 }
 
+
 function afficherListeEpicerieAliments(listeEpicerie) {
     let div = document.getElementById('div-section-aliment');
     div.innerHTML = '';
@@ -883,6 +934,40 @@ function afficherListeEpicerieAliments(listeEpicerie) {
         montrerTotalPanier();
         calculerTotalPanier();
     }
+
+function calculerTotalPanier() {
+let recetteElements = document.querySelectorAll('strong[data-id-recette]');
+
+let recetteIds = [];
+
+recetteElements.forEach(element => {
+    let recetteId = element.getAttribute('data-id-recette');
+    recetteIds.push(recetteId);
+});
+
+console.log(recetteIds);
+let alimentElements = document.querySelectorAll('ul li[data-type-aliment]');
+let prix=0;
+
+alimentElements.forEach(element => {
+    let typeAliment = element.getAttribute('data-type-aliment');
+    let quantiteAliment = parseFloat(element.getAttribute('data-quantite-aliment'));    
+    let quantiteRecette = parseFloat(element.getAttribute('data-quantite-recette'));
+    let prixAliment = parseFloat(element.getAttribute('data-prix-aliment'));
+    if(typeAliment == 'u'){
+        prix += (quantiteRecette/quantiteAliment) * prixAliment;
+    }else if(typeAliment == 'p'){
+        prix += (prixAliment/quantiteAliment) * quantiteRecette;
+    }else {
+            console.log(Math.ceil(quantiteRecette/quantiteAliment));
+        prix+= Math.ceil(quantiteRecette/quantiteAliment)*prixAliment;
+    }
+   console.log(`Type d'aliment: ${typeAliment}, Quantité recette: ${quantiteRecette}, Prix: ${prixAliment}, quantite aliment:  ${quantiteAliment}`);
+   console.log(`prix total: ${prix}`);
+});
+    document.getElementById('total-panier-valeur').textContent = prix.toFixed(2);
+    montrerTotalPanier();
+
 }
 
 function calculerTotalPanier() {

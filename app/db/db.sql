@@ -3,7 +3,8 @@ CREATE TABLE Aliment (
     Nom TEXT NOT NULL,
     Type TEXT NOT NULL,
     Quantite REAL NULL,
-    Prix REAL NOT NULL
+    Prix REAL NOT NULL,
+    Vedette Boolean
 );
 
 CREATE TABLE Recette (
@@ -24,11 +25,13 @@ CREATE TABLE Aliment_Recette (
 CREATE TABLE Avis (
     ID_avis INTEGER PRIMARY KEY AUTOINCREMENT,
     ID_recette INTEGER NOT NULL,
+    ID_client INTEGER,
     Nom TEXT NOT NULL,
     Note INTEGER NOT NULL,
     Opinion TEXT,
     Date DATE DEFAULT (DATE('now')),
-    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette)
+    FOREIGN KEY (ID_recette) REFERENCES Recette(ID_recette),
+    FOREIGN KEY (ID_client) REFERENCES Client(ID_client)
 );
 
 CREATE TABLE Client (

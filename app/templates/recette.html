@@ -22,7 +22,7 @@
         <div class="section-avis">
     <div class="avis">
         <form class="formulaire-avis" id="bottom" action="/avis-recette" method="post">
-            <h3 class="incitatif">votre opinion compte pour nous.</h3>
+            <h3 class="incitatif">Votre opinion compte pour nous.</h3>
             <div class="stars">
                 <i class='fa-solid fa-star'></i>
                 <i class='fa-solid fa-star'></i>
@@ -32,11 +32,13 @@
             </div>
             <input type="hidden" name="note" id="note">
             <input type="hidden" name="id_recette" id="id_recette" value="{{ recette.id }}">
+            {% if not current_user.is_authenticated %}
             <p class="texte-avis">Entrez votre nom :</p>
-            <textarea class="avis-texte" name="nom" cols="30" rows="1" placeholder=""></textarea>
+            <textarea id="nom-avis" class="avis-texte" name="nom" cols="30" rows="1" placeholder="Entrez votre nom"></textarea>
+            {% endif %}
             <p class="texte-avis">Entrez votre avis :</p>
-            <textarea class="avis-texte" name="opinion" cols="30" rows="5" placeholder="laissez-nous savoir vos commentaires!"></textarea>
-            <button type="submit" class="btn btn-avis" data-id-recette="{{ recette.id }}">envoyer</button>
+            <textarea id="avis-avis"class="avis-texte" name="opinion" cols="30" rows="5" placeholder="Laissez-nous savoir vos commentaires!"></textarea>
+            <button type="submit" class="btn btn-avis" data-id-recette="{{ recette.id }}">Envoyer</button>
         </form>
     </div>
 

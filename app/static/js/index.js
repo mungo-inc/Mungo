@@ -172,8 +172,17 @@ if (ingredientsContainer) {
     });
 }
 document.addEventListener("DOMContentLoaded", function() {
+    // let restantsLocal = JSON.parse(localStorage.getItem('restants'));
+    // let taggedAlimentsLocal = JSON.parse(localStorage.getItem('taggedAliments'));
+    // if (restantsLocal) {
+    //     restants = restantsLocal;
+    // }
+    // if (taggedAlimentsLocal) {
+    //     taggedAliments = taggedAlimentsLocal;
+    // } 
     chargerListeEpicerie();
     majNombreEpicerie();
+    //updaterPrixPage(restants);
 });
 
 document.getElementById('toggle-menu').addEventListener('change', function() {
@@ -242,9 +251,10 @@ ajouterRecetteButtons.forEach(function(button) {
         updaterRestants.call(this, restants, taggedAliments);
         updaterPrixPage(restants, taggedAliments);
         let message = "La recette a été ajouté au panier."
+        //localStorage.setItem('restants', JSON.stringify(restants));
+        //localStorage.setItem('taggedAliments', JSON.stringify(taggedAliments));
+        console.log(localStorage);
         ajouterNombrePanier(message);
-        localStorage.setItem('restants', JSON.parse(restants))
-        localStorage.setItem('taggedAliments', JSON.parse(taggedAliments))
     });
 });
 
@@ -371,7 +381,7 @@ function updaterPrixPage(restants) {
                     }
                     if (qteRecette < restant.qteRestante && !alimentExiste) {
                         let prix = parseFloat(childDiv.querySelector('p .prix-recette').textContent);
-			                  prix -= parseFloat(p.getAttribute('data-prix-aliment'));
+			            prix -= parseFloat(p.getAttribute('data-prix-aliment'));
                         childDiv.querySelector('p .prix-recette').textContent = prix.toFixed(2); 
                         taggedAliments.push({idAliment, idRecette, qteRecette});
                     } 
@@ -418,8 +428,8 @@ retirerRecetteButtons.addEventListener("click", function(event) {
             retirerAliment(parentElem, listeEpicerieRecettes, nomRecette, li);
         }
     }
-    localStorage.setItem('restants', JSON.parse(restants))
-    localStorage.setItem('taggedAliments', JSON.parse(taggedAliments))
+    //localStorage.setItem('restants', JSON.stringify(restants));
+    //localStorage.setItem('taggedAliments', JSON.stringify(taggedAliments));
 });
 
 retirerAlimentButtons.addEventListener("click", function(event) {
@@ -430,8 +440,6 @@ retirerAlimentButtons.addEventListener("click", function(event) {
         let nomAliment = parentElem.querySelector('.strong-aliment').textContent;
         retirerAlimentIndividuel(parentElem, listeEpicerieAliments, nomAliment);
     }
-    localStorage.setItem('restants', JSON.parse(restants))
-    localStorage.setItem('taggedAliments', JSON.parse(taggedAliments))
 });
 
 viderPanierButton.addEventListener("click", function() {
@@ -549,6 +557,8 @@ function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     if (listeEpicerie.length === 0) {
         afficherAucuneRecette();
     }
+    //localStorage.setItem('restants', JSON.stringify(restants));
+    //localStorage.setItem('taggedAliments', JSON.stringify(taggedAliments));
 }
 
 function retirerAlimentIndividuel(parentElem, listeEpicerie, nomAliment) {
@@ -650,7 +660,6 @@ function ajusterPrixApresSuppression(restants, idAliment, li) {
 }
 
 function ajouterRecetteAuPanier(strongs, index) {
-    console.log("ALLO");
     strongs[index].textContent = this.getAttribute('data-nom-recette');
     let idRecette = document.createAttribute('data-id-recette');
     idRecette.value = this.getAttribute('data-id-recette');

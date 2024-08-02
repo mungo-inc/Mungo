@@ -166,7 +166,7 @@ def validation_partager_recette():
     nom = request.form["nom-recette"]
     ingredients = request.form.getlist("ingredients")
     ingredients_quantite = []
-    if  nom is "":
+    if  nom == "":
         return False
     elif len(ingredients) == 0:
         return False

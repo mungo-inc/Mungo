@@ -1,5 +1,35 @@
 {% extends "layout.html" %}
-{% block content %}
+    {% block content %}
 <div class="col-10">
+    <div>
+        <h2>Panier actuel</h2>
+    </div>
+    {% if not paniers %}
+    <h2 id="titre-liste-epicerie-sauvegardee">Vous n'avez aucun panier sauvegardé</h2>
+    <p>  </p>
+    {% else %}
+    <h2 id="titre-liste-epicerie-sauvegardee">Listes d'épicerie sauvegardées</h2>
+    <div class="paniers-grid">
+        {% for panier in paniers %}
+        <div class="panier-conteneur" data-id-panier="{{ panier.id }}" data-id-client="{{ panier.id_client }}">
+            <h3 id="panier-nom">{{ panier.nom }}</h3>
+            {% if not panier.recettes %}
+            <p> Aucune recette dans le panier </p>
+            {% else %}
+            {% for recette in panier.recettes %}
+            <h5>{{ recette.nom }}</h5>
+            {% for aliment in recette.aliments %}
+            <p>{{ aliment.nom }}</p>
+            {% endfor %} 
+            {% endfor %} 
+            {% endif %}
+            <div class="btn-liste-epicerie-container">
+                <button class="btn btn-liste-epiceries">Modifier</button>
+                <button class="btn btn-liste-epicerie delete-list-btn">Supprimer</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
-{% endblock content%}
+{% endblock content %}

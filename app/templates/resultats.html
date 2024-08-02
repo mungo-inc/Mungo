@@ -1,25 +1,40 @@
 {% extends "layout.html" %}
-{% block content %}
-<div class="col-10">
-    <div class="col-sm-8 offset-sm-2">
-        <div class="liste-recettes conteneur-recettes">
+    {% block content %}
+    <div class="col-10">
+        <div class="col-sm-8 offset-sm-2">
+
             {% if not resultats %}
             <div class="text-container">
                 <h2>Votre recherche ne contient aucun résultat.</h2>
             </div>
             {% else %}
-            {% for resultat in resultats %}
-            <div class="text-container list-recettes">
-                <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">
-                <p> {{ resultat.nom }} </p>
-                <button type="button" class="btn-recettes btn btn-outline-success" nom-recette="{{ resultat.nom }}" id-recette = "{{ resultat.id }}">Ajouter</button>
-                {% for aliment in resultat.aliments %}
-                    <p class="r{{ resultat.id }}" hidden> {{ aliment.nom }}</p>
+            <div class="text-container">
+                <h2 class="titre-page">Recettes</h2>
+                <div class="barre-recherche">
+                    <input type="search" id="recherche" placeholder="Rechercher une recette">
+                    <select id="ordre-recette">
+                        <option value="">Choisissez un ordre</option>
+                        <option value="alphabetique">Ordre alphabétique de A - Z</option>
+                        <option value="alphabetique-reverse">Ordre alphabétique de Z - A</option>
+                        <option value="prix">Ordre en prix croissant</option>
+                        <option value="prix-reverse">Ordre en prix décroissant</option>
+                    </select>
+                </div>
+            </div>
+            <div id="changer-ordre" class="liste-recettes conteneur-recettes">
+                {% for resultat in resultats %}
+                <div id={{ resultat.id }} class="text-container list-recettes recettes-js">
+                    <img src="{{ url_for('static', filename='img/' ~ resultat.id|string ~ '.jpg') }}" alt="Image Recette">
+                    <a class="nom-recette" href="{{ url_for('page_recette', identifiant=resultat.id) }}">{{ resultat.nom }}</a>
+                    <p> Prix: <span class="prix-recette">{{ resultat.prix }} </span>
+                        <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ resultat.nom }}" data-id-recette = "{{ resultat.id }}">Ajouter</button>
+                        {% for aliment in resultat.aliments %}
+                    <p data-type-aliment="{{aliment.type_unite}}" data-prix-aliment="{{ aliment.prix }}" data-quantite-recette="{{ aliment.quantite_recette }}" data-quantite-aliment="{{ aliment.quantite }}" data-id-aliment="{{ aliment.id }}" class="r{{ resultat.id }}" hidden> {{ aliment.nom }}</p>
+                    {% endfor %}
+                </div>
                 {% endfor %}
             </div>
-            {% endfor %}
             {% endif %}
         </div>
     </div>
-</div>
-{% endblock content %}
+    {% endblock content %}

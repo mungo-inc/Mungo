@@ -956,6 +956,14 @@ INSERT INTO aliment_epicerie VALUES (153, 2, 0.00);
 INSERT INTO aliment_epicerie VALUES (154, 0, 0.00);
 INSERT INTO aliment_epicerie VALUES (154, 1, 0.00);
 INSERT INTO aliment_epicerie VALUES (154, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (155, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (156, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (158, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (160, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (161, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (162, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (163, 2, 0.00);
+INSERT INTO aliment_epicerie VALUES (164, 2, 0.00);
 
 -- Ajout aliments et allergies
 

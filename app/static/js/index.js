@@ -549,9 +549,11 @@ function ajouterElementPanier(strongs, index) {
     ul.innerHTML = '';
 
     // Add the filtered ingredients to the list
-    filteredAliments.forEach(aliment => {
+    /*filteredAliments.forEach(aliment => {
         let li = document.createElement('li');
-        li.textContent = aliment.textContent;
+        let button = creerCloseButton();
+        li.append(button);
+	li.textContent = aliment.textContent;
         li.setAttribute('data-type-aliment', aliment.getAttribute('data-type-aliment'));
         li.setAttribute('data-id-aliment', aliment.getAttribute('data-id-aliment'));
         li.setAttribute('data-quantite-aliment', aliment.getAttribute('data-quantite-aliment'));
@@ -559,7 +561,24 @@ function ajouterElementPanier(strongs, index) {
         li.setAttribute('data-prix-aliment', aliment.getAttribute('data-prix-aliment'));
         ul.appendChild(li);
     });
-
+	    for (let i = 0; i < filteredAliments.length; i++) {
+        let li = document.createElement('li');
+        let button = creerCloseButton();
+        li.append(button);
+        li.innerHTML += aliments[i].textContent;
+        let idAliment = document.createAttribute('data-id-aliment');
+        idAliment.value = filteredAliments[i].getAttribute('data-id-aliment');
+        let qteAliment = document.createAttribute('data-quantite-aliment');
+        qteAliment.value = filteredAliments[i].getAttribute('data-quantite-aliment');
+        let qteRecette = document.createAttribute("data-quantite-recette");
+        qteRecette.value = filteredAliments[i].getAttribute('data-quantite-recette');
+        li.setAttributeNode(idAliment);
+        li.setAttributeNode(qteAliment);
+        li.setAttributeNode(qteRecette);
+        ul.append(li);
+    }
+*/
+    listerAliment(ul, filteredAliments, index)
     sauvegarderListeEpicerie();
     majNombreEpicerie();
     setTimeout(function() {
@@ -636,10 +655,16 @@ function listerAliment(ul, aliments, index) {
         qteAliment.value = aliments[i].getAttribute('data-quantite-aliment');
         let qteRecette = document.createAttribute("data-quantite-recette");
         qteRecette.value = aliments[i].getAttribute('data-quantite-recette');
-        li.setAttributeNode(idAliment);
+        let prixAliment = document.createAttribute("data-prix-aliment");
+        prixAliment.value = aliments[i].getAttribute('data-prix-aliment');
+	let typeAliment = document.createAttribute("data-type-aliment");
+        typeAliment.value = aliments[i].getAttribute('data-type-aliment');
+	li.setAttributeNode(idAliment);
         li.setAttributeNode(qteAliment);
         li.setAttributeNode(qteRecette);
-        ul[index].append(li);
+	li.setAttributeNode(prixAliment);
+	li.setAttributeNode(typeAliment);
+        ul.append(li);
     }
 }
 

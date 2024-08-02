@@ -90,10 +90,10 @@ if (ingredientsQuantiteDiv) {
 }
 
 function verifierNoteNomAvis() {
-    let nom = document.getElementById("nom-avis").innerHTML;
-    let avis = document.getElementById("avis-avis").innerHTML;
+    let nom = document.getElementById("nom-avis").value;
+    let avis = document.getElementById("avis-avis").value;
     let note = document.getElementById("note").value;
-    return nom == "" && avis == "" && note == "";
+    return (nom == "" && avis == "" && note == "");
 }
 
 function confirmationEnvoieRecette() {

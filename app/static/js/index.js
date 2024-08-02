@@ -868,7 +868,9 @@ function extraireAlimentFaisaitPatrieDuneRecette(div) {
             id: lis[j].getAttribute('data-id-aliment'), 
             nom: lis[j].textContent,
             qte: lis[j].getAttribute('data-quantite-aliment'),
-            qteRecette: lis[j].getAttribute('data-quantite-recette')
+            qteRecette: lis[j].getAttribute('data-quantite-recette'),
+            typeAliment: lis[j].getAttribute('data-type-aliment'),
+            prixAliment: lis[j].getAttribute('data-prix-aliment')
         });
     }
     return aliments;
@@ -903,7 +905,6 @@ function afficherListeEpicerieRecettes(listeEpicerie) {
         for (let i = 0; i < listeEpicerie.length; i++) {
             ajouterRecetteAuDiv(div, listeEpicerie[i], i);
         }
-        montrerTotalPanier();
         calculerTotalPanier();
     }
 }
@@ -918,15 +919,13 @@ function afficherListeEpicerieAliments(listeEpicerie) {
         for (let i = 0; i < listeEpicerie.length; i++) {
             ajouterAlimentAuDiv(div, listeEpicerie[i]);
         }
-        montrerTotalPanier();
         calculerTotalPanier();
     }
 }
 
 function calculerTotalPanier() {
-    console.log("totalpnaier")
     let recetteElements = document.querySelectorAll('strong[data-id-recette]');
-
+    console.log(recetteElements);
     let recetteIds = [];
 
     recetteElements.forEach(element => {
@@ -934,9 +933,10 @@ function calculerTotalPanier() {
         recetteIds.push(recetteId);
     });
 
-    console.log(recetteIds);
+    console.log("id:", recetteIds);
     let alimentElements = document.querySelectorAll('ul li[data-type-aliment]');
     let prix=0;
+    console.log("vide?", alimentElements);
 
     alimentElements.forEach(element => {
         let typeAliment = element.getAttribute('data-type-aliment');
@@ -956,7 +956,6 @@ function calculerTotalPanier() {
     });
     document.getElementById('total-panier-valeur').textContent = prix.toFixed(2);
     montrerTotalPanier();
-
 }
 
 function ajouterRecetteAuDiv(div, entree, index) {
@@ -981,6 +980,12 @@ function ajouterRecetteAuDiv(div, entree, index) {
         let qteRecette = document.createAttribute('data-quantite-recette');
         qteRecette.value = entree.items[j].qteRecette;
         li.setAttributeNode(qteRecette);
+        let typeAliment = document.createAttribute('data-type-aliment');
+        typeAliment.value = entree.items[j].typeAliment;
+        li.setAttributeNode(typeAliment);
+        let prixAliment = document.createAttribute('data-prix-aliment');
+        prixAliment.value = entree.items[j].prixAliment;
+        li.setAttributeNode(prixAliment);
         li.innerHTML += entree.items[j].nom;
         ul.append(li);
     }

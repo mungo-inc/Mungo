@@ -66,15 +66,25 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionList">
                                     <div id="accordion-content">
-                                        <div class="accordion-body">
-                                            <button type="button" class="btn-close btn-close-recette" aria-label="Close"></button>
-                                            <strong>Aucun item</strong>
-                                            <ul>
-                                            </ul>
+                                        <strong id="section-recette">Recettes</strong>
+                                        <div id="div-section-recette" class="accordion-body">
+                                            <div class="div-recette-panier">
+                                                <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+                                                <strong class="strong-recette">Aucun item</strong>
+                                                <ul>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <strong id="section-aliment">Aliments individuels</strong>
+                                        <div id="div-section-aliment" class="accordion-body">
+                                            <div class="div-aliment-panier">
+                                                <button type="button" class="btn-close btn-close-recette" aria-label="Close" hidden></button>
+                                                <strong class="strong-aliment">Aucun item</strong>
+                                            </div>
                                         </div>
                                     </div>
                                     <p id="total-panier" hidden>Total: <span id="total-panier-valeur"></span></p>
-                                    <button type="button" class="btn btn-vider">Vider</button>
+                                    <button type="button" class="btn btn-vider" hidden>Vider</button>
                                     {% if current_user.is_authenticated %}
                                     <button type="button" class="save-list-btn btn" id="save-list-btn">Sauvegarder</button>
                                     {% endif %}

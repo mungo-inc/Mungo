@@ -724,7 +724,37 @@ function afficherListeEpicerie(listeEpicerie) {
 }
 
 function calculerTotalPanier() {
-    restants = []; // { idAliment, qteRestante }
+let recetteElements = document.querySelectorAll('strong[data-id-recette]');
+
+let recetteIds = [];
+
+recetteElements.forEach(element => {
+    let recetteId = element.getAttribute('data-id-recette');
+    recetteIds.push(recetteId);
+});
+
+console.log(recetteIds);
+let alimentElements = document.querySelectorAll('ul li[data-type-aliment]');
+let prix=0;
+
+alimentElements.forEach(element => {
+    let typeAliment = element.getAttribute('data-type-aliment');
+    let quantiteAliment = parseFloat(element.getAttribute('data-quantite-aliment'));    
+    let quantiteRecette = parseFloat(element.getAttribute('data-quantite-recette'));
+    let prixAliment = parseFloat(element.getAttribute('data-prix-aliment'));
+    if(typeAliment == 'u'){
+        prix += (quantiteRecette/quantiteAliment) * prixAliment;
+    }else if(typeAliment == 'p'){
+        prix += (prixAliment/quantiteAliment) * quantiteRecette;
+    }else {
+            console.log(Math.ceil(quantiteRecette/quantiteAliment));
+        prix+= Math.ceil(quantiteRecette/quantiteAliment)*prixAliment;
+    }
+   console.log(`Type d'aliment: ${typeAliment}, Quantité recette: ${quantiteRecette}, Prix: ${prixAliment}, quantite aliment:  ${quantiteAliment}`);
+   console.log(`prix total: ${prix}`);
+});
+    document.getElementById('total-panier-valeur').textContent = prix.toFixed(2);
+    montrerTotalPanier();
 
 }
 

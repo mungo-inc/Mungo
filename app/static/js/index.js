@@ -529,19 +529,35 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
 }
 
 function ajouterElementPanier(strongs, index) {
-    strongs[index].textContent = this.getAttribute('data-nom-recette');
-    let idRecette = document.createAttribute('data-id-recette');
-    idRecette.value = this.getAttribute('data-id-recette');
-    strongs[index].setAttributeNode(idRecette);
-    idRecette = this.getAttribute('data-id-recette');
-    let aliments = document.querySelectorAll('.r' + idRecette);
-    let ul = document.querySelectorAll('.accordion-body ul');
-    listerAliment(ul, aliments, index);
-    sauvegarderListeEpicerie();
-    majNombreEpicerie();
-    setTimeout(function() {
-        enleverSucces();
-    }, 5000);
+  strongs[index].textContent = this.getAttribute('data-nom-recette');
+     let idRecette = document.createAttribute('data-id-recette');
+     idRecette.value = this.getAttribute('data-id-recette');
+     strongs[index].setAttributeNode(idRecette);
+     idRecette = this.getAttribute('data-id-recette');
+     let aliments = document.querySelectorAll('.r' + idRecette);
+     let ul = document.querySelectorAll('.accordion-body ul');
+ //      console.log(aliments);
+     aliments.forEach(aliment => {
+         let idAliment = aliment.getAttribute('data-id-aliment');
+         let quantiteRecette = parseFloat(aliment.getAttribute('data-quantite-recette'));
+         let alreadyTagged = taggedAliments.some(item =>
+             item.idAliment == idAliment && item.idRecette == idRecette
+         );
+ //          console.log(alreadyTagged);
+         if (alreadyTagged){
+         aliment.parentNode.removeChild(aliment);
+         }
+     });
+     aliments = Array.from(document.querySelectorAll('.r' + idRecette));
+    // console.log(aliments);
+     listerAliment(ul, aliments, index);
+     sauvegarderListeEpicerie();
+     majNombreEpicerie();
+     setTimeout(function() {
+         enleverSucces();
+     }, 5000);
+ calculerTotalPanier();
+ //console.log(total);
 }
 
 function montrerButton(className) {

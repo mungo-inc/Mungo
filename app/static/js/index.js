@@ -529,35 +529,44 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
 }
 
 function ajouterElementPanier(strongs, index) {
-  strongs[index].textContent = this.getAttribute('data-nom-recette');
-     let idRecette = document.createAttribute('data-id-recette');
-     idRecette.value = this.getAttribute('data-id-recette');
-     strongs[index].setAttributeNode(idRecette);
-     idRecette = this.getAttribute('data-id-recette');
-     let aliments = document.querySelectorAll('.r' + idRecette);
-     let ul = document.querySelectorAll('.accordion-body ul');
- //      console.log(aliments);
-     aliments.forEach(aliment => {
-         let idAliment = aliment.getAttribute('data-id-aliment');
-         let quantiteRecette = parseFloat(aliment.getAttribute('data-quantite-recette'));
-         let alreadyTagged = taggedAliments.some(item =>
-             item.idAliment == idAliment && item.idRecette == idRecette
-         );
- //          console.log(alreadyTagged);
-         if (alreadyTagged){
-         aliment.parentNode.removeChild(aliment);
-         }
-     });
-     aliments = Array.from(document.querySelectorAll('.r' + idRecette));
-    // console.log(aliments);
-     listerAliment(ul, aliments, index);
-     sauvegarderListeEpicerie();
-     majNombreEpicerie();
-     setTimeout(function() {
-         enleverSucces();
-     }, 5000);
- calculerTotalPanier();
- //console.log(total);
+    strongs[index].textContent = this.getAttribute('data-nom-recette');
+    let idRecette = document.createAttribute('data-id-recette');
+    idRecette.value = this.getAttribute('data-id-recette');
+    strongs[index].setAttributeNode(idRecette);
+    idRecette = this.getAttribute('data-id-recette');
+    let aliments = document.querySelectorAll('.r' + idRecette);
+    let ul = document.querySelectorAll('.accordion-body ul')[index]; // Ensure the correct ul element is selected
+
+    // Create a new list of ingredients excluding already tagged ones
+    let filteredAliments = Array.from(aliments).filter(aliment => {
+        let idAliment = aliment.getAttribute('data-id-aliment');
+        return !taggedAliments.some(item =>
+            item.idAliment == idAliment && item.idRecette == idRecette
+        );
+    });
+
+    // Clear the existing list
+    ul.innerHTML = '';
+
+    // Add the filtered ingredients to the list
+    filteredAliments.forEach(aliment => {
+        let li = document.createElement('li');
+        li.textContent = aliment.textContent;
+        li.setAttribute('data-type-aliment', aliment.getAttribute('data-type-aliment'));
+        li.setAttribute('data-id-aliment', aliment.getAttribute('data-id-aliment'));
+        li.setAttribute('data-quantite-aliment', aliment.getAttribute('data-quantite-aliment'));
+        li.setAttribute('data-quantite-recette', aliment.getAttribute('data-quantite-recette'));
+        li.setAttribute('data-prix-aliment', aliment.getAttribute('data-prix-aliment'));
+        ul.appendChild(li);
+    });
+
+    sauvegarderListeEpicerie();
+    majNombreEpicerie();
+    setTimeout(function() {
+        enleverSucces();
+    }, 5000);
+
+    calculerTotalPanier();
 }
 
 function montrerButton(className) {

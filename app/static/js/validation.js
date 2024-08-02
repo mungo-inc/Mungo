@@ -1,55 +1,100 @@
 const ingredientsDiv = document.getElementById("ingredients-conteneur");
 const ingredientsQuantiteDiv = document.getElementById("ingredients");
+const courriel = document.getElementById("courriel");
+const password = document.getElementById("password");
+const courrielR = document.getElementById("courriel-r");
+const passwordR = document.getElementById("password-r");
+const nomRecette = document.getElementById("nom-recette");
+const formInscription = document.getElementById("form-inscription");
+const formConnexion = document.getElementById("form-connexion");
+const formAvis = document.getElementsByClassName("formulaire-avis")[0];
+const formRecette = document.getElementById("form-recette");
 
-document.getElementById("courriel").addEventListener("change" , () => {
-    verifierChamp("courriel", "err-courriel", "Veuillez entrer une adresse courriel valide.");
 
-});
+if (courriel) {
+    courriel.addEventListener("change" , () => {
+        verifierChamp("courriel", "err-courriel", "Veuillez entrer une adresse courriel valide.");
+    });
+}
 
-document.getElementById("password").addEventListener("change", () => {
-    verifierChamp("password", "err-password", "Le mot de passe ne peut pas être vide.");
-});
+if (password) {
+    password.addEventListener("change", () => {
+        verifierChamp("password", "err-password", "Le mot de passe ne peut pas être vide.");
+    });
+}
 
-document.getElementById("courriel-r").addEventListener("change" , () => {
-    verifierChamp("courriel-r", "err-courriel-r", "Veuillez entrer une adresse courriel valide.");
-});
+if (courrielR) {
+    courrielR.addEventListener("change" , () => {
+        verifierChamp("courriel-r", "err-courriel-r", "Veuillez entrer une adresse courriel valide.");
+    });
+}
 
-document.getElementById("password-r").addEventListener("change", () => {
-    verifierChamp("password-r", "err-password-r", "Le mot de passe ne peut pas être vide.");
-});
+if (passwordR) {
+    passwordR.addEventListener("change", () => {
+        verifierChamp("password-r", "err-password-r", "Le mot de passe ne peut pas être vide.");
+    });
+}
 
-document.getElementById("nom-recette").addEventListener("change", () => {
-    verifierChamp("nom-recette", "err-titre", "Le titre ne peut pas être vide.");
-});
+if (nomRecette) {
+    nomRecette.addEventListener("change", () => {
+        verifierChamp("nom-recette", "err-titre", "Le titre ne peut pas être vide.");
+    });
+}
 
-document.getElementById("form-inscription").addEventListener("submit", function(event) {
-    if(verifierSpanInscription()) {
-        event.preventDefault();
-    }
-});
+if (formInscription) {
+    formInscription.addEventListener("submit", function(event) {
+        if(verifierSpanInscription()) {
+            event.preventDefault();
+        }
+    });
+}
 
-document.getElementById("form-connexion").addEventListener("submit", function(event) {
-    if(verifierSpanConnexion()) {
-        event.preventDefault();
-    }
-});
+if (formConnexion) {
+    formConnexion.addEventListener("submit", function(event) {
+        if(verifierSpanConnexion()) {
+            event.preventDefault();
+        }
+    });
+}
 
-document.getElementById("form-recette").addEventListener("submit", function(event) {
-    verifierQuantiteIngredient();
-    verifierNombreIngredient();
-    verifierChamp("nom-recette", "err-titre", "Le titre ne peut pas être vide.");
-    if(confirmationEnvoieRecette()) {
-        event.preventDefault();
-    }
-});
+if (formAvis) {
+    formAvis.addEventListener("submit", function(event) {
+        if(verifierNoteNomAvis()) {
+            event.preventDefault();
+        }
+    });
+}
 
-ingredientsDiv.addEventListener("change", function(event) {
-   verifierNombreIngredient();
-});
+if (formRecette) {
 
-ingredientsQuantiteDiv.addEventListener("change", function(event) {
-   verifierQuantiteIngredient();
-});
+    formRecette.addEventListener("submit", function(event) {
+        verifierQuantiteIngredient();
+        verifierNombreIngredient();
+        verifierChamp("nom-recette", "err-titre", "Le titre ne peut pas être vide.");
+        if(confirmationEnvoieRecette()) {
+            event.preventDefault();
+        }
+    });
+}
+
+if (ingredientsDiv) {
+    ingredientsDiv.addEventListener("change", function(event) {
+        verifierNombreIngredient();
+    });
+}
+
+if (ingredientsQuantiteDiv) {
+    ingredientsQuantiteDiv.addEventListener("change", function(event) {
+        verifierQuantiteIngredient();
+    });
+}
+
+function verifierNoteNomAvis() {
+    let nom = document.getElementById("nom-avis").innerHTML;
+    let avis = document.getElementById("avis-avis").innerHTML;
+    let note = document.getElementById("note").value;
+    return nom == "" && avis == "" && note == "";
+}
 
 function confirmationEnvoieRecette() {
     let titre = document.getElementById("nom-recette").value;
@@ -78,19 +123,6 @@ function confirmationEnvoieRecette() {
         ingredientQuantiteErreur.push(document.getElementById(variable2).innerHTML);
     }
 
-    console.log("Condition titre");
-    console.log(titre == "" );
-    console.log("Condition titre erreur");
-    console.log(span != "" );
-    console.log("Condition ingredientListe");
-    console.log(ingredientListe.some(str => str === "" ));
-    console.log("Condition ingredientErreurListe");
-    console.log(ingredientErreur.some(str => str != ""));
-    console.log("Condition ingredientQuantiteListe");
-    console.log(ingredientQuantiteListe.some(valeur => valeur === ""));
-    console.log(ingredientQuantiteListe.some(valeur => isNaN(valeur)));
-    console.log("Condition ingredientQuantiteListeErreur");
-    console.log(ingredientQuantiteErreur.some(str => str  != ''));
     return (titre == "" || span != "" || ingredientListe.some(str => str === '') || ingredientErreur.some(str => str != '') || ingredientQuantiteListe.some(valeur => valeur === '' || isNaN(valeur)) || ingredientQuantiteErreur.some(str => str != ''));
 }
 

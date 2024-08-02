@@ -110,7 +110,6 @@ def page_recette(identifiant):
     retourne la page d'une recette selon son identifiant
     """
     db = Database('app/db/epicerie.db')
-    print(identifiant)
     recette = db.get_recette(identifiant)
     aliments = db.get_aliments_par_recette(identifiant)
     avis = db.get_avis_par_recette(identifiant)
@@ -389,7 +388,14 @@ def post_avis():
         if note is None or note.strip() == "":
             note = 0
         opinion = request.form.get("opinion")
+        if current_user.is_authenticated:
+            id_client = current_user.id_client
+            nom = current_user.courriel
+        else:
+            id_client = 9999
         db = Database(app.config['DATABASE_PATH'])
         db.get_connection()
-        db.sauvegarder_avis(id_recette, nom, note, opinion)
+        db.sauvegarder_avis(id_recette, id_client, nom, note, opinion)
         return redirect(url_for('page_recette', identifiant=id_recette))
+
+    return redirect(url_for('incorrect'))

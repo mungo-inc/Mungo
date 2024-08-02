@@ -754,15 +754,14 @@ class Database:
         return curseur.fetchone()[0]+1
 
 
-    def sauvegarder_avis(self, id_recette, nom, note, opinion):
+    def sauvegarder_avis(self, id_recette, id_client, nom, note, opinion):
         connection = self.get_connection()
         curseur = connection.cursor()
         query = """
-                INSERT INTO Avis (ID_recette, Nom, Note, Opinion) 
-                VALUES (?, ?, ?, ?);
+                INSERT INTO Avis (ID_recette, ID_client, Nom, Note, Opinion) 
+                VALUES (?, ?, ?, ?, ?);
                 """
-        print(f"{nom}")
-        curseur.execute(query, (id_recette, nom, note, opinion))
+        curseur.execute(query, (id_recette, id_client, nom, note, opinion))
         connection.commit()
         return 0
 

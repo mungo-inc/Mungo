@@ -310,7 +310,6 @@ supprimerListeButtons.forEach(function(button) {
         let div = this.parentElement.parentElement;
         let idClient = parseInt(div.getAttribute("data-id-client"));
         let idPanier = parseInt(div.getAttribute("data-id-panier"));
-        //afficherConfirmation?
         fetch('/supprimer-liste', {
             method: 'POST',
             headers: {
@@ -339,46 +338,35 @@ supprimerListeButtons.forEach(function(button) {
 
 modifierListeButtons.forEach(function(button) {
     button.addEventListener("click", function() {
-        // Récupérer l'élément parent de la liste d'épicerie
         const liste = this.closest('.panier-conteneur');
         
-        // Récupérer l'élément qui affiche le nom de la liste
         const nomListe = liste.querySelector('#panier-nom');
         
-        // Créer un champ de texte pour l'édition
         const input = document.createElement('input');
         input.type = 'text';
         input.value = nomListe.textContent;
         input.className = 'input-nom-liste';
         
-        // Remplacer l'élément affichant le nom par le champ de texte
         liste.replaceChild(input, nomListe);
 
-        // Afficher le bouton "Sauvegarder"
         let sauverModifButton = liste.querySelector('.save-modif-list-btn');
         sauverModifButton.hidden = false;
         liste.querySelector('.delete-list-btn').hidden = true;
         liste.querySelector('.modifier-list-btn').hidden = true;
         
-        // Fonction pour gérer la validation de la modification
         const validerModif = () => {
-            // Récupérer la nouvelle valeur du champ de texte
             let nouveauNom = input.value;
             
-            // Créer un nouvel élément <h3> pour afficher le nouveau nom
             let listeElemNouveauNom = document.createElement('h3');
             listeElemNouveauNom.id = 'panier-nom';
             listeElemNouveauNom.textContent = nouveauNom;
             
-            // Remplacer le champ de texte par le nouvel élément affichant le nom
             liste.replaceChild(listeElemNouveauNom, input);
 
-            // Masquer le bouton "Sauvegarder"
             sauverModifButton.hidden = true;
             liste.querySelector('.delete-list-btn').hidden = false;
             liste.querySelector('.modifier-list-btn').hidden = false;
             
-            // Envoyer la requête POST au serveur pour sauvegarder les modifications
             let idPanier = liste.getAttribute('data-id-panier');
             let idClient = liste.getAttribute('data-id-client');
             
@@ -408,10 +396,8 @@ modifierListeButtons.forEach(function(button) {
             });
         };
         
-        // Écouter la perte de focus pour valider la modification
         sauverModifButton.addEventListener('click', validerModif);
         
-        // Donner le focus au champ de texte pour que l'utilisateur puisse commencer à éditer
         input.focus();
     });
 });

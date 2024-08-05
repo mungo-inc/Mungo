@@ -413,6 +413,7 @@ function augmenterPrixPage(idAliment, idsRecette) {
 }
 
 function montrerTotalPanier() {
+    console.log("ICI")
     let total = document.getElementById('total-panier');
     total.hidden = false;
 }
@@ -626,6 +627,8 @@ function retirerRecettes(parentElem, listeEpicerie, nomRecette) {
     majNombreEpicerie();
     if (listeEpicerie.length === 0) {
         afficherAucuneRecette();
+    } else {
+        calculerTotalPanier();
     }
     //localStorage.setItem('restants', JSON.stringify(restants));
     //localStorage.setItem('taggedAliments', JSON.stringify(taggedAliments));
@@ -706,6 +709,7 @@ function retirerAliment(parentElem, listeEpicerie, nomRecette, li) {
     }
     // let restants = []; // {idAliment, qteRestante}
     ajusterPrixApresSuppression(restants, idAliment, li);
+    calculerTotalPanier();
 }
 
 function ajusterPrixApresSuppression(restants, idAliment, li) {
@@ -1015,7 +1019,6 @@ function calculerTotalPanier() {
     console.log("id:", recetteIds);
     let alimentElements = document.querySelectorAll('ul li[data-type-aliment]');
     let prix=0;
-    console.log("vide?", alimentElements);
 
     alimentElements.forEach(element => {
         let typeAliment = element.getAttribute('data-type-aliment');

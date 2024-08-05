@@ -465,9 +465,9 @@ viderPanierButton.addEventListener("click", function() {
                                    
 if (sauvegarderButton) {
     sauvegarderButton.addEventListener("click", function() {
-        let accordionBodies = document.querySelectorAll('.accordion-body');
+        let divs = document.querySelectorAll('.div-recette-panier');
         let listeASauvegarder = [];
-        accordionBodies.forEach(body => {
+        divs.forEach(body => {
             let idRecette = body.querySelector('strong').getAttribute('data-id-recette')
             let nomRecette = body.querySelector('strong').textContent;
             let lis = body.querySelectorAll('li');

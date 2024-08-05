@@ -17,7 +17,10 @@ const boutonAjouterIngredient = document.getElementById("ajouter-ingredient");
 const boutonEnleverIngredient = document.getElementById("enlever-ingredient");
 const ingredientsContainer = document.getElementById("ingredients-conteneur");
 const supprimerListeButtons = document.querySelectorAll(".delete-list-btn");
+const modifierListeButtons = document.querySelectorAll(".modifier-list-btn");
+const sauvegarderModificationsListeButtons = document.querySelectorAll(".save-modif-list-btn");
 const produit_vedette = document.getElementById("vedette");
+
 let compteur = 0;
 let compteurListeIngredient = 1;
 let restants = []; // {idAliment, qteRestante}
@@ -505,7 +508,6 @@ supprimerListeButtons.forEach(function(button) {
         let div = this.parentElement.parentElement;
         let idClient = parseInt(div.getAttribute("data-id-client"));
         let idPanier = parseInt(div.getAttribute("data-id-panier"));
-        //afficherConfirmation?
         fetch('/supprimer-liste', {
             method: 'POST',
             headers: {
@@ -530,6 +532,74 @@ supprimerListeButtons.forEach(function(button) {
         }
     });
 });
+
+
+modifierListeButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        const liste = this.closest('.panier-conteneur');
+        
+        const nomListe = liste.querySelector('#panier-nom');
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = nomListe.textContent;
+        input.className = 'input-nom-liste';
+        
+        liste.replaceChild(input, nomListe);
+
+        let sauverModifButton = liste.querySelector('.save-modif-list-btn');
+        sauverModifButton.hidden = false;
+        liste.querySelector('.delete-list-btn').hidden = true;
+        liste.querySelector('.modifier-list-btn').hidden = true;
+        
+        const validerModif = () => {
+            let nouveauNom = input.value;
+            
+            let listeElemNouveauNom = document.createElement('h3');
+            listeElemNouveauNom.id = 'panier-nom';
+            listeElemNouveauNom.textContent = nouveauNom;
+            
+            liste.replaceChild(listeElemNouveauNom, input);
+
+            sauverModifButton.hidden = true;
+            liste.querySelector('.delete-list-btn').hidden = false;
+            liste.querySelector('.modifier-list-btn').hidden = false;
+            
+            let idPanier = liste.getAttribute('data-id-panier');
+            let idClient = liste.getAttribute('data-id-client');
+            
+            fetch('/sauvegarder-modif-liste', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    idPanier: idPanier,
+                    idClient: idClient,
+                    nouveauNom: nouveauNom 
+                }),
+            })
+            .then(response => response.json())
+            .then(response => {
+                let child = afficherSucces(response.message);
+                setTimeout(function() {
+                    enleverSucces(child);
+                    setTimeout(function() {
+                        suppressionMessageAlerte(child);
+                    }, 1500);
+                }, 5000);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        };
+        
+        sauverModifButton.addEventListener('click', validerModif);
+        
+        input.focus();
+    });
+});
+
 
 function estCloseButtonRecette(target) {
     return target.classList.contains('btn-close-recette');

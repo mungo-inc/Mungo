@@ -1,28 +1,32 @@
 {% extends "layout.html" %}
-{% block content %}
- <div class="col-10">
-    <div class="recette">
-        {% for article in articles %}
-        <div>
-            <img class="photo-recette" src="{{ url_for('static', filename='img/' ~ article[0]|string ~ 'b.jpg') }}" alt="image recette">
-        </div>
-        <div class="details-recette">
-            <h2 class="titre-recette" data-id-recette="{{ article[0] }}"> {{ article[1] }}</h2>
-            <div id="rating-app-1">
-                <b-form-rating
-                    v-model="value1"
-                    show-value-max
-                    precision="2"
-                    ></b-form-rating>
+    {% block content %}
+    <div class="col-10">
+        <div class="text-container">
+            <h2 class="titre-page">Aliments</h2>
+            <div class="barre-recherche">
+                <input type="search" id="recherche" placeholder="Rechercher un ingrédient">
+            <select id="ordre-recette">
+                        <option value="">Choisissez un ordre</option>
+                        <option value="alphabetique">Ordre alphabétique de A - Z</option>
+                        <option value="alphabetique-reverse">Ordre alphabétique de Z - A</option>
+                    </select>
             </div>
-            <button type="button" class="btn-recettes btn btn-outline-success" data-nom-recette="{{ article[1] }}" data-id-recette="{{ article[1] }}">Ajouter</button>
         </div>
-        {% endfor %}
+        <div id="changer-ordre" class="liste-recette  conteneur-recettes">
+            {% for article in articles %}
+            <div id={{ article[0]}} class="text-container list-recette recettes-js" >
+                <img src="{{ url_for('static', filename='img/' ~ article[0]|string ~ 'b.jpg') }}" alt="image recette">
+                <p class="titre-recette" data-id-recette="{{ article[0] }}" data-prix-aliment="{{ article[4] }}"> {{ article[1] }}</p>
+                <div id="rating-app-1">
+                    <b-form-rating
+                        v-model="value1"
+                        show-value-max
+                        precision="2"
+                    ></b-form-rating>
+                </div>
+                <button type="button" class="btn-aliments btn btn-outline-success" data-nom-recette="{{ article[1] }}" data-id-recette="{{ article[0] }}" data-prix-aliment="{{ article[4]}}">Ajouter</button>
+            </div>
+            {% endfor %}
+        </div>
     </div>
- </div>
-
-
-
 {% endblock content %}
-
-

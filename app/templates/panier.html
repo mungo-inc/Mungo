@@ -1,9 +1,6 @@
 {% extends "layout.html" %}
     {% block content %}
 <div class="col-10">
-    <div>
-        <h2>Panier actuel</h2>
-    </div>
     {% if not paniers %}
     <h2 id="titre-liste-epicerie-sauvegardee">Vous n'avez aucun panier sauvegardé</h2>
     <p>  </p>
@@ -24,8 +21,9 @@
             {% endfor %} 
             {% endif %}
             <div class="btn-liste-epicerie-container">
-                <button class="btn btn-liste-epiceries">Modifier</button>
+                <button class="btn btn-liste-epiceries modifier-list-btn">Modifier</button>
                 <button class="btn btn-liste-epicerie delete-list-btn">Supprimer</button>
+                <button class="btn btn-liste-epicerie save-modif-list-btn" hidden>Sauvegarder les modifications</button>
             </div>
         </div>
         {% endfor %}

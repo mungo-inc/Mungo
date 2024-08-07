@@ -754,15 +754,14 @@ class Database:
         return curseur.fetchone()[0]+1
 
 
-    def sauvegarder_avis(self, id_recette, nom, note, opinion):
+    def sauvegarder_avis(self, id_recette, id_client, nom, note, opinion):
         connection = self.get_connection()
         curseur = connection.cursor()
         query = """
-                INSERT INTO Avis (ID_recette, Nom, Note, Opinion) 
-                VALUES (?, ?, ?, ?);
+                INSERT INTO Avis (ID_recette, ID_client, Nom, Note, Opinion) 
+                VALUES (?, ?, ?, ?, ?);
                 """
-        print(f"{nom}")
-        curseur.execute(query, (id_recette, nom, note, opinion))
+        curseur.execute(query, (id_recette, id_client, nom, note, opinion))
         connection.commit()
         return 0
 
@@ -775,6 +774,24 @@ class Database:
             """
         )
         curseur.execute(query, (id_client, id_panier, ))
+        self.get_connection().commit()
+
+
+    def modifier_panier(self, 
+                        id_client, 
+                        id_panier,
+                        nouveau_nom,
+                        recettes_a_supprimer=[], 
+                        aliments_a_supprimer=[]):
+        curseur = self.get_connection().cursor()
+        query = (
+            """
+            UPDATE Client_Panier_Aliment_Recette
+            SET nom = (?)
+            WHERE id_client = (?) AND id_panier = (?)
+            """
+        )
+        curseur.execute(query, (nouveau_nom, id_client, id_panier, ))
         self.get_connection().commit()
 
     def get_avis_par_recette(self, id_recette):
